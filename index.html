@@ -3,106 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>doodles — 原型索引</title>
+<title>doodles — 原型草稿</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-    background: #0a0a0a;
+    background: #0a0a0c;
     color: #e8e8e8;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 48px 20px;
+    padding: 56px 20px 80px;
   }
-  h1 {
-    font-size: 14px;
-    letter-spacing: 0.3em;
-    color: #666;
-    font-weight: 400;
-    margin-bottom: 8px;
+
+  /* ---- 顶部标题 ---- */
+  .header {
+    max-width: 720px;
+    margin: 0 auto 64px;
+    text-align: center;
   }
-  .subtitle {
+  .header .logo {
+    font-size: 13px;
+    letter-spacing: 0.4em;
+    color: #555;
+    margin-bottom: 10px;
+    padding-left: 0.4em;
+  }
+  .header .tagline {
     font-size: 12px;
-    color: #444;
-    margin-bottom: 48px;
+    color: #3a3a3a;
+    letter-spacing: 0.15em;
+    padding-left: 0.15em;
   }
+  .header .line {
+    width: 40px; height: 1px;
+    background: #2a2a2a;
+    margin: 28px auto 0;
+  }
+
+  /* ---- 项目区块 ---- */
   .project {
-    width: 100%;
-    max-width: 360px;
-    margin-bottom: 48px;
+    max-width: 720px;
+    margin: 0 auto 72px;
   }
-  .project-title {
-    font-size: 20px;
-    margin-bottom: 4px;
+  .project-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 6px;
+  }
+  .project-name {
+    font-size: 24px;
+    font-weight: 600;
+    color: #f0f0f0;
+    letter-spacing: 0.05em;
+  }
+  .project-num {
+    font-size: 11px;
+    color: #3a3a3a;
+    letter-spacing: 0.2em;
+    font-variant-numeric: tabular-nums;
   }
   .project-desc {
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 20px;
+    font-size: 13px;
+    color: #707070;
+    line-height: 1.7;
+    margin-bottom: 28px;
   }
-  .style-card {
+
+  /* ---- 原型网格 ---- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
     display: block;
     text-decoration: none;
     color: inherit;
-    padding: 20px 18px;
     border-radius: 14px;
-    margin-bottom: 12px;
-    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
+    aspect-ratio: 4 / 5;
   }
-  .style-card:hover { transform: translateY(-2px); }
-  .style-card .label {
+  .card:hover { transform: translateY(-3px); }
+  .card:active { transform: translateY(-1px) scale(0.99); }
+
+  .card-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    opacity: 0.9;
+  }
+  .card-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 18px 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 55%);
+  }
+  .card-label {
     font-size: 15px;
-    margin-bottom: 4px;
+    font-weight: 500;
+    margin-bottom: 3px;
+    letter-spacing: 0.03em;
   }
-  .style-card .hint {
+  .card-hint {
     font-size: 11px;
-    opacity: 0.6;
+    opacity: 0.62;
+    letter-spacing: 0.02em;
   }
-  /* dark */
-  .card-dark {
+  .card-tag {
+    position: absolute; top: 12px; left: 12px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    padding: 3px 7px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    opacity: 0.7;
+  }
+
+  /* 三套风格的卡片背景 */
+  .bg-dark {
     background: linear-gradient(135deg, #0d1117 0%, #161b2c 100%);
     border: 1px solid #1f2937;
-    color: #c9d1d9;
-    box-shadow: 0 0 20px rgba(100,140,255,0.05);
   }
-  .card-dark:hover { box-shadow: 0 0 30px rgba(100,140,255,0.12); }
-  /* paper */
-  .card-paper {
-    background: #f5f1e8;
+  .bg-dark:hover { box-shadow: 0 8px 30px rgba(80,110,180,0.18); }
+  .bg-dark .card-bg { filter: drop-shadow(0 0 12px rgba(100,140,220,0.25)); }
+
+  .bg-paper {
+    background: linear-gradient(135deg, #f5f1e8 0%, #ebe3d0 100%);
     border: 1px solid #d6cfbe;
-    color: #3a342a;
   }
-  /* film */
-  .card-film {
+  .bg-paper:hover { box-shadow: 0 8px 30px rgba(180,160,120,0.15); }
+
+  .bg-film {
     background: linear-gradient(135deg, #2b1d12 0%, #3d2a18 100%);
     border: 1px solid #4a3622;
-    color: #d4b896;
+  }
+  .bg-film:hover { box-shadow: 0 8px 30px rgba(160,110,60,0.2); }
+
+  /* ---- 空位(以后加项目用)---- */
+  .empty-project {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px 0;
+    border: 1px dashed #1f1f22;
+    border-radius: 14px;
+    color: #2f2f2f;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+
+  @media (max-width: 480px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .project-name { font-size: 21px; }
   }
 </style>
 </head>
 <body>
 
-<h1>D E S I G N</h1>
-<p class="subtitle">原型 · 草稿 · 灵感</p>
+<div class="header">
+  <div class="logo">D O O D L E S</div>
+  <div class="tagline">原 型 · 草 稿 · 灵 感</div>
+  <div class="line"></div>
+</div>
 
+<!-- 项目 01:灵物 -->
 <div class="project">
-  <div class="project-title">灵物</div>
+  <div class="project-head">
+    <div class="project-name">灵物</div>
+    <div class="project-num">— 01</div>
+  </div>
   <div class="project-desc">拍一个物件 → 唤醒一个来自异界的灵魂 → 跟它聊天</div>
 
-  <a class="style-card card-dark" href="lingwu/dark.html">
-    <div class="label">① 暗夜微光</div>
-    <div class="hint">深空黑底 · 卡片微光浮动 · 衬线疏离</div>
-  </a>
-  <a class="style-card card-paper" href="lingwu/paper.html">
-    <div class="label">② 纸墨留白</div>
-    <div class="hint">米白宣纸 · 极简留白 · 宋体朱砂</div>
-  </a>
-  <a class="style-card card-film" href="lingwu/film.html">
-    <div class="label">③ 胶片记忆</div>
-    <div class="hint">暖褐做旧 · 颗粒暗角 · 打字机体</div>
-  </a>
+  <div class="grid">
+    <a class="card bg-dark" href="lingwu/dark.html">
+      <div class="card-tag">01</div>
+      <div class="card-bg">☕</div>
+      <div class="card-overlay">
+        <div class="card-label">暗夜微光</div>
+        <div class="card-hint">深空黑 · 衬线疏离</div>
+      </div>
+    </a>
+    <a class="card bg-paper" href="lingwu/paper.html">
+      <div class="card-tag">02</div>
+      <div class="card-bg">☕</div>
+      <div class="card-overlay">
+        <div class="card-label" style="color:#3a342a">纸墨留白</div>
+        <div class="card-hint" style="color:#8a7f66">宣纸 · 宋体朱砂</div>
+      </div>
+    </a>
+    <a class="card bg-film" href="lingwu/film.html">
+      <div class="card-tag">03</div>
+      <div class="card-bg">☕</div>
+      <div class="card-overlay">
+        <div class="card-label">胶片记忆</div>
+        <div class="card-hint">暖褐 · 打字机体</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- 以后加项目,往下复制一个 .project 区块 -->
+<div class="empty-project">
+  下一个原型 ↓
 </div>
 
 </body>
