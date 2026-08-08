@@ -33,6 +33,27 @@
   }
   .pages-wrap { display: flex; flex-direction: column; gap: 48px; padding: 48px 0; }
 
+  /* 悬浮返回栏 */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px 16px;
+    background: rgba(5,5,7,0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #11161e;
+  }
+  .topbar a {
+    color: #6a7a90; text-decoration: none;
+    font-family: -apple-system, sans-serif;
+    font-size: 14px; letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .topbar a:hover { color: #a8b8d8; }
+  .topbar .back { position: absolute; left: 16px; font-size: 18px; }
+  .topbar .title { font-size: 13px; color: #586069; letter-spacing: 0.15em; }
+
   /* ============ ① 相机页 ============ */
   .camera {
     background: radial-gradient(ellipse at center, #0d1117 0%, #050507 100%);
@@ -259,6 +280,11 @@
 </style>
 </head>
 <body>
+
+<div class="topbar">
+  <a class="back" href="index.html" title="返回灵物">‹</a>
+  <a class="title" href="index.html">灵物 · 暗夜微光</a>
+</div>
 
 <div class="pages-wrap">
 

@@ -35,6 +35,27 @@
   }
   .pages-wrap { display: flex; flex-direction: column; gap: 48px; padding: 48px 0; }
 
+  /* 悬浮返回栏 */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px 16px;
+    background: rgba(245,241,232,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #d6cfbe;
+  }
+  .topbar a {
+    color: #8a7f66; text-decoration: none;
+    font-family: -apple-system, sans-serif;
+    font-size: 14px; letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .topbar a:hover { color: #3a342a; }
+  .topbar .back { position: absolute; left: 16px; font-size: 18px; }
+  .topbar .title { font-size: 13px; color: #8a7f66; letter-spacing: 0.15em; }
+
   /* 印章红 */
   .seal { color: #a8392c; }
 
@@ -228,6 +249,11 @@
 </style>
 </head>
 <body>
+
+<div class="topbar">
+  <a class="back" href="index.html" title="返回灵物">‹</a>
+  <a class="title" href="index.html">灵物 · 纸墨留白</a>
+</div>
 
 <div class="pages-wrap">
 

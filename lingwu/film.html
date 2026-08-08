@@ -42,6 +42,27 @@
   }
   .pages-wrap { display: flex; flex-direction: column; gap: 48px; padding: 48px 0; }
 
+  /* 悬浮返回栏 */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px 16px;
+    background: rgba(43,29,18,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #3d2a18;
+  }
+  .topbar a {
+    color: #8a6a42; text-decoration: none;
+    font-family: "Courier New", monospace;
+    font-size: 14px; letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .topbar a:hover { color: #d4b896; }
+  .topbar .back { position: absolute; left: 16px; font-size: 18px; }
+  .topbar .title { font-size: 12px; color: #6a4e30; letter-spacing: 0.15em; }
+
   /* ============ ① 相机 ============ */
   .camera {
     display: flex; flex-direction: column;
@@ -265,6 +286,11 @@
 </style>
 </head>
 <body>
+
+<div class="topbar">
+  <a class="back" href="index.html" title="返回灵物">‹</a>
+  <a class="title" href="index.html">灵物 · 胶片记忆</a>
+</div>
 
 <div class="pages-wrap">
 
