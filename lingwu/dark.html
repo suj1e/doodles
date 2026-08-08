@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵物 — 暗夜微光</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    background: #050507;
+    font-family: "Songti SC", "STSong", "Noto Serif SC", serif;
+    color: #c9d1d9;
+  }
+  body { display: flex; flex-direction: column; align-items: center; }
+
+  /* 每个"页面"都是一帧手机屏 */
+  .screen {
+    width: 375px;
+    min-height: 667px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #111;
+    margin-bottom: 24px;
+  }
+  .screen-label {
+    position: absolute;
+    top: -18px;
+    left: 0;
+    font-size: 10px;
+    color: #333;
+    font-family: -apple-system, sans-serif;
+    letter-spacing: 0.1em;
+  }
+  .pages-wrap { display: flex; flex-direction: column; gap: 48px; padding: 48px 0; }
+
+  /* ============ ① 相机页 ============ */
+  .camera {
+    background: radial-gradient(ellipse at center, #0d1117 0%, #050507 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 667px;
+  }
+  .camera-close {
+    position: absolute; top: 24px; left: 24px;
+    color: #333; font-size: 20px;
+  }
+  .viewfinder {
+    width: 240px; height: 240px;
+    border: 1px solid rgba(100,140,255,0.15);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .viewfinder::before, .viewfinder::after {
+    content: ""; position: absolute;
+    width: 20px; height: 20px;
+    border: 1px solid rgba(120,150,200,0.3);
+  }
+  .viewfinder::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .viewfinder::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+  .viewfinder-obj {
+    font-size: 48px; opacity: 0.25;
+  }
+  .camera-hint {
+    margin-top: 48px;
+    text-align: center;
+    color: #586069;
+    font-size: 14px;
+    line-height: 2.2;
+    letter-spacing: 0.15em;
+  }
+  .shutter {
+    position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+    width: 64px; height: 64px; border-radius: 50%;
+    border: 2px solid rgba(180,200,255,0.3);
+    background: transparent;
+  }
+  .shutter::after {
+    content: ""; position: absolute; inset: 5px;
+    border-radius: 50%; background: rgba(180,200,255,0.12);
+  }
+
+  /* ============ ② 苏醒 ============ */
+  .awaken {
+    background: #050507;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .awaken-glow {
+    width: 120px; height: 120px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(120,150,220,0.25) 0%, transparent 70%);
+    animation: breathe 2.4s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%,100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+  .awaken-text {
+    margin-top: 32px;
+    color: #586069;
+    font-size: 13px;
+    letter-spacing: 0.5em;
+    padding-left: 0.5em;
+  }
+  .awaken-dots {
+    margin-top: 40px;
+    color: #454d56;
+    font-size: 18px;
+    letter-spacing: 0.3em;
+  }
+
+  /* ============ ③ 揭晓 ============ */
+  .reveal {
+    background: radial-gradient(ellipse at top, #0d1525 0%, #050507 60%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 40px;
+  }
+  .reveal-card {
+    width: 100%; max-width: 280px;
+    text-align: center;
+    animation: revealIn 1.2s cubic-bezier(0.16,1,0.3,1);
+  }
+  @keyframes revealIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal-photo {
+    width: 160px; height: 160px;
+    border-radius: 12px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #1a2332, #2a3a4d);
+    border: 1px solid rgba(100,140,200,0.2);
+    box-shadow: 0 0 40px rgba(80,110,180,0.2), 0 0 80px rgba(80,110,180,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 56px;
+    position: relative;
+  }
+  .reveal-photo::after {
+    content: ""; position: absolute; inset: 0; border-radius: 12px;
+    box-shadow: inset 0 0 30px rgba(120,150,220,0.1);
+  }
+  .reveal-glow-ring {
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(120,150,220,0.15);
+    top: 80px;
+    animation: ringPulse 3s ease-in-out infinite;
+  }
+  @keyframes ringPulse {
+    0%,100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.1); opacity: 0.1; }
+  }
+  .reveal-name {
+    font-size: 36px;
+    color: #e6edf3;
+    margin-top: 36px;
+    letter-spacing: 0.15em;
+  }
+  .reveal-era {
+    font-size: 12px;
+    color: #5b6b8a;
+    margin-top: 10px;
+    letter-spacing: 0.4em;
+    padding-left: 0.4em;
+  }
+  .reveal-line {
+    font-size: 17px;
+    color: #9aa7b8;
+    line-height: 2.4;
+    margin-top: 36px;
+    letter-spacing: 0.08em;
+    font-style: italic;
+  }
+  .reveal-cta {
+    margin-top: 56px;
+    padding: 12px 40px;
+    border: 1px solid rgba(120,150,220,0.3);
+    border-radius: 999px;
+    color: #a8b8d8;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    padding-left: calc(40px + 0.3em);
+    background: rgba(80,110,180,0.05);
+  }
+
+  /* ============ ④ 聊天 ============ */
+  .chat {
+    background: #06080c;
+    display: flex; flex-direction: column;
+  }
+  .chat-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #11161e;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .chat-avatar {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, #1a2332, #2a3a4d);
+    border: 1px solid rgba(100,140,200,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .chat-name { font-size: 16px; color: #c9d1d9; }
+  .chat-body {
+    flex: 1; padding: 24px 16px; display: flex; flex-direction: column; gap: 16px;
+  }
+  .bubble {
+    max-width: 75%; padding: 12px 16px;
+    font-size: 15px; line-height: 1.8;
+    border-radius: 16px;
+  }
+  .bubble-spirit {
+    align-self: flex-start;
+    background: #11161e;
+    border: 1px solid #1c2330;
+    color: #b0bac8;
+    border-bottom-left-radius: 4px;
+  }
+  .bubble-user {
+    align-self: flex-end;
+    background: #1a2a4a;
+    color: #c8d6f0;
+    border-bottom-right-radius: 4px;
+  }
+  .typing {
+    display: inline-flex; gap: 4px;
+  }
+  .typing span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4a5670;
+    animation: typing 1.4s infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing {
+    0%,60%,100% { opacity: 0.3; }
+    30% { opacity: 1; }
+  }
+  .chat-input {
+    padding: 12px 16px 32px;
+    border-top: 1px solid #11161e;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .chat-input-field {
+    flex: 1; height: 36px;
+    background: #0d1117; border: 1px solid #1c2330;
+    border-radius: 18px; padding: 0 16px;
+    color: #586069; font-size: 14px;
+    display: flex; align-items: center;
+  }
+  .chat-send {
+    color: #3a4560; font-size: 14px;
+    letter-spacing: 0.2em;
+  }
+</style>
+</head>
+<body>
+
+<div class="pages-wrap">
+
+  <!-- ① 相机 -->
+  <div class="screen camera">
+    <span class="screen-label">① 相机</span>
+    <div class="camera-close">✕</div>
+    <div class="viewfinder">
+      <span class="viewfinder-obj">☕</span>
+    </div>
+    <div class="camera-hint">
+      对准一个物件<br>
+      它也许沉睡了<br>
+      很久很久
+    </div>
+    <div class="shutter"></div>
+  </div>
+
+  <!-- ② 苏醒 -->
+  <div class="screen awaken">
+    <span class="screen-label">② 苏醒</span>
+    <div class="awaken-glow"></div>
+    <div class="awaken-text">正 在 苏 醒</div>
+    <div class="awaken-dots">· ✦ ·</div>
+  </div>
+
+  <!-- ③ 揭晓 -->
+  <div class="screen reveal">
+    <span class="screen-label">③ 揭晓</span>
+    <div class="reveal-glow-ring"></div>
+    <div class="reveal-card">
+      <div class="reveal-photo">☕</div>
+      <div class="reveal-name">老白</div>
+      <div class="reveal-era">—— 第三纪元 ——</div>
+      <div class="reveal-line">"…光。好久没有光了。<br>你是第几个看我的人？"</div>
+      <div class="reveal-cta">与 它 对 话</div>
+    </div>
+  </div>
+
+  <!-- ④ 聊天 -->
+  <div class="screen chat">
+    <span class="screen-label">④ 聊天</span>
+    <div class="chat-header">
+      <span style="color:#454d56">‹</span>
+      <div class="chat-avatar">☕</div>
+      <div class="chat-name">老白</div>
+    </div>
+    <div class="chat-body">
+      <div class="bubble bubble-spirit">…光。好久没有光了。你是第几个看我的人？</div>
+      <div class="bubble bubble-user">你是谁？</div>
+      <div class="bubble bubble-spirit">我记得一种颜色，你们的语言里没有它的名字。我曾是它的一部分。</div>
+      <div class="bubble bubble-user">你在这多久了？</div>
+      <div class="bubble bubble-spirit">
+        <div class="typing"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+    <div class="chat-input">
+      <div class="chat-input-field">说点什么…</div>
+      <div class="chat-send">发送</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

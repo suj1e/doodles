@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵物 — 纸墨留白</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    background: #ebe5d6;
+    font-family: "Songti SC", "STSong", "Noto Serif SC", "SimSun", serif;
+    color: #3a342a;
+  }
+  body { display: flex; flex-direction: column; align-items: center; }
+
+  .screen {
+    width: 375px;
+    min-height: 667px;
+    position: relative;
+    overflow: hidden;
+    background: #f5f1e8;
+    /* 宣纸纹理 */
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(180,160,120,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(140,120,80,0.05) 0%, transparent 50%),
+      linear-gradient(#f5f1e8, #f5f1e8);
+    border: 1px solid #d6cfbe;
+    margin-bottom: 24px;
+  }
+  .screen-label {
+    position: absolute; top: -18px; left: 0;
+    font-size: 10px; color: #b0a890;
+    font-family: -apple-system, sans-serif;
+    letter-spacing: 0.1em;
+  }
+  .pages-wrap { display: flex; flex-direction: column; gap: 48px; padding: 48px 0; }
+
+  /* 印章红 */
+  .seal { color: #a8392c; }
+
+  /* ============ ① 相机 ============ */
+  .camera {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .camera-close {
+    position: absolute; top: 24px; left: 24px;
+    color: #b0a890; font-size: 20px;
+  }
+  .viewfinder {
+    width: 200px; height: 200px;
+    border: 1px solid #c4bca6;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .viewfinder-obj { font-size: 56px; opacity: 0.5; }
+  .camera-hint {
+    margin-top: 56px;
+    text-align: center;
+    color: #8a7f66;
+    font-size: 16px;
+    line-height: 2.6;
+    letter-spacing: 0.2em;
+  }
+  .camera-hint .small { font-size: 12px; color: #b0a890; margin-top: 16px; letter-spacing: 0.3em; }
+  .shutter {
+    position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 1px solid #8a7f66;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .shutter::after {
+    content: ""; width: 44px; height: 44px; border-radius: 50%;
+    background: #e8e0cc; border: 1px solid #c4bca6;
+  }
+
+  /* ============ ② 苏醒 ============ */
+  .awaken {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .awaken-circle {
+    width: 80px; height: 80px; border-radius: 50%;
+    border: 1px solid #c4bca6;
+    display: flex; align-items: center; justify-content: center;
+    animation: paperBreathe 2.8s ease-in-out infinite;
+  }
+  @keyframes paperBreathe {
+    0%,100% { box-shadow: 0 0 0 0 rgba(168,57,44,0); }
+    50% { box-shadow: 0 0 20px 4px rgba(168,57,44,0.08); }
+  }
+  .awaken-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #a8392c;
+    opacity: 0.5;
+  }
+  .awaken-text {
+    margin-top: 40px;
+    color: #8a7f66;
+    font-size: 14px;
+    letter-spacing: 0.6em;
+    padding-left: 0.6em;
+  }
+
+  /* ============ ③ 揭晓 ============ */
+  .reveal {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 60px 40px;
+  }
+  .reveal-card {
+    width: 100%; max-width: 260px;
+    text-align: center;
+    animation: paperReveal 1.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  @keyframes paperReveal {
+    from { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+  .reveal-photo {
+    width: 140px; height: 140px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #e8dfc8, #d8cdb0);
+    border: 1px solid #c4bca6;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 52px;
+    filter: sepia(0.2);
+  }
+  .reveal-divider {
+    width: 1px; height: 40px; background: #c4bca6;
+    margin: 28px auto;
+  }
+  .reveal-name {
+    font-size: 40px;
+    color: #2a241a;
+    letter-spacing: 0.25em;
+    padding-left: 0.25em;
+  }
+  .reveal-seal {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 12px;
+    border: 1px solid #a8392c;
+    color: #a8392c;
+    padding: 3px 8px;
+    letter-spacing: 0.2em;
+  }
+  .reveal-line {
+    font-size: 18px;
+    color: #5a5040;
+    line-height: 2.6;
+    margin-top: 40px;
+    letter-spacing: 0.1em;
+  }
+  .reveal-cta {
+    margin-top: 64px;
+    color: #8a7f66;
+    font-size: 14px;
+    letter-spacing: 0.5em;
+    padding-left: 0.5em;
+    border-bottom: 1px solid #c4bca6;
+    padding-bottom: 8px;
+    display: inline-block;
+  }
+
+  /* ============ ④ 聊天 ============ */
+  .chat { display: flex; flex-direction: column; }
+  .chat-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid #e0d8c4;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .chat-avatar {
+    width: 30px; height: 30px;
+    background: #e8dfc8; border: 1px solid #c4bca6;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+  .chat-name { font-size: 16px; color: #3a342a; letter-spacing: 0.15em; }
+  .chat-back { color: #b0a890; }
+  .chat-body { flex: 1; padding: 28px 24px; display: flex; flex-direction: column; gap: 20px; }
+  .bubble {
+    max-width: 75%;
+    font-size: 16px; line-height: 2;
+    letter-spacing: 0.05em;
+  }
+  .bubble-spirit {
+    align-self: flex-start;
+    color: #5a5040;
+    border-left: 1px solid #c4bca6;
+    padding-left: 14px;
+  }
+  .bubble-user {
+    align-self: flex-end;
+    color: #a8392c;
+    border-right: 1px solid #d8b0a8;
+    padding-right: 14px;
+    text-align: right;
+  }
+  .typing { display: inline-flex; gap: 5px; padding-left: 14px; }
+  .typing span {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: #b0a890;
+    animation: paperTyping 1.6s infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes paperTyping {
+    0%,60%,100% { opacity: 0.3; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-3px); }
+  }
+  .chat-input {
+    padding: 14px 24px 32px;
+    border-top: 1px solid #e0d8c4;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .chat-input-field {
+    flex: 1; height: 36px;
+    border: none; border-bottom: 1px solid #c4bca6;
+    color: #b0a890; font-size: 15px;
+    font-family: serif;
+    display: flex; align-items: center;
+    background: transparent;
+  }
+  .chat-send {
+    color: #a8392c; font-size: 14px; letter-spacing: 0.2em;
+  }
+</style>
+</head>
+<body>
+
+<div class="pages-wrap">
+
+  <!-- ① 相机 -->
+  <div class="screen camera">
+    <span class="screen-label">① 相机</span>
+    <div class="camera-close">✕</div>
+    <div class="viewfinder">
+      <span class="viewfinder-obj">☕</span>
+    </div>
+    <div class="camera-hint">
+      对 准 一 物
+      <div class="small">它 或 已 沉 眠 久 矣</div>
+    </div>
+    <div class="shutter"></div>
+  </div>
+
+  <!-- ② 苏醒 -->
+  <div class="screen awaken">
+    <span class="screen-label">② 苏醒</span>
+    <div class="awaken-circle">
+      <div class="awaken-dot"></div>
+    </div>
+    <div class="awaken-text">唤</div>
+  </div>
+
+  <!-- ③ 揭晓 -->
+  <div class="screen reveal">
+    <span class="screen-label">③ 揭晓</span>
+    <div class="reveal-card">
+      <div class="reveal-photo">☕</div>
+      <div class="reveal-divider"></div>
+      <div class="reveal-name">老白</div>
+      <div class="reveal-seal">第三纪元</div>
+      <div class="reveal-line">
+        光。<br>
+        好久没有光了。<br>
+        你是第几个看我的人？
+      </div>
+      <div class="reveal-cta">与 它 言</div>
+    </div>
+  </div>
+
+  <!-- ④ 聊天 -->
+  <div class="screen chat">
+    <span class="screen-label">④ 聊天</span>
+    <div class="chat-header">
+      <span class="chat-back">‹</span>
+      <div class="chat-avatar">☕</div>
+      <div class="chat-name">老白</div>
+    </div>
+    <div class="chat-body">
+      <div class="bubble bubble-spirit">光。好久没有光了。你是第几个看我的人？</div>
+      <div class="bubble bubble-user">你是谁</div>
+      <div class="bubble bubble-spirit">我记得一种颜色，你们的语言里没有它的名字。我曾是它的一部分。</div>
+      <div class="bubble bubble-user">你在这里多久了</div>
+      <div class="typing"><span></span><span></span><span></span></div>
+    </div>
+    <div class="chat-input">
+      <div class="chat-input-field">言…</div>
+      <div class="chat-send">送</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

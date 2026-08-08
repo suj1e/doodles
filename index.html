@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>design — 原型索引</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    background: #0a0a0a;
+    color: #e8e8e8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 20px;
+  }
+  h1 {
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    color: #666;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    font-size: 12px;
+    color: #444;
+    margin-bottom: 48px;
+  }
+  .project {
+    width: 100%;
+    max-width: 360px;
+    margin-bottom: 48px;
+  }
+  .project-title {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .project-desc {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 20px;
+  }
+  .style-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 20px 18px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .style-card:hover { transform: translateY(-2px); }
+  .style-card .label {
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .style-card .hint {
+    font-size: 11px;
+    opacity: 0.6;
+  }
+  /* dark */
+  .card-dark {
+    background: linear-gradient(135deg, #0d1117 0%, #161b2c 100%);
+    border: 1px solid #1f2937;
+    color: #c9d1d9;
+    box-shadow: 0 0 20px rgba(100,140,255,0.05);
+  }
+  .card-dark:hover { box-shadow: 0 0 30px rgba(100,140,255,0.12); }
+  /* paper */
+  .card-paper {
+    background: #f5f1e8;
+    border: 1px solid #d6cfbe;
+    color: #3a342a;
+  }
+  /* film */
+  .card-film {
+    background: linear-gradient(135deg, #2b1d12 0%, #3d2a18 100%);
+    border: 1px solid #4a3622;
+    color: #d4b896;
+  }
+</style>
+</head>
+<body>
+
+<h1>D E S I G N</h1>
+<p class="subtitle">原型 · 草稿 · 灵感</p>
+
+<div class="project">
+  <div class="project-title">灵物</div>
+  <div class="project-desc">拍一个物件 → 唤醒一个来自异界的灵魂 → 跟它聊天</div>
+
+  <a class="style-card card-dark" href="lingwu/dark.html">
+    <div class="label">① 暗夜微光</div>
+    <div class="hint">深空黑底 · 卡片微光浮动 · 衬线疏离</div>
+  </a>
+  <a class="style-card card-paper" href="lingwu/paper.html">
+    <div class="label">② 纸墨留白</div>
+    <div class="hint">米白宣纸 · 极简留白 · 宋体朱砂</div>
+  </a>
+  <a class="style-card card-film" href="lingwu/film.html">
+    <div class="label">③ 胶片记忆</div>
+    <div class="hint">暖褐做旧 · 颗粒暗角 · 打字机体</div>
+  </a>
+</div>
+
+</body>
+</html>
