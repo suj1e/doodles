@@ -16,8 +16,8 @@
 
   /* ---- 顶部标题 ---- */
   .header {
-    max-width: 720px;
-    margin: 0 auto 64px;
+    max-width: 640px;
+    margin: 0 auto 56px;
     text-align: center;
   }
   .header .logo {
@@ -39,128 +39,99 @@
     margin: 28px auto 0;
   }
 
-  /* ---- 项目区块 ---- */
-  .project {
-    max-width: 720px;
-    margin: 0 auto 72px;
+  /* ---- 项目列表 ---- */
+  .projects {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
+
+  .project {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
+    padding: 24px 22px;
+    border: 1px solid #1a1a1d;
+    background: #0f0f12;
+  }
+  .project:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.4); }
+  .project:active { transform: translateY(0) scale(0.995); }
+
+  .project-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* 缩略图:微缩展示该项目的调子 */
+  .thumb {
+    width: 56px; height: 56px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  /* 灵物:取暗夜微光的调子做代表 */
+  .thumb-lingwu {
+    background: linear-gradient(135deg, #0d1117 0%, #161b2c 100%);
+    border: 1px solid #1f2937;
+    box-shadow: inset 0 0 14px rgba(80,110,180,0.18);
+  }
+
+  .project-info { flex: 1; min-width: 0; }
   .project-head {
     display: flex;
     align-items: baseline;
-    gap: 16px;
-    margin-bottom: 6px;
+    gap: 10px;
+    margin-bottom: 5px;
   }
   .project-name {
-    font-size: 24px;
+    font-size: 19px;
     font-weight: 600;
     color: #f0f0f0;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.03em;
   }
   .project-num {
-    font-size: 11px;
+    font-size: 10px;
     color: #3a3a3a;
     letter-spacing: 0.2em;
     font-variant-numeric: tabular-nums;
   }
   .project-desc {
-    font-size: 13px;
+    font-size: 12.5px;
     color: #707070;
-    line-height: 1.7;
-    margin-bottom: 28px;
+    line-height: 1.6;
   }
-
-  /* ---- 原型网格 ---- */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 14px;
-  }
-
-  .card {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    border-radius: 14px;
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
-    aspect-ratio: 4 / 5;
-  }
-  .card:hover { transform: translateY(-3px); }
-  .card:active { transform: translateY(-1px) scale(0.99); }
-
-  .card-bg {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 40px;
-    opacity: 0.9;
-  }
-  .card-overlay {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    justify-content: flex-end;
-    padding: 18px 16px;
-    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 55%);
-  }
-  .card-label {
-    font-size: 15px;
-    font-weight: 500;
-    margin-bottom: 3px;
-    letter-spacing: 0.03em;
-  }
-  .card-hint {
-    font-size: 11px;
-    opacity: 0.62;
-    letter-spacing: 0.02em;
-  }
-  .card-tag {
-    position: absolute; top: 12px; left: 12px;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    padding: 3px 7px;
-    border-radius: 4px;
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(4px);
-    color: #fff;
-    opacity: 0.7;
-  }
-
-  /* 三套风格的卡片背景 */
-  .bg-dark {
-    background: linear-gradient(135deg, #0d1117 0%, #161b2c 100%);
-    border: 1px solid #1f2937;
-  }
-  .bg-dark:hover { box-shadow: 0 8px 30px rgba(80,110,180,0.18); }
-  .bg-dark .card-bg { filter: drop-shadow(0 0 12px rgba(100,140,220,0.25)); }
-
-  .bg-paper {
-    background: linear-gradient(135deg, #f5f1e8 0%, #ebe3d0 100%);
-    border: 1px solid #d6cfbe;
-  }
-  .bg-paper:hover { box-shadow: 0 8px 30px rgba(180,160,120,0.15); }
-
-  .bg-film {
-    background: linear-gradient(135deg, #2b1d12 0%, #3d2a18 100%);
-    border: 1px solid #4a3622;
-  }
-  .bg-film:hover { box-shadow: 0 8px 30px rgba(160,110,60,0.2); }
-
-  /* ---- 空位(以后加项目用)---- */
-  .empty-project {
-    max-width: 720px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 40px 0;
-    border: 1px dashed #1f1f22;
-    border-radius: 14px;
+  .project-meta {
+    font-size: 10px;
     color: #2f2f2f;
-    font-size: 12px;
-    letter-spacing: 0.15em;
+    margin-top: 8px;
+    letter-spacing: 0.12em;
   }
 
-  @media (max-width: 480px) {
-    .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .project-name { font-size: 21px; }
+  .arrow {
+    color: #2f2f2f;
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: transform 0.25s, color 0.25s;
+  }
+  .project:hover .arrow { transform: translateX(3px); color: #555; }
+
+  /* ---- 空位 ---- */
+  .empty {
+    text-align: center;
+    padding: 32px 0;
+    color: #1f1f22;
+    font-size: 11px;
+    letter-spacing: 0.15em;
   }
 </style>
 </head>
@@ -172,45 +143,28 @@
   <div class="line"></div>
 </div>
 
-<!-- 项目 01:灵物 -->
-<div class="project">
-  <div class="project-head">
-    <div class="project-name">灵物</div>
-    <div class="project-num">— 01</div>
-  </div>
-  <div class="project-desc">拍一个物件 → 唤醒一个来自异界的灵魂 → 跟它聊天</div>
+<div class="projects">
 
-  <div class="grid">
-    <a class="card bg-dark" href="lingwu/dark.html">
-      <div class="card-tag">01</div>
-      <div class="card-bg">☕</div>
-      <div class="card-overlay">
-        <div class="card-label">暗夜微光</div>
-        <div class="card-hint">深空黑 · 衬线疏离</div>
+  <!-- 项目 01:灵物 -->
+  <a class="project" href="lingwu/">
+    <div class="project-row">
+      <div class="thumb thumb-lingwu">☕</div>
+      <div class="project-info">
+        <div class="project-head">
+          <div class="project-name">灵物</div>
+          <div class="project-num">— 01</div>
+        </div>
+        <div class="project-desc">拍一个物件 → 唤醒一个来自异界的灵魂 → 跟它聊天</div>
+        <div class="project-meta">3 套风格</div>
       </div>
-    </a>
-    <a class="card bg-paper" href="lingwu/paper.html">
-      <div class="card-tag">02</div>
-      <div class="card-bg">☕</div>
-      <div class="card-overlay">
-        <div class="card-label" style="color:#3a342a">纸墨留白</div>
-        <div class="card-hint" style="color:#8a7f66">宣纸 · 宋体朱砂</div>
-      </div>
-    </a>
-    <a class="card bg-film" href="lingwu/film.html">
-      <div class="card-tag">03</div>
-      <div class="card-bg">☕</div>
-      <div class="card-overlay">
-        <div class="card-label">胶片记忆</div>
-        <div class="card-hint">暖褐 · 打字机体</div>
-      </div>
-    </a>
-  </div>
-</div>
+      <div class="arrow">›</div>
+    </div>
+  </a>
 
-<!-- 以后加项目,往下复制一个 .project 区块 -->
-<div class="empty-project">
-  下一个原型 ↓
+  <!-- 以后加项目,复制一个 .project 区块 -->
+
+  <div class="empty">下一个 ↓</div>
+
 </div>
 
 </body>

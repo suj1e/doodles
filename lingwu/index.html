@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵物 — 风格原型</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    background: #0a0a0c;
+    color: #e8e8e8;
+    min-height: 100vh;
+    padding: 24px 20px 80px;
+  }
+
+  /* ---- 顶部 ---- */
+  .nav {
+    max-width: 640px;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .back {
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .back:hover { color: #aaa; }
+
+  .header {
+    max-width: 640px;
+    margin: 0 auto 40px;
+  }
+  .header .name {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .header .desc {
+    font-size: 13px;
+    color: #707070;
+    line-height: 1.7;
+  }
+
+  /* ---- 原型网格 ---- */
+  .grid {
+    max-width: 640px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
+    aspect-ratio: 4 / 5;
+  }
+  .card:hover { transform: translateY(-3px); }
+  .card:active { transform: translateY(-1px) scale(0.99); }
+
+  .card-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 42px;
+    opacity: 0.9;
+  }
+  .card-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 18px 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 55%);
+  }
+  .card-label {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 3px;
+    letter-spacing: 0.03em;
+  }
+  .card-hint {
+    font-size: 11px;
+    opacity: 0.62;
+  }
+  .card-tag {
+    position: absolute; top: 12px; left: 12px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    padding: 3px 7px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    opacity: 0.7;
+  }
+
+  /* 风格背景 */
+  .bg-dark {
+    background: linear-gradient(135deg, #0d1117 0%, #161b2c 100%);
+    border: 1px solid #1f2937;
+  }
+  .bg-dark:hover { box-shadow: 0 8px 30px rgba(80,110,180,0.18); }
+  .bg-dark .card-bg { filter: drop-shadow(0 0 12px rgba(100,140,220,0.25)); }
+
+  .bg-paper {
+    background: linear-gradient(135deg, #f5f1e8 0%, #ebe3d0 100%);
+    border: 1px solid #d6cfbe;
+  }
+  .bg-paper:hover { box-shadow: 0 8px 30px rgba(180,160,120,0.15); }
+
+  .bg-film {
+    background: linear-gradient(135deg, #2b1d12 0%, #3d2a18 100%);
+    border: 1px solid #4a3622;
+  }
+  .bg-film:hover { box-shadow: 0 8px 30px rgba(160,110,60,0.2); }
+
+  @media (max-width: 480px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .header .name { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a class="back" href="../index.html">‹ doodles</a>
+</div>
+
+<div class="header">
+  <div class="name">灵物</div>
+  <div class="desc">拍一个物件 → 唤醒一个来自异界的灵魂 → 跟它聊天</div>
+</div>
+
+<div class="grid">
+  <a class="card bg-dark" href="dark.html">
+    <div class="card-tag">01</div>
+    <div class="card-bg">☕</div>
+    <div class="card-overlay">
+      <div class="card-label">暗夜微光</div>
+      <div class="card-hint">深空黑 · 衬线疏离</div>
+    </div>
+  </a>
+  <a class="card bg-paper" href="paper.html">
+    <div class="card-tag">02</div>
+    <div class="card-bg">☕</div>
+    <div class="card-overlay">
+      <div class="card-label" style="color:#3a342a">纸墨留白</div>
+      <div class="card-hint" style="color:#8a7f66">宣纸 · 宋体朱砂</div>
+    </div>
+  </a>
+  <a class="card bg-film" href="film.html">
+    <div class="card-tag">03</div>
+    <div class="card-bg">☕</div>
+    <div class="card-overlay">
+      <div class="card-label">胶片记忆</div>
+      <div class="card-hint">暖褐 · 打字机体</div>
+    </div>
+  </a>
+</div>
+
+</body>
+</html>
