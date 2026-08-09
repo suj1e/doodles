@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>织云 · 我的收藏</title>
+<style>
+/* ============================================================
+   织云 我的收藏 — AI 内容社区的「稍后读」列表
+   设计系统:shadcn 风格 — 极简中性、黑白主色、克制的留白与描边
+   ============================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --fg: #111827;
+  --muted: #64748b;
+  --border: #e5e7eb;
+  --border-soft: var(--border);
+  --accent: #000000;
+  --accent-on: #ffffff;
+  --accent-hover: color-mix(in oklab, var(--accent), white 10%);
+  --accent-active: color-mix(in oklab, var(--accent), white 18%);
+  --success: #16a34a;
+  --warn: #d97706;
+  --danger: #dc2626;
+  --font-display: "Geist", "Geist Sans", -apple-system, system-ui, "Segoe UI", Arial, sans-serif;
+  --font-body: "Geist", "Geist Sans", -apple-system, system-ui, "Segoe UI", Arial, sans-serif;
+  --font-mono: "Fira Code", ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+  --leading-body: 1.5;
+  --leading-tight: 1.2;
+  --tracking-display: -0.02em;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --elev-ring: 0 0 0 1px var(--border);
+  --elev-raised:
+    0 1px 2px 0 color-mix(in oklab, var(--fg), transparent 92%),
+    0 1px 3px 0 color-mix(in oklab, var(--fg), transparent 88%);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+  --motion-fast: 150ms;
+  --motion-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --container-max: 1280px;
+  --container-gutter-desktop: 24px;
+  --container-gutter-tablet: 16px;
+  --container-gutter-phone: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 15px;
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; }
+button { font: inherit; border: none; background: none; cursor: pointer; color: inherit; }
+::selection { background: color-mix(in oklab, var(--accent) 12%, var(--surface)); }
+
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+.container { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--container-gutter-desktop); }
+.icon { width: 16px; height: 16px; flex: none; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%);
+  white-space: nowrap; border: 0;
+}
+
+/* ---------- 顶栏 ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in oklab, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+}
+.header-row { display: flex; align-items: center; gap: 20px; height: 60px; }
+.brand { display: flex; align-items: center; gap: 7px; flex: none; }
+.brand-mark {
+  width: 28px; height: 28px; border-radius: var(--radius-sm);
+  display: grid; place-items: center;
+  background: var(--accent); color: var(--accent-on);
+  font-weight: 700; font-size: 15px;
+}
+.brand-word { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--fg); }
+.brand-en { margin-left: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: none; }
+@media (min-width: 768px) { .brand-en { display: inline-block; } }
+.search { flex: 1; max-width: 420px; margin: 0 auto; position: relative; }
+.search input {
+  width: 100%; height: 38px; padding: 0 52px 0 38px;
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--surface); color: var(--fg);
+  font-size: var(--text-sm);
+  transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
+}
+.search input::placeholder { color: var(--muted); }
+.search input:hover { border-color: var(--fg); }
+.search input:focus, .search input:focus-visible {
+  outline: none; border-color: var(--accent); box-shadow: var(--focus-ring);
+}
+.search-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); pointer-events: none;
+}
+.search-kbd {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+  background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
+  border-radius: var(--radius-sm); padding: 1px 6px; pointer-events: none; white-space: nowrap;
+}
+
+.header-actions { display: flex; align-items: center; gap: 14px; flex: none; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 38px; padding: 0 16px; border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  transition: background-color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard), transform .1s ease;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); color: var(--accent-on); box-shadow: var(--elev-ring); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { background: var(--accent-active); }
+.btn-primary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.btn-ghost { color: var(--fg); border: 1px solid var(--border); background: var(--surface); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: color-mix(in oklab, var(--accent) 5%, var(--surface)); }
+.btn-sm { height: 32px; padding: 0 12px; font-size: var(--text-sm); }
+
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--accent-on); font-size: 13px; font-weight: 700;
+  border: 1px solid var(--border);
+  transition: transform var(--motion-fast) var(--ease-standard);
+}
+.avatar:hover { transform: scale(1.05); }
+
+.header-login {
+  display: inline-flex; align-items: center;
+  height: 38px; padding: 0 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.header-login:hover { color: var(--fg); border-color: var(--fg); }
+.header-login:focus-visible { box-shadow: var(--focus-ring); }
+
+.icon-btn {
+  position: relative;
+  display: grid; place-items: center;
+  width: 38px; height: 38px;
+  border-radius: var(--radius-md);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.icon-btn:hover { border-color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.mobile-search { display: none; }
+.icon-btn:focus-visible { box-shadow: var(--focus-ring); }
+.icon-btn .icon { width: 17px; height: 17px; }
+.bell-dot {
+  position: absolute; top: 7px; right: 8px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+  border: 1.5px solid var(--surface);
+}
+.icon-btn.is-open { border-color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+
+/* 通知浮窗 */
+.notif-wrap { position: relative; }
+.notif-pop {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 344px;
+  max-width: calc(100vw - 32px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  z-index: 60;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard), visibility 0s linear var(--motion-base);
+}
+.notif-pop.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
+}
+.notif-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.notif-head h3 { font-size: var(--text-base); font-weight: 600; color: var(--fg); }
+.notif-readall {
+  font-size: var(--text-xs); color: var(--muted);
+  border: 0; background: none; padding: 4px 6px; border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+.notif-readall:hover { color: var(--fg); }
+.notif-readall:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.notif-list { padding: 4px 0; max-height: 300px; overflow-y: auto; }
+.notif-item {
+  display: flex; gap: 10px;
+  padding: 11px 16px;
+  position: relative;
+}
+.notif-item + .notif-item { border-top: 1px solid var(--border-soft); }
+.notif-item.is-unread { background: color-mix(in oklab, var(--border) 26%, var(--surface)); }
+.notif-item:hover { background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.notif-item .icon { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--muted); }
+.notif-item.is-unread .icon { color: var(--accent); }
+.notif-body { min-width: 0; }
+.notif-text { font-size: var(--text-sm); line-height: var(--leading-body); color: var(--fg); }
+.notif-text strong { font-weight: 600; }
+.notif-text em { font-style: normal; color: var(--muted); }
+.notif-time { display: block; margin-top: 3px; font-size: var(--text-xs); color: var(--muted); }
+.notif-unread-dot {
+  position: absolute; left: 8px; top: 16px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+}
+.notif-foot {
+  padding: 10px 16px 14px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.notif-foot a {
+  display: inline-block;
+  font-size: var(--text-sm); font-weight: 500; color: var(--fg);
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  transition: background-color var(--motion-fast) var(--ease-standard);
+}
+.notif-foot a:hover { background: color-mix(in oklab, var(--border) 50%, var(--surface)); }
+.notif-foot a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.avatar-g1 { background: linear-gradient(135deg, oklch(46% 0.01 250), oklch(35% 0.01 250)); }
+.avatar-g2 { background: linear-gradient(135deg, oklch(55% 0.01 250), oklch(43% 0.01 250)); }
+.avatar-g3 { background: linear-gradient(135deg, oklch(40% 0.01 250), oklch(29% 0.01 250)); }
+.avatar-g4 { background: linear-gradient(135deg, oklch(62% 0.01 250), oklch(50% 0.01 250)); }
+
+/* 轻提示 */
+.toast {
+  position: fixed; left: 50%; bottom: 28px;
+  transform: translate(-50%, 20px);
+  opacity: 0; pointer-events: none;
+  background: var(--fg); color: var(--bg);
+  font-size: var(--text-sm); font-weight: 600;
+  padding: 10px 18px; border-radius: var(--radius-md);
+  box-shadow: var(--elev-raised);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
+  z-index: 100;
+}
+.toast.is-show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- 页头 ---------- */
+.fav-head {
+  padding: 36px 0 22px;
+  border-bottom: 1px solid var(--border);
+}
+.fav-kicker { font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-family: var(--font-mono); }
+.fav-title-row { display: flex; align-items: center; gap: 12px; margin-top: 6px; flex-wrap: wrap; }
+.fav-title { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); line-height: 1.3; }
+.fav-count {
+  font-family: var(--font-mono); font-size: var(--text-sm); color: var(--muted);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 2px 8px; font-variant-numeric: tabular-nums;
+}
+.fav-sub { margin-top: 6px; font-size: var(--text-sm); color: var(--muted); }
+
+/* ---------- 收藏 tabs ---------- */
+.fav-tabs { display: flex; align-items: center; gap: 2px; border-bottom: 1px solid var(--border); margin-top: 0; }
+.ftab {
+  position: relative; flex: none;
+  padding: 10px 16px 12px;
+  font-size: var(--text-base); font-weight: 500; color: var(--muted);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.ftab:hover { color: var(--fg); background: color-mix(in oklab, var(--border) 30%, var(--surface)); }
+.ftab:focus-visible { box-shadow: var(--focus-ring); }
+.ftab.is-active { color: var(--fg); font-weight: 600; }
+.ftab.is-active::after {
+  content: ""; position: absolute; left: 14px; right: 14px; bottom: -1px;
+  height: 2px; border-radius: 2px; background: var(--accent);
+}
+.ftab .cnt { font-size: var(--text-xs); color: var(--muted); font-weight: 500; margin-left: 4px; font-variant-numeric: tabular-nums; }
+.ftab.is-active .cnt { color: var(--muted); }
+
+/* ---------- 收藏列表 ---------- */
+.fav-list { padding: 24px 0 72px; }
+.fav-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 18px 20px;
+  margin-bottom: 14px;
+  transition: border-color var(--motion-base) var(--ease-standard), box-shadow var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard), opacity var(--motion-base) var(--ease-standard);
+}
+.fav-item:hover { border-color: color-mix(in oklab, var(--fg) 20%, var(--surface)); box-shadow: var(--elev-raised); transform: translateY(-2px); }
+.fav-item.is-removing { opacity: 0; transform: translateX(14px); border-color: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.fav-icon {
+  flex: none; width: 40px; height: 40px; border-radius: var(--radius-md);
+  display: grid; place-items: center;
+  background: color-mix(in oklab, var(--border) 55%, var(--surface));
+  border: 1px solid var(--border); color: var(--muted);
+}
+.fav-icon .icon { width: 18px; height: 18px; }
+.fav-body { min-width: 0; flex: 1; }
+.fav-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: var(--text-xs); color: var(--muted); }
+.fav-meta .tag {
+  font-size: var(--text-xs); font-weight: 600; color: var(--fg);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 2px 8px; background: var(--surface);
+}
+.fav-kind { color: var(--accent); font-weight: 600; }
+.fav-title-line { font-size: 18px; line-height: 1.35; font-weight: 700; color: var(--fg); margin: 8px 0 6px; letter-spacing: -0.01em; transition: color var(--motion-fast) var(--ease-standard); }
+.fav-item:hover .fav-title-line { color: var(--accent); }
+.fav-title-line a:focus-visible { box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+.fav-excerpt {
+  font-size: var(--text-sm); line-height: var(--leading-body); color: var(--muted);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.fav-extra { margin-top: 10px; font-size: var(--text-sm); color: var(--fg); line-height: var(--leading-body); }
+.fav-extra .author-link { font-weight: 600; transition: color var(--motion-fast) var(--ease-standard); }
+.fav-extra .author-link:hover { color: var(--accent); }
+.fav-foot { display: flex; align-items: center; gap: 14px; margin-top: 12px; font-size: var(--text-xs); color: var(--muted); font-variant-numeric: tabular-nums; }
+.fav-foot .spacer { flex: 1; }
+.fav-foot .stat { display: inline-flex; align-items: center; gap: 4px; }
+.fav-foot .stat .icon { width: 13px; height: 13px; }
+.btn-unfav {
+  flex: none; height: 32px; padding: 0 12px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--fg);
+  border: 1px solid var(--border); background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.btn-unfav:hover { color: var(--danger); border-color: var(--danger); background: color-mix(in oklab, var(--danger) 4%, var(--surface)); }
+.btn-unfav:focus-visible { box-shadow: var(--focus-ring); }
+
+.fav-empty { padding: 64px 0; text-align: center; }
+.fav-empty .icon { width: 40px; height: 40px; margin: 0 auto 16px; color: var(--border); stroke-width: 1.5; }
+.fav-empty h3 { font-size: var(--text-base); font-weight: 700; color: var(--fg); }
+.fav-empty p { margin-top: 6px; font-size: var(--text-sm); color: var(--muted); }
+.fav-empty .btn { margin-top: 20px; }
+
+/* ---------- 页脚 ---------- */
+.site-footer { border-top: 1px solid var(--border); background: var(--bg); }
+.footer-inner {
+  display: flex; align-items: center; gap: 20px; height: 72px;
+  font-size: var(--text-sm); color: var(--muted);
+}
+.footer-brand { font-size: 16px; font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); }
+.footer-links { margin-left: auto; display: flex; gap: 20px; }
+.footer-links a { transition: color var(--motion-fast) var(--ease-standard); }
+.footer-links a:hover { color: var(--fg); }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 760px) {
+  .container { padding: 0 var(--container-gutter-phone); }
+  .notif-pop { position: fixed; top: 66px; right: 12px; width: min(344px, calc(100vw - 24px)); }
+  .search { display: none; }
+  .mobile-search { display: grid; }
+  .header-actions { margin-left: auto; }
+  .brand-word { font-size: 19px; }
+  .fav-head { padding: 28px 0 18px; }
+  .fav-title { font-size: 26px; }
+  .fav-item { padding: 16px; }
+  .fav-title-line { font-size: 16px; }
+  .btn-unfav { padding: 0 10px; }
+  .footer-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= 顶栏 ================= -->
+<header class="site-header" data-od-id="site-header">
+  <div class="container">
+    <div class="header-row">
+      <a class="brand" href="feed.html" data-od-id="brand" aria-label="织云 首页">
+        <span class="brand-mark">织</span>
+        <span class="brand-word">云</span><span class="brand-en">Weavery</span>
+      </a>
+
+      <form class="search" action="search.html" method="get" role="search" data-od-id="search">
+        <svg class="icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="M20 20l-3.2-3.2"/>
+        </svg>
+        <input id="search-input" name="q" type="search" placeholder="搜索文章、话题或作者" aria-label="搜索文章、话题或作者" autocomplete="off">
+        <kbd class="search-kbd">⌘K</kbd>
+      </form>
+
+      <div class="header-actions">
+        <a class="icon-btn mobile-search" href="search.html" data-od-id="nav-search-mobile" aria-label="搜索">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+        </a>
+        <a class="btn btn-primary" href="create.html" data-od-id="cta-create">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          AI 写作
+        </a>
+        <div class="notif-wrap" data-od-id="nav-notifications">
+          <button class="icon-btn" id="bell-btn" type="button" aria-label="通知,3 条未读" aria-haspopup="dialog" aria-expanded="false" aria-controls="notif-pop">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
+            <span class="bell-dot" id="bell-dot"></span>
+          </button>
+          <div class="notif-pop" id="notif-pop" role="dialog" aria-label="通知">
+            <div class="notif-head">
+              <h3>通知</h3>
+              <button class="notif-readall" id="notif-readall" type="button">全部已读</button>
+            </div>
+            <div class="notif-list">
+              <div class="notif-item is-unread">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                <span class="notif-unread-dot" aria-hidden="true"></span>
+                <div class="notif-body">
+                  <p class="notif-text"><strong>云小织</strong> 收藏了你的作品《从色块到情绪》</p>
+                  <span class="notif-time">2 分钟前</span>
+                </div>
+              </div>
+              <div class="notif-item is-unread">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span class="notif-unread-dot" aria-hidden="true"></span>
+                <div class="notif-body">
+                  <p class="notif-text"><strong>@AI 助手</strong> 评论了你的文章 <em>「结尾可以更干脆一些」</em></p>
+                  <span class="notif-time">1 小时前</span>
+                </div>
+              </div>
+              <div class="notif-item">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <div class="notif-body">
+                  <p class="notif-text"><strong>苏航</strong> 开始关注你</p>
+                  <span class="notif-time">3 小时前</span>
+                </div>
+              </div>
+            </div>
+            <div class="notif-foot">
+              <a href="notifications.html" data-od-id="notif-view-all">查看全部通知 →</a>
+            </div>
+          </div>
+        </div>
+        <a class="header-login" href="auth.html" data-od-id="cta-login">登录</a>
+        <a class="avatar avatar-g1" href="me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ================= 页头 ================= -->
+  <section class="fav-head" data-od-id="fav-head">
+    <p class="fav-kicker">Saved</p>
+    <div class="fav-title-row">
+      <h1 class="fav-title" data-od-id="fav-title">我的收藏</h1>
+      <span class="fav-count" id="fav-count" data-od-id="fav-count">18</span>
+    </div>
+    <p class="fav-sub">收藏的文章、话题与作者,随时回来翻。</p>
+  </section>
+
+  <!-- ================= 筛选 tabs ================= -->
+  <div class="fav-tabs" role="tablist" aria-label="收藏类型" data-od-id="fav-tabs">
+    <button class="ftab is-active" type="button" data-filter="all" role="tab" aria-selected="true" data-od-id="ftab-all">全部<span class="cnt">18</span></button>
+    <button class="ftab" type="button" data-filter="post" role="tab" aria-selected="false" data-od-id="ftab-post">文章<span class="cnt">12</span></button>
+    <button class="ftab" type="button" data-filter="topic" role="tab" aria-selected="false" data-od-id="ftab-topic">话题<span class="cnt">4</span></button>
+    <button class="ftab" type="button" data-filter="author" role="tab" aria-selected="false" data-od-id="ftab-author">作者<span class="cnt">2</span></button>
+  </div>
+
+  <!-- ================= 收藏列表 ================= -->
+  <section class="fav-list" id="fav-list" data-od-id="fav-list">
+
+    <!-- 文章 -->
+    <article class="fav-item" data-kind="post" data-od-id="fav-post-1">
+      <div class="fav-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="fav-body">
+        <div class="fav-meta">
+          <span class="tag">技术</span>
+          <span class="tag">AI</span>
+          <span class="fav-kind">文章</span>
+          <span>作者 · 陈默</span>
+        </div>
+        <h3 class="fav-title-line"><a href="post.html">GPT 时刻之后:AI 编程正在重塑团队的协作方式</a></h3>
+        <p class="fav-excerpt">从「帮你补全一行代码」到「理解整个代码库」,AI 助手正把写代码变成描述问题。</p>
+        <div class="fav-foot">
+          <span>收藏于 2 小时前</span>
+          <span class="spacer"></span>
+          <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>2.3 万</span>
+          <button class="btn-unfav" type="button" data-od-id="unfav-post-1">取消收藏</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="fav-item" data-kind="post" data-od-id="fav-post-2">
+      <div class="fav-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="fav-body">
+        <div class="fav-meta">
+          <span class="tag">设计</span>
+          <span class="fav-kind">文章</span>
+          <span>作者 · 林晚</span>
+        </div>
+        <h3 class="fav-title-line"><a href="post.html">做设计 8 年,我才学会的 5 件事</a></h3>
+        <p class="fav-excerpt">关于品味、取舍,以及如何和开发者好好说话——一位资深设计师的年度复盘。</p>
+        <div class="fav-foot">
+          <span>收藏于 3 天前</span>
+          <span class="spacer"></span>
+          <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>1.8 万</span>
+          <button class="btn-unfav" type="button" data-od-id="unfav-post-2">取消收藏</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="fav-item" data-kind="post" data-od-id="fav-post-3">
+      <div class="fav-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="fav-body">
+        <div class="fav-meta">
+          <span class="tag">生活</span>
+          <span class="fav-kind">文章</span>
+          <span>作者 · 顾南</span>
+        </div>
+        <h3 class="fav-title-line"><a href="post.html">通勤路上听什么:我的播客私藏清单</a></h3>
+        <p class="fav-excerpt">上下班加起来两个小时,是我一天里最舍不得浪费的整块时间。</p>
+        <div class="fav-foot">
+          <span>收藏于 5 天前</span>
+          <span class="spacer"></span>
+          <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>9.4 千</span>
+          <button class="btn-unfav" type="button" data-od-id="unfav-post-3">取消收藏</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 话题 -->
+    <article class="fav-item" data-kind="topic" data-od-id="fav-topic-1">
+      <div class="fav-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10M7 12h10M7 17h6M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/></svg>
+      </div>
+      <div class="fav-body">
+        <div class="fav-meta">
+          <span class="fav-kind">话题</span>
+          <span>订阅于 1 周前</span>
+        </div>
+        <h3 class="fav-title-line"><a href="topic.html?t=ai-programming">AI 编程</a></h3>
+        <p class="fav-excerpt">把 AI 接入日常工作流,从提示词到工具链的实践经验。</p>
+        <div class="fav-foot">
+          <span>1.2 万人关注</span>
+          <span class="spacer"></span>
+          <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>3.6 万</span>
+          <button class="btn-unfav" type="button" data-od-id="unfav-topic-1">取消订阅</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="fav-item" data-kind="topic" data-od-id="fav-topic-2">
+      <div class="fav-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10M7 12h10M7 17h6M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/></svg>
+      </div>
+      <div class="fav-body">
+        <div class="fav-meta">
+          <span class="fav-kind">话题</span>
+          <span>订阅于 2 周前</span>
+        </div>
+        <h3 class="fav-title-line"><a href="topic.html?t=prompt-engineering">提示词</a></h3>
+        <p class="fav-excerpt">如何把一句话写成一个可靠的工作流——提示词工程的中文实践社区。</p>
+        <div class="fav-foot">
+          <span>8.9 千人关注</span>
+          <span class="spacer"></span>
+          <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>1.1 万</span>
+          <button class="btn-unfav" type="button" data-od-id="unfav-topic-2">取消订阅</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 作者 -->
+    <article class="fav-item" data-kind="author" data-od-id="fav-author-1">
+      <div class="fav-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="fav-body">
+        <div class="fav-meta">
+          <span class="fav-kind">作者</span>
+          <span>关注于 1 个月前</span>
+        </div>
+        <h3 class="fav-title-line"><a href="profile.html?user=chenmo">陈默</a></h3>
+        <p class="fav-excerpt">AI 产品观察者,写《GPT 时刻之后》专栏,相信「把 AI 当成同事」。</p>
+        <div class="fav-extra">
+          代表作 · <a class="author-link" href="post.html">把 AI 当成同事,而不是搜索引擎</a>
+        </div>
+        <div class="fav-foot">
+          <span>12.8k 关注</span>
+          <span class="spacer"></span>
+          <button class="btn-unfav" type="button" data-od-id="unfav-author-1">取消关注</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="fav-item" data-kind="author" data-od-id="fav-author-2">
+      <div class="fav-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="fav-body">
+        <div class="fav-meta">
+          <span class="fav-kind">作者</span>
+          <span>关注于 2 个月前</span>
+        </div>
+        <h3 class="fav-title-line"><a href="profile.html?user=linwan">林晚</a></h3>
+        <p class="fav-excerpt">做了 8 年设计的设计师,把设计系统从 3 个组件做到 90 个。</p>
+        <div class="fav-extra">
+          代表作 · <a class="author-link" href="post.html">做设计 8 年,我才学会的 5 件事</a>
+        </div>
+        <div class="fav-foot">
+          <span>8.3k 关注</span>
+          <span class="spacer"></span>
+          <button class="btn-unfav" type="button" data-od-id="unfav-author-2">取消关注</button>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+</main>
+
+<!-- ================= 页脚 ================= -->
+<footer class="site-footer" data-od-id="footer">
+  <div class="container footer-inner">
+    <span class="footer-brand">织云 Weavery</span>
+    <span>阅读、讨论,用 AI 开始创作</span>
+    <nav class="footer-links" aria-label="页脚导航">
+      <a href="search.html">搜索</a>
+      <a href="notifications.html">通知</a>
+      <a href="guidelines.html">社区准则</a>
+      <a href="help.html">帮助中心</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ⌘K 聚焦搜索 */
+  var searchInput = document.getElementById("search-input");
+  document.addEventListener("keydown", function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      if (searchInput) searchInput.focus();
+    }
+  });
+
+  /* 通知浮窗 */
+  var bellBtn = document.getElementById("bell-btn");
+  var notifPop = document.getElementById("notif-pop");
+  function setNotif(open) {
+    if (!bellBtn || !notifPop) return;
+    bellBtn.classList.toggle("is-open", open);
+    notifPop.classList.toggle("is-open", open);
+    bellBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  if (bellBtn && notifPop) {
+    bellBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      setNotif(bellBtn.getAttribute("aria-expanded") !== "true");
+    });
+    document.addEventListener("click", function (e) {
+      if (bellBtn.getAttribute("aria-expanded") === "true" && !e.target.closest(".notif-wrap")) {
+        setNotif(false);
+      }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") setNotif(false);
+    });
+  }
+  var readAll = document.getElementById("notif-readall");
+  if (readAll) {
+    readAll.addEventListener("click", function () {
+      var dot = document.getElementById("bell-dot");
+      if (dot) dot.style.display = "none";
+      Array.prototype.slice.call(document.querySelectorAll(".notif-item.is-unread")).forEach(function (item) {
+        item.classList.remove("is-unread");
+      });
+      bellBtn.setAttribute("aria-label", "通知");
+    });
+  }
+
+  /* 类型筛选 */
+  var list = document.getElementById("fav-list");
+  var items = Array.prototype.slice.call(list.querySelectorAll(".fav-item"));
+  var counts = { all: items.length, post: 0, topic: 0, author: 0 };
+  items.forEach(function (el) { counts[el.dataset.kind] = (counts[el.dataset.kind] || 0) + 1; });
+  var totalCount = document.getElementById("fav-count");
+
+  function renderEmpty() {
+    var empty = document.getElementById("fav-empty");
+    if (empty) empty.remove();
+    var box = document.createElement("div");
+    box.className = "fav-empty";
+    box.setAttribute("data-od-id", "fav-empty");
+    box.id = "fav-empty";
+    box.innerHTML =
+      '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>' +
+      '<h3>这里还空着</h3>' +
+      '<p>把喜欢的文章、话题或作者收进来,稍后慢慢读。</p>' +
+      '<a class="btn btn-primary" href="feed.html">去逛逛</a>';
+    list.appendChild(box);
+  }
+
+  Array.prototype.slice.call(document.querySelectorAll(".ftab")).forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      Array.prototype.slice.call(document.querySelectorAll(".ftab")).forEach(function (t) {
+        var on = t === tab;
+        t.classList.toggle("is-active", on);
+        t.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      var f = tab.dataset.filter;
+      var visible = 0;
+      items.forEach(function (el) {
+        var show = f === "all" || el.dataset.kind === f;
+        el.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+      if (visible === 0) renderEmpty(); else {
+        var empty = document.getElementById("fav-empty");
+        if (empty) empty.remove();
+      }
+    });
+  });
+
+  /* 取消收藏:退场 + 计数联动 + 空态回退 */
+  function showToast(msg) {
+    var t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function () { t.classList.add("is-show"); }, 10);
+    setTimeout(function () { t.classList.remove("is-show"); }, 1800);
+    setTimeout(function () { t.remove(); }, 2200);
+  }
+
+  items.forEach(function (el) {
+    var btn = el.querySelector(".btn-unfav");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      el.classList.add("is-removing");
+      showToast("已取消收藏");
+      setTimeout(function () {
+        el.remove();
+        counts.all--;
+        counts[el.dataset.kind]--;
+        if (totalCount) totalCount.textContent = String(counts.all);
+        var active = document.querySelector(".ftab.is-active");
+        if (active && active.dataset.filter !== "all" && counts[active.dataset.filter] === 0) {
+          renderEmpty();
+        }
+      }, 200);
+    });
+  });
+})();
+</script>
+</body>
+</html>
