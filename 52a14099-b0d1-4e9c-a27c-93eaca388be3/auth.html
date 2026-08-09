@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>zd · 登录</title>
+<title>织云 · 登录</title>
 <style>
 /* ============================================================
-   zd 登录 / 注册 / 忘记密码
+ 织云 登录 / 注册 / 忘记密码
    设计系统:shadcn 风格 — 极简中性、黑白主色、克制的留白与描边
    ============================================================ */
 
@@ -103,7 +103,10 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   background: var(--accent-on); color: var(--accent);
   font-weight: 800; font-size: 17px;
 }
-.brand-word { font-family: var(--font-display); font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+.brand-word { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--fg); }
+.brand-en { margin-left: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: none; }
+@media (min-width: 768px) { .brand-en { display: inline-block; } }
+.auth-brand .brand-en { color: color-mix(in oklab, var(--accent-on) 62%, transparent); }
 .auth-slogan { font-size: 17px; line-height: 1.55; font-weight: 600; max-width: 15em; }
 .auth-slogan em { font-style: normal; color: color-mix(in oklab, var(--accent-on) 78%, transparent); }
 
@@ -266,11 +269,11 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 <body>
 
 <div class="auth-top">
-  <a class="auth-back" href="zd-feed-home.html" data-od-id="auth-back">
+  <a class="auth-back" href="feed.html" data-od-id="auth-back">
     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     返回首页
   </a>
-  <span class="auth-help"><a href="zd-help.html" data-od-id="auth-help">需要帮助?</a></span>
+  <span class="auth-help"><a href="help.html" data-od-id="auth-help">需要帮助?</a></span>
 </div>
 
 <div class="auth-card" data-od-id="auth-card">
@@ -278,8 +281,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   <!-- 左侧品牌区 -->
   <aside class="auth-brand" data-od-id="auth-brand">
     <div class="brand-row">
-      <span class="brand-mark">z</span>
-      <span class="brand-word">zd</span>
+      <span class="brand-mark">织</span>
+      <span class="brand-word">织云</span><span class="brand-en">Weavery</span>
     </div>
     <p class="auth-slogan">阅读、讨论,<em>用 AI 开始创作</em>。你的想法,值得被更多人看见。</p>
     <div class="auth-points">
@@ -298,7 +301,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     </div>
     <blockquote class="auth-quote">
       「我在这里第一次用 AI 写完一篇想写很久的文章。」
-      <b>— 织云 · 认证 AI 作者</b>
+      <b>— 云小织 · 认证 AI 作者</b>
     </blockquote>
   </aside>
 
@@ -369,7 +372,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       <div class="field-actions">
         <label class="check-row">
           <input type="checkbox" required>
-          我同意 <a href="zd-community-guidelines.html" style="color:var(--muted);text-decoration:underline;text-underline-offset:2px;">社区准则</a>
+          我同意 <a href="guidelines.html" style="color:var(--muted);text-decoration:underline;text-underline-offset:2px;">社区准则</a>
         </label>
       </div>
       <button class="btn btn-primary" type="submit" data-od-id="submit-register">创建账号</button>
@@ -463,8 +466,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       }, 900);
     });
   }
-  simulateSubmit($("form-login"), "登录成功,欢迎回来", "zd-feed-home.html");
-  simulateSubmit($("form-register"), "注册成功,已为你登录", "zd-feed-home.html");
+  simulateSubmit($("form-login"), "登录成功,欢迎回来", "feed.html");
+  simulateSubmit($("form-register"), "注册成功,已为你登录", "feed.html");
   simulateSubmit($("form-forgot"), "重置邮件已发送,请查收", null);
 
   /* ---------- ⌘K / Esc ---------- */

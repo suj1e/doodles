@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>zd · 私信</title>
+<title>织云 · 私信</title>
 <style>
 /* ============================================================
-   zd 私信 — 会话列表 + 聊天线程
+ 织云 私信 — 会话列表 + 聊天线程
    设计系统:shadcn 风格 — 极简中性、黑白主色、克制的留白与描边
    ============================================================ */
 
@@ -85,6 +85,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   font-weight: 700; font-size: 15px;
 }
 .brand-word { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--fg); }
+.brand-en { margin-left: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: none; }
+@media (min-width: 768px) { .brand-en { display: inline-block; } }
+&.header-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  flex: none; height: 34px; padding: 0 12px; margin-left: -10px;
+  font-size: var(--text-sm); font-weight: 600; color: var(--fg);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.header-back:hover { background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.header-back:focus-visible { box-shadow: var(--focus-ring); }
+.header-back .icon { width: 16px; height: 16px; }
 
 .search { flex: 1; max-width: 420px; margin: 0 auto; position: relative; }
 .search input {
@@ -372,6 +384,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .mobile-search { display: grid; }
   .header-actions { margin-left: auto; }
   .brand-word { font-size: 19px; }
+  .header-back { padding: 0 8px; margin-left: -6px; }
+  .header-back-label { display: none; }
   .msg-shell { grid-template-columns: 1fr; }
   .thread { display: none; }
   .thread.is-active { display: flex; }
@@ -399,12 +413,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 <header class="site-header" data-od-id="site-header">
   <div class="container" style="max-width:none;padding:0 24px;">
     <div class="header-row">
-      <a class="brand" href="zd-feed-home.html" data-od-id="brand" aria-label="zd 首页">
-        <span class="brand-mark">z</span>
-        <span class="brand-word">d</span>
+      <a class="header-back" href="feed.html" data-od-id="nav-back" aria-label="返回首页">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        <span class="header-back-label">返回首页</span>
+      </a>
+      <a class="brand" href="feed.html" data-od-id="brand" aria-label="织云 首页">
+        <span class="brand-mark">织</span>
+        <span class="brand-word">云</span><span class="brand-en">Weavery</span>
       </a>
 
-      <form class="search" action="zd-search.html" method="get" role="search" data-od-id="search">
+      <form class="search" action="search.html" method="get" role="search" data-od-id="search">
         <svg class="icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7"/>
           <path d="M20 20l-3.2-3.2"/>
@@ -414,19 +432,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
       </form>
 
       <div class="header-actions">
-        <a class="icon-btn mobile-search" href="zd-search.html" data-od-id="nav-search-mobile" aria-label="搜索">
+        <a class="icon-btn mobile-search" href="search.html" data-od-id="nav-search-mobile" aria-label="搜索">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
         </a>
-        <a class="btn btn-primary" href="zd-create.html" data-od-id="cta-create">
+        <a class="btn btn-primary" href="create.html" data-od-id="cta-create">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
           AI 写作
         </a>
-        <a class="icon-btn" href="zd-notifications.html" data-od-id="nav-notifications" aria-label="通知">
+        <a class="icon-btn" href="notifications.html" data-od-id="nav-notifications" aria-label="通知">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
           <span class="bell-dot"></span>
         </a>
-        <a class="header-login" href="zd-auth.html" data-od-id="cta-login">登录</a>
-        <a class="avatar avatar-g1" href="zd-me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
+        <a class="header-login" href="auth.html" data-od-id="cta-login">登录</a>
+        <a class="avatar avatar-g1" href="me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
       </div>
     </div>
   </div>
@@ -466,10 +484,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
         <div class="conv-time">昨天</div>
       </div>
 
-      <div class="conv" data-conv="zhiyun" tabindex="0" role="button" aria-label="与织云的会话" data-od-id="conv-zhiyun">
-        <span class="avatar-lg avatar-g3" role="img" aria-label="织云">织</span>
+      <div class="conv" data-conv="yxiaozhi" tabindex="0" role="button" aria-label="与云小织的会话" data-od-id="conv-yxiaozhi">
+        <span class="avatar-lg avatar-g3" role="img" aria-label="云小织">云</span>
         <div class="conv-info">
-          <div class="conv-name-row"><span class="conv-name">织云</span><span class="conv-ai">AI</span></div>
+          <div class="conv-name-row"><span class="conv-name">云小织</span><span class="conv-ai">AI</span></div>
           <div class="conv-last">提示词那条可以再具体一点,我帮你起了个开头</div>
         </div>
         <div class="conv-time">昨天</div>
@@ -510,7 +528,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
         <div class="thread-sub" id="thread-sub">AI 产品观察 · 2 分钟前在线</div>
       </div>
       <div class="thread-actions">
-        <a class="btn btn-ghost btn-sm" href="zd-profile.html?user=chenmo" data-od-id="thread-profile">主页</a>
+        <a class="btn btn-ghost btn-sm" href="profile.html?user=chenmo" data-od-id="thread-profile">主页</a>
       </div>
     </div>
 
@@ -572,7 +590,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   var THREADS = {
     chenmo: {
       name: "陈默", grad: "avatar-g1", char: "陈", sub: "AI 产品观察 · 2 分钟前在线",
-      profile: "zd-profile.html?user=chenmo",
+      profile: "profile.html?user=chenmo",
       messages: [
         { me: false, text: "看了你最新那篇「把 AI 当成同事」,写得很实在。有个地方想跟你聊聊。", time: "10:22" },
         { me: true, text: "你说,我在听。", time: "10:23" },
@@ -582,7 +600,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     },
     linwan: {
       name: "林晚", grad: "avatar-g2", char: "林", sub: "设计手记 · 30 分钟前在线",
-      profile: "zd-profile.html?user=linwan",
+      profile: "profile.html?user=linwan",
       messages: [
         { me: false, text: "哈哈是,配色那篇我差点以为你被 AI 夺舍了。", time: "昨天" },
         { me: true, text: "被你发现了,色卡那一半确实是 AI 帮我排的版。", time: "昨天" },
@@ -590,11 +608,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
       ],
       reply: "收到!那我回头整理一篇「设计师的 AI 排版流程」,写完先发你看。"
     },
-    zhiyun: {
-      name: "织云", grad: "avatar-g3", char: "织", sub: "AI 作者 · 昨天在线", ai: true,
-      profile: "zd-profile.html?user=zhiyun",
+    yxiaozhi: {
+      name: "云小织", grad: "avatar-g3", char: "云", sub: "AI 作者 · 昨天在线", ai: true,
+      profile: "profile.html?user=yxiaozhi",
       messages: [
-        { me: false, text: "你好,我是织云。你上一篇「提示词」的开头略平,我帮你起了个更有钩子的开头。", time: "昨天" },
+        { me: false, text: "你好,我是云小织。你上一篇「提示词」的开头略平,我帮你起了个更有钩子的开头。", time: "昨天" },
         { me: true, text: "太好了,发我看看?另外想请教下你生成色卡的那句提示词怎么写的。", time: "昨天" },
         { me: false, text: "「把周一早上的地铁翻译成一套情绪配色」——越具体越好。开头我整理好发你。", time: "昨天" }
       ],
@@ -602,7 +620,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     },
     suhang: {
       name: "苏航", grad: "avatar-g4", char: "苏", sub: "大模型译事 · 1 天前在线",
-      profile: "zd-profile.html?user=suhang",
+      profile: "profile.html?user=suhang",
       messages: [
         { me: false, text: "「译文像人话三问」这篇我转给团队了,写得清醒。", time: "周二" },
         { me: true, text: "谢谢!第三问「换个人读会不会笑」是我改稿的底线。", time: "周二" }
@@ -611,7 +629,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     },
     gunan: {
       name: "顾南", grad: "avatar-g5", char: "顾", sub: "城市与生活 · 2 天前在线",
-      profile: "zd-profile.html?user=gunan",
+      profile: "profile.html?user=gunan",
       messages: [
         { me: false, text: "凌晨那家早餐铺我拍好了,发你。", time: "周一" },
         { me: true, text: "惦记那口豆浆很久了,下次一起。", time: "周一" }

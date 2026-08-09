@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>帮助中心 · zd</title>
+<title>帮助中心 · 织云</title>
 <style>
 /* ============================================================
-   zd 帮助中心 — FAQ 与联系入口
+ 织云 帮助中心 — FAQ 与联系入口
    设计系统:shadcn 风格 — 极简中性、黑白主色、克制的留白与描边
    ============================================================ */
 
@@ -112,8 +112,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   background: var(--accent); color: var(--accent-on);
   font-weight: 700; font-size: 15px;
 }
-.brand-word { font-size: 21px; font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); }
-
+.brand-word { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--fg); }
+.brand-en { margin-left: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: none; }
+@media (min-width: 768px) { .brand-en { display: inline-block; } }
 .search { flex: 1; max-width: 420px; margin: 0 auto; position: relative; }
 .search input {
   width: 100%; height: 38px; padding: 0 52px 0 38px;
@@ -450,12 +451,12 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
 <header class="site-header" data-od-id="site-header">
   <div class="container">
     <div class="header-row">
-      <a class="brand" href="zd-feed-home.html" data-od-id="brand" aria-label="zd 首页">
-        <span class="brand-mark">z</span>
-        <span class="brand-word">d</span>
+      <a class="brand" href="feed.html" data-od-id="brand" aria-label="织云 首页">
+        <span class="brand-mark">织</span>
+        <span class="brand-word">云</span><span class="brand-en">Weavery</span>
       </a>
 
-      <form class="search" action="zd-search.html" method="get" role="search" data-od-id="search">
+      <form class="search" action="search.html" method="get" role="search" data-od-id="search">
         <svg class="icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7"/>
           <path d="M20 20l-3.2-3.2"/>
@@ -465,10 +466,10 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
       </form>
 
       <div class="header-actions">
-        <a class="icon-btn mobile-search" href="zd-search.html" data-od-id="nav-search-mobile" aria-label="搜索">
+        <a class="icon-btn mobile-search" href="search.html" data-od-id="nav-search-mobile" aria-label="搜索">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
         </a>
-        <a class="btn btn-primary" href="zd-create.html" data-od-id="cta-create">
+        <a class="btn btn-primary" href="create.html" data-od-id="cta-create">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
           AI 写作
         </a>
@@ -487,7 +488,7 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                 <span class="notif-unread-dot" aria-hidden="true"></span>
                 <div class="notif-body">
-                  <p class="notif-text"><strong>织云</strong> 收藏了你的作品《从色块到情绪》</p>
+                  <p class="notif-text"><strong>云小织</strong> 收藏了你的作品《从色块到情绪》</p>
                   <span class="notif-time">2 分钟前</span>
                 </div>
               </div>
@@ -508,12 +509,12 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
               </div>
             </div>
             <div class="notif-foot">
-              <a href="zd-notifications.html" data-od-id="notif-view-all">查看全部通知 →</a>
+              <a href="notifications.html" data-od-id="notif-view-all">查看全部通知 →</a>
             </div>
           </div>
         </div>
-        <a class="header-login" href="zd-auth.html" data-od-id="cta-login">登录</a>
-        <a class="avatar avatar-g1" href="zd-me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
+        <a class="header-login" href="auth.html" data-od-id="cta-login">登录</a>
+        <a class="avatar avatar-g1" href="me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
       </div>
     </div>
   </div>
@@ -523,7 +524,7 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
 <main>
   <header class="help-head container" data-od-id="help-head">
     <h1>帮助中心</h1>
-    <p>从入门到进阶,找到使用 zd 的答案</p>
+    <p>从入门到进阶,找到使用 织云 的答案</p>
     <form class="help-search" role="search" data-od-id="help-search">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
       <input id="help-search-input" type="search" placeholder="搜索帮助主题…" aria-label="搜索帮助主题" autocomplete="off">
@@ -545,18 +546,18 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
       <!-- 快速上手 -->
       <section class="hsec is-active" id="hsec-begin" data-od-id="hsec-begin" aria-label="快速上手">
         <h2 class="hsec-title">快速上手</h2>
-        <p class="hsec-desc">第一次来 zd?从这些开始。</p>
+        <p class="hsec-desc">第一次来 织云?从这些开始。</p>
         <div class="faq-item" data-od-id="faq-begin-1">
-          <button class="faq-q" type="button" aria-expanded="false">zd 是什么?</button>
-          <div class="faq-a">zd 是一个 AI 时代的阅读与创作社区:左侧是精选的专栏与话题讨论,点击顶栏「AI 写作」即可打开写作工作台,用 AI 辅助完成一篇完整的文章。</div>
+          <button class="faq-q" type="button" aria-expanded="false">织云 是什么?</button>
+          <div class="faq-a">织云 是一个 AI 时代的阅读与创作社区:左侧是精选的专栏与话题讨论,点击顶栏「AI 写作」即可打开写作工作台,用 AI 辅助完成一篇完整的文章。</div>
         </div>
         <div class="faq-item" data-od-id="faq-begin-2">
           <button class="faq-q" type="button" aria-expanded="false">首页信息流是怎么排序的?</button>
-          <div class="faq-a">默认按你关注的人和话题聚合推荐;你也可以在<a class="inline" href="zd-settings.html">偏好设置</a>中把默认排序切换为「热门」或「最新」。</div>
+          <div class="faq-a">默认按你关注的人和话题聚合推荐;你也可以在<a class="inline" href="settings.html">偏好设置</a>中把默认排序切换为「热门」或「最新」。</div>
         </div>
         <div class="faq-item" data-od-id="faq-begin-3">
           <button class="faq-q" type="button" aria-expanded="false">怎么关注作者或话题?</button>
-          <div class="faq-a">打开<a class="inline" href="zd-profile.html">作者主页</a>点击「关注」,或在<a class="inline" href="zd-topic.html">话题页</a>点击「关注话题」。关注后相关内容会出现在你的首页信息流。</div>
+          <div class="faq-a">打开<a class="inline" href="profile.html">作者主页</a>点击「关注」,或在<a class="inline" href="topic.html">话题页</a>点击「关注话题」。关注后相关内容会出现在你的首页信息流。</div>
         </div>
         <div class="faq-item" data-od-id="faq-begin-4">
           <button class="faq-q" type="button" aria-expanded="false">如何快速搜索?</button>
@@ -574,11 +575,11 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
         </div>
         <div class="faq-item" data-od-id="faq-ai-2">
           <button class="faq-q" type="button" aria-expanded="false">可以用哪个模型?</button>
-          <div class="faq-a">工作台支持多模型切换,可在<a class="inline" href="zd-settings.html">偏好设置 → 个性化</a>中选择默认模型。AI 生成的内容发布时会被标注「基于 AI 生成」。</div>
+          <div class="faq-a">工作台支持多模型切换,可在<a class="inline" href="settings.html">偏好设置 → 个性化</a>中选择默认模型。AI 生成的内容发布时会被标注「基于 AI 生成」。</div>
         </div>
         <div class="faq-item" data-od-id="faq-ai-3">
           <button class="faq-q" type="button" aria-expanded="false">草稿会丢吗?</button>
-          <div class="faq-a">不会。写作过程默认自动保存,未发布的草稿会进入草稿箱,之后可以继续编辑。可在<a class="inline" href="zd-settings.html">偏好设置</a>中关闭自动保存。</div>
+          <div class="faq-a">不会。写作过程默认自动保存,未发布的草稿会进入草稿箱,之后可以继续编辑。可在<a class="inline" href="settings.html">偏好设置</a>中关闭自动保存。</div>
         </div>
       </section>
 
@@ -588,11 +589,11 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
         <p class="hsec-desc">关于讨论、话题与社区规则。</p>
         <div class="faq-item" data-od-id="faq-com-1">
           <button class="faq-q" type="button" aria-expanded="false">怎么在话题下发帖?</button>
-          <div class="faq-a">在<a class="inline" href="zd-topic.html">话题页</a>点击「发帖」,或在写作工作台完成文章后选择关联话题再发布。</div>
+          <div class="faq-a">在<a class="inline" href="topic.html">话题页</a>点击「发帖」,或在写作工作台完成文章后选择关联话题再发布。</div>
         </div>
         <div class="faq-item" data-od-id="faq-com-2">
           <button class="faq-q" type="button" aria-expanded="false">AI 生成的内容有什么要求?</button>
-          <div class="faq-a">根据<a class="inline" href="zd-community-guidelines.html">社区准则</a>,AI 生成内容必须标注「基于 AI 生成」并尽量注明模型;分享提示词时请附输入、输出与参数,便于他人复现。</div>
+          <div class="faq-a">根据<a class="inline" href="guidelines.html">社区准则</a>,AI 生成内容必须标注「基于 AI 生成」并尽量注明模型;分享提示词时请附输入、输出与参数,便于他人复现。</div>
         </div>
         <div class="faq-item" data-od-id="faq-com-3">
           <button class="faq-q" type="button" aria-expanded="false">如何举报违规内容?</button>
@@ -606,11 +607,11 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
         <p class="hsec-desc">管理你的账号、通知与数据。</p>
         <div class="faq-item" data-od-id="faq-acc-1">
           <button class="faq-q" type="button" aria-expanded="false">如何修改昵称或简介?</button>
-          <div class="faq-a">进入<a class="inline" href="zd-settings.html">偏好设置 → 账号</a>即可修改公开资料,改动会同步到你的主页。</div>
+          <div class="faq-a">进入<a class="inline" href="settings.html">偏好设置 → 账号</a>即可修改公开资料,改动会同步到你的主页。</div>
         </div>
         <div class="faq-item" data-od-id="faq-acc-2">
           <button class="faq-q" type="button" aria-expanded="false">如何关闭 AI 内容或调整通知?</button>
-          <div class="faq-a">在<a class="inline" href="zd-settings.html">偏好设置</a>中:「个性化」可过滤 AI 生成内容、调整排序;「通知偏好」可逐项开关评论、点赞、关注与邮件通知。</div>
+          <div class="faq-a">在<a class="inline" href="settings.html">偏好设置</a>中:「个性化」可过滤 AI 生成内容、调整排序;「通知偏好」可逐项开关评论、点赞、关注与邮件通知。</div>
         </div>
         <div class="faq-item" data-od-id="faq-acc-3">
           <button class="faq-q" type="button" aria-expanded="false">可以导出或删除我的数据吗?</button>
@@ -635,11 +636,11 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
           <div class="contact-info">
             <div class="contact-row">
               <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
-              <span>邮箱 <strong>support@zd.example</strong></span>
+              <span>邮箱 <strong>support@weavery.example</strong></span>
             </div>
             <div class="contact-row">
               <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span>联系 @zd 官方账号</span>
+              <span>联系 @织云 官方账号</span>
             </div>
           </div>
         </div>
@@ -651,13 +652,13 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
 <!-- ================= 页脚 ================= -->
 <footer class="site-footer" data-od-id="footer">
   <div class="container footer-inner">
-    <span class="footer-brand">zd</span>
+    <span class="footer-brand">织云 Weavery</span>
     <span>阅读、讨论,用 AI 开始创作</span>
     <nav class="footer-links" aria-label="页脚导航">
-      <a href="zd-search.html">搜索</a>
-      <a href="zd-notifications.html">通知</a>
-      <a href="zd-community-guidelines.html">社区准则</a>
-      <a href="zd-help.html">帮助中心</a>
+      <a href="search.html">搜索</a>
+      <a href="notifications.html">通知</a>
+      <a href="guidelines.html">社区准则</a>
+      <a href="help.html">帮助中心</a>
     </nav>
   </div>
 </footer>

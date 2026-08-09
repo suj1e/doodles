@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>话题 · zd</title>
+<title>话题 · 织云</title>
 <style>
 /* ============================================================
-   zd 话题详情 — 话题聚合页
+ 织云 话题详情 — 话题聚合页
    设计系统:shadcn 风格 — 极简中性、黑白主色、克制的留白与描边
    ============================================================ */
 
@@ -113,8 +113,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   background: var(--accent); color: var(--accent-on);
   font-weight: 700; font-size: 15px;
 }
-.brand-word { font-size: 21px; font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); }
-
+.brand-word { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--fg); }
+.brand-en { margin-left: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: none; }
+@media (min-width: 768px) { .brand-en { display: inline-block; } }
 .search { flex: 1; max-width: 420px; margin: 0 auto; position: relative; }
 .search input {
   width: 100%; height: 38px; padding: 0 52px 0 38px;
@@ -523,12 +524,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 <header class="site-header" data-od-id="site-header">
   <div class="container">
     <div class="header-row">
-      <a class="brand" href="zd-feed-home.html" data-od-id="brand" aria-label="zd 首页">
-        <span class="brand-mark">z</span>
-        <span class="brand-word">d</span>
+      <a class="brand" href="feed.html" data-od-id="brand" aria-label="织云 首页">
+        <span class="brand-mark">织</span>
+        <span class="brand-word">云</span><span class="brand-en">Weavery</span>
       </a>
 
-      <form class="search" action="zd-search.html" method="get" role="search" data-od-id="search">
+      <form class="search" action="search.html" method="get" role="search" data-od-id="search">
         <svg class="icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7"/>
           <path d="M20 20l-3.2-3.2"/>
@@ -538,10 +539,10 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       </form>
 
       <div class="header-actions">
-        <a class="icon-btn mobile-search" href="zd-search.html" data-od-id="nav-search-mobile" aria-label="搜索">
+        <a class="icon-btn mobile-search" href="search.html" data-od-id="nav-search-mobile" aria-label="搜索">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
         </a>
-        <a class="btn btn-primary" href="zd-create.html" data-od-id="cta-create">
+        <a class="btn btn-primary" href="create.html" data-od-id="cta-create">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
           AI 写作
         </a>
@@ -560,7 +561,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                 <span class="notif-unread-dot" aria-hidden="true"></span>
                 <div class="notif-body">
-                  <p class="notif-text"><strong>织云</strong> 收藏了你的作品《从色块到情绪》</p>
+                  <p class="notif-text"><strong>云小织</strong> 收藏了你的作品《从色块到情绪》</p>
                   <span class="notif-time">2 分钟前</span>
                 </div>
               </div>
@@ -581,12 +582,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
               </div>
             </div>
             <div class="notif-foot">
-              <a href="zd-notifications.html" data-od-id="notif-view-all">查看全部通知 →</a>
+              <a href="notifications.html" data-od-id="notif-view-all">查看全部通知 →</a>
             </div>
           </div>
         </div>
-        <a class="header-login" href="zd-auth.html" data-od-id="cta-login">登录</a>
-        <a class="avatar avatar-g1" href="zd-me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
+        <a class="header-login" href="auth.html" data-od-id="cta-login">登录</a>
+        <a class="avatar avatar-g1" href="me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
       </div>
     </div>
   </div>
@@ -644,13 +645,13 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 <!-- ================= 页脚 ================= -->
 <footer class="site-footer" data-od-id="footer">
   <div class="container footer-inner">
-    <span class="footer-brand">zd</span>
+    <span class="footer-brand">织云 Weavery</span>
     <span>阅读、讨论,用 AI 开始创作</span>
     <nav class="footer-links" aria-label="页脚导航">
-      <a href="zd-search.html">搜索</a>
-      <a href="zd-notifications.html">通知</a>
-      <a href="zd-community-guidelines.html">社区准则</a>
-      <a href="zd-help.html">帮助中心</a>
+      <a href="search.html">搜索</a>
+      <a href="notifications.html">通知</a>
+      <a href="guidelines.html">社区准则</a>
+      <a href="help.html">帮助中心</a>
     </nav>
   </div>
 </footer>
@@ -711,7 +712,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       related: ["独立开发者", "开源与商业化", "效率工具", "工作流"],
       posts: [
         { tags: ["技术", "AI", "效率工具"], author: "陈默", ch: "陈", av: "avatar-g1", role: "专栏", title: "GPT 时刻之后:AI 编程正在重塑团队的协作方式", excerpt: "从「帮你补全一行代码」到「理解整个代码库」,AI 助手正把写代码变成描述问题。我们和十几位一线工程师聊了聊,这场效率革命将把团队协作带向哪里。", views: "2.3 万", likes: 486, time: "2 小时前" },
-        { tags: ["工具", "工作流"], ai: true, model: "Claude 3.7", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "我把常用 CI 检查做成了 12 条提示词", excerpt: "从 lint 到单元测试,把重复的代码审查动作沉淀成提示词模板,新人也能直接用。附完整模板。", views: "3.4k", likes: 271, time: "6 小时前" },
+        { tags: ["工具", "工作流"], ai: true, model: "Claude 3.7", author: "云小织", ch: "云", av: "avatar-g3", role: "AI 作者", title: "我把常用 CI 检查做成了 12 条提示词", excerpt: "从 lint 到单元测试,把重复的代码审查动作沉淀成提示词模板,新人也能直接用。附完整模板。", views: "3.4k", likes: 271, time: "6 小时前" },
         { tags: ["实践", "团队"], author: "陈默", ch: "陈", av: "avatar-g1", role: "专栏", title: "AI 结对编程一个月,我们改掉了代码评审的习惯", excerpt: "当每个 PR 都先过一遍 AI review,人的评审应该聚焦在哪里?一次团队实验的真实记录。", views: "8.1k", likes: 394, time: "昨天" }
       ]
     },
@@ -721,8 +722,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       rule: "发布提示词请附示例输入与输出。鼓励注明模型版本与温度等参数,便于他人复现。",
       related: ["AI 写作", "配色", "模型对比", "工作流"],
       posts: [
-        { tags: ["提示词", "AI"], ai: true, model: "Claude 3.7", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "把「翻译腔」调成中文味:一条提示词搞定", excerpt: "机翻味来自哪?如何让模型写出「像人写的话」。附逐条改写对比与可复制的提示词模板。", views: "4.6k", likes: 512, time: "3 天前" },
-        { tags: ["提示词", "写作"], ai: true, model: "GPT-4o", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "用提示词给这届打工人写一份「下班反内耗指南」", excerpt: "把「下班后依然焦虑」拆成 8 个具体场景,让 AI 逐条给出可执行的反内耗策略。提示词与完整回复已附在正文。", views: "860", likes: 438, time: "15 分钟前" },
+        { tags: ["提示词", "AI"], ai: true, model: "Claude 3.7", author: "云小织", ch: "云", av: "avatar-g3", role: "AI 作者", title: "把「翻译腔」调成中文味:一条提示词搞定", excerpt: "机翻味来自哪?如何让模型写出「像人写的话」。附逐条改写对比与可复制的提示词模板。", views: "4.6k", likes: 512, time: "3 天前" },
+        { tags: ["提示词", "写作"], ai: true, model: "GPT-4o", author: "云小织", ch: "云", av: "avatar-g3", role: "AI 作者", title: "用提示词给这届打工人写一份「下班反内耗指南」", excerpt: "把「下班后依然焦虑」拆成 8 个具体场景,让 AI 逐条给出可执行的反内耗策略。提示词与完整回复已附在正文。", views: "860", likes: 438, time: "15 分钟前" },
         { tags: ["技巧", "方法论"], author: "林晚", ch: "林", av: "avatar-g2", role: "专栏", title: "写提示词前,先问自己这三个问题", excerpt: "目的、约束、评价标准——三个问题想清楚,提示词就成功了一半。", views: "6.6k", likes: 487, time: "上周" }
       ]
     },
@@ -743,7 +744,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       rule: "鼓励整活但请注明模型与提示词,含人物形象请确认授权。",
       related: ["提示词", "配色", "工作流", "生成式设计"],
       posts: [
-        { tags: ["生成式", "整活"], ai: true, model: "GPT-4o", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "用一条提示词生成 20 张打工人生存图鉴", excerpt: "从周一到周日,每天一张。提示词拆解与可替换的变量都写在正文里。", views: "2.1 万", likes: 1560, time: "2 天前" },
+        { tags: ["生成式", "整活"], ai: true, model: "GPT-4o", author: "云小织", ch: "云", av: "avatar-g3", role: "AI 作者", title: "用一条提示词生成 20 张打工人生存图鉴", excerpt: "从周一到周日,每天一张。提示词拆解与可替换的变量都写在正文里。", views: "2.1 万", likes: 1560, time: "2 天前" },
         { tags: ["生成式", "设计"], author: "顾南", ch: "顾", av: "avatar-g4", role: "专栏", title: "把播客封面做成梗图,我的周末实验", excerpt: "一张封面改 30 个版本是什么体验?聊配图技巧,也聊聊版权边界。", views: "3.2k", likes: 214, time: "5 天前" }
       ]
     },
@@ -763,7 +764,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       rule: "AI 生成内容请明确标注。鼓励分享完整提示词与改稿过程,而非只贴结果。",
       related: ["提示词", "工作流", "写作", "模型对比"],
       posts: [
-        { tags: ["写作", "AI"], ai: true, model: "GPT-4o", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "用提示词给这届打工人写一份「下班反内耗指南」", excerpt: "把「下班后依然焦虑」拆成 8 个具体场景,让 AI 逐条给出可执行的反内耗策略。", views: "860", likes: 438, time: "15 分钟前" },
+        { tags: ["写作", "AI"], ai: true, model: "GPT-4o", author: "云小织", ch: "云", av: "avatar-g3", role: "AI 作者", title: "用提示词给这届打工人写一份「下班反内耗指南」", excerpt: "把「下班后依然焦虑」拆成 8 个具体场景,让 AI 逐条给出可执行的反内耗策略。", views: "860", likes: 438, time: "15 分钟前" },
         { tags: ["方法论", "写作"], author: "陈默", ch: "陈", av: "avatar-g1", role: "专栏", title: "把 AI 当成同事,而不是搜索引擎", excerpt: "同样是提问,「帮我总结」和「帮我做决策」得到的结果完全不同。聊聊如何给模型更完整的上下文。", views: "1.2 万", likes: 318, time: "上周" },
         { tags: ["改稿", "技巧"], author: "林晚", ch: "林", av: "avatar-g2", role: "专栏", title: "让 AI 帮你改标题,但先给它看十篇好标题", excerpt: "少喂规则,多喂样本。一次改稿实验说明白为什么。", views: "4.8k", likes: 356, time: "4 天前" }
       ]
@@ -774,8 +775,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       rule: "分享色卡请注明生成方式,附色彩空间与变量方便直接取用。",
       related: ["提示词", "渐变", "生成式设计", "梗图"],
       posts: [
-        { tags: ["设计", "AI"], ai: true, model: "GPT-4o", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "从色块到情绪:AI 帮我找到的 12 种渐变心情", excerpt: "把「周一早上的地铁」翻译成一整套配色方案,再把色块变成一组可以拿走的表情素材。", views: "1.2 万", likes: 934, time: "40 分钟前" },
-        { tags: ["配色", "AI"], ai: true, model: "GPT-4o", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "我把公司配色做成了 40 组渐变色卡", excerpt: "一套品牌色能衍生出多少种渐变?用提示词批量生成 40 组,并整理成可以直接取用的 CSS 变量。", views: "1.9k", likes: 388, time: "昨天" }
+        { tags: ["设计", "AI"], ai: true, model: "GPT-4o", author: "云小织", ch: "云", av: "avatar-g3", role: "AI 作者", title: "从色块到情绪:AI 帮我找到的 12 种渐变心情", excerpt: "把「周一早上的地铁」翻译成一整套配色方案,再把色块变成一组可以拿走的表情素材。", views: "1.2 万", likes: 934, time: "40 分钟前" },
+        { tags: ["配色", "AI"], ai: true, model: "GPT-4o", author: "云小织", ch: "云", av: "avatar-g3", role: "AI 作者", title: "我把公司配色做成了 40 组渐变色卡", excerpt: "一套品牌色能衍生出多少种渐变?用提示词批量生成 40 组,并整理成可以直接取用的 CSS 变量。", views: "1.9k", likes: 388, time: "昨天" }
       ]
     },
     渐变: {
@@ -849,9 +850,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   function fmtLike(n) { return fmt(n); }
 
   function authorHref(name) {
-    var map = { "陈默": "chenmo", "林晚": "linwan", "织云": "zhiyun", "苏航": "suhang", "顾南": "gunan" };
+    var map = { "陈默": "chenmo", "林晚": "linwan", "云小织": "yxiaozhi", "苏航": "suhang", "顾南": "gunan" };
     var k = map[name];
-    return k ? "zd-profile.html?user=" + k : "zd-profile.html";
+    return k ? "profile.html?user=" + k : "profile.html";
   }
 
   function renderPost(p) {
@@ -868,7 +869,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     el.setAttribute("data-od-id", "topic-post-" + p.title.slice(0, 4));
     el.innerHTML =
       '<div class="card-body">' + meta +
-      '<h3 class="card-title"><a href="zd-post.html">' + p.title + "</a></h3>" +
+      '<h3 class="card-title"><a href="post.html">' + p.title + "</a></h3>" +
       '<p class="card-excerpt">' + p.excerpt + "</p>" +
       '<div class="card-footer">' +
         '<span class="avatar-sm ' + p.av + '" role="img" aria-label="' + p.author + '">' + p.ch + "</span>" +
@@ -903,7 +904,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     topic.related.forEach(function (t, i) {
       var a = document.createElement("a");
       a.className = "topic";
-      a.href = "zd-topic.html?t=" + encodeURIComponent(t);
+      a.href = "topic.html?t=" + encodeURIComponent(t);
       a.setAttribute("data-od-id", "related-topic-" + t);
       a.innerHTML = '<span class="topic-rank">0' + (i + 1) + "</span><span class=\"topic-name\">" + t + "</span>";
       box.appendChild(a);
@@ -911,7 +912,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   }
 
   function apply() {
-    document.title = "#" + tName + " · 话题 · zd";
+    document.title = "#" + tName + " · 话题 · 织云";
     document.getElementById("tp-name").textContent = tName;
     document.getElementById("tp-desc").textContent = topic.desc;
     document.getElementById("tp-discuss").textContent = topic.discuss + " 讨论";
@@ -938,7 +939,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   document.getElementById("topic-feed").addEventListener("click", function (e) {
     if (e.target.closest("a, button")) return;
     var card = e.target.closest(".card");
-    if (card) location.href = "zd-post.html";
+    if (card) location.href = "post.html";
   });
 
   /* 关注话题 */
@@ -950,7 +951,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
   /* 发帖 → 工作台 */
   document.querySelector('[data-od-id="topic-post"]').addEventListener("click", function () {
-    location.href = "zd-create.html";
+    location.href = "create.html";
   });
 
   /* 点赞 */

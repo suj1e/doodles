@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>作者主页 · zd</title>
+<title>作者主页 · 织云</title>
 <style>
 /* ============================================================
-   zd 他人主页 — 社区作者 profile
+ 织云 他人主页 — 社区作者 profile
    设计系统:shadcn 风格 — 极简中性、黑白主色、克制的留白与描边
    ============================================================ */
 
@@ -113,8 +113,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   background: var(--accent); color: var(--accent-on);
   font-weight: 700; font-size: 15px;
 }
-.brand-word { font-size: 21px; font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); }
-
+.brand-word { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--fg); }
+.brand-en { margin-left: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: none; }
+@media (min-width: 768px) { .brand-en { display: inline-block; } }
 .search { flex: 1; max-width: 420px; margin: 0 auto; position: relative; }
 .search input {
   width: 100%; height: 38px; padding: 0 52px 0 38px;
@@ -568,12 +569,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 <header class="site-header" data-od-id="site-header">
   <div class="container">
     <div class="header-row">
-      <a class="brand" href="zd-feed-home.html" data-od-id="brand" aria-label="zd 首页">
-        <span class="brand-mark">z</span>
-        <span class="brand-word">d</span>
+      <a class="brand" href="feed.html" data-od-id="brand" aria-label="织云 首页">
+        <span class="brand-mark">织</span>
+        <span class="brand-word">云</span><span class="brand-en">Weavery</span>
       </a>
 
-      <form class="search" action="zd-search.html" method="get" role="search" data-od-id="search">
+      <form class="search" action="search.html" method="get" role="search" data-od-id="search">
         <svg class="icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7"/>
           <path d="M20 20l-3.2-3.2"/>
@@ -583,10 +584,10 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       </form>
 
       <div class="header-actions">
-        <a class="icon-btn mobile-search" href="zd-search.html" data-od-id="nav-search-mobile" aria-label="搜索">
+        <a class="icon-btn mobile-search" href="search.html" data-od-id="nav-search-mobile" aria-label="搜索">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
         </a>
-        <a class="btn btn-primary" href="zd-create.html" data-od-id="cta-create">
+        <a class="btn btn-primary" href="create.html" data-od-id="cta-create">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
           AI 写作
         </a>
@@ -605,7 +606,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                 <span class="notif-unread-dot" aria-hidden="true"></span>
                 <div class="notif-body">
-                  <p class="notif-text"><strong>织云</strong> 收藏了你的作品《从色块到情绪》</p>
+                  <p class="notif-text"><strong>云小织</strong> 收藏了你的作品《从色块到情绪》</p>
                   <span class="notif-time">2 分钟前</span>
                 </div>
               </div>
@@ -626,12 +627,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
               </div>
             </div>
             <div class="notif-foot">
-              <a href="zd-notifications.html" data-od-id="notif-view-all">查看全部通知 →</a>
+              <a href="notifications.html" data-od-id="notif-view-all">查看全部通知 →</a>
             </div>
           </div>
         </div>
-        <a class="header-login" href="zd-auth.html" data-od-id="cta-login">登录</a>
-        <a class="avatar avatar-g1" href="zd-me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
+        <a class="header-login" href="auth.html" data-od-id="cta-login">登录</a>
+        <a class="avatar avatar-g1" href="me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
       </div>
     </div>
   </div>
@@ -665,7 +666,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   </section>
 
   <section class="stats-bar" id="pf-stats" data-od-id="profile-stats" aria-label="数据概览">
-    <a class="stat-cell" href="zd-profile.html#pane-works" data-od-id="stat-posts">
+    <a class="stat-cell" href="profile.html#pane-works" data-od-id="stat-posts">
       <div class="stat-num" id="st-posts">68</div>
       <div class="stat-label">作品</div>
     </a>
@@ -690,7 +691,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       </span>
       <div class="ai-card-titles">
         <h2 class="ai-card-title">AI 评价</h2>
-        <p class="ai-card-sub">由 zd 社区模型生成 · 基于公开作品与互动数据</p>
+        <p class="ai-card-sub">由 织云 社区模型生成 · 基于公开作品与互动数据</p>
       </div>
       <button class="ai-regen" id="ai-regen" type="button" data-od-id="ai-review-regenerate">
         <svg class="icon ai-regen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
@@ -742,13 +743,13 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 <!-- ================= 页脚 ================= -->
 <footer class="site-footer" data-od-id="footer">
   <div class="container footer-inner">
-    <span class="footer-brand">zd</span>
+    <span class="footer-brand">织云 Weavery</span>
     <span>阅读、讨论,用 AI 开始创作</span>
     <nav class="footer-links" aria-label="页脚导航">
-      <a href="zd-search.html">搜索</a>
-      <a href="zd-notifications.html">通知</a>
-      <a href="zd-community-guidelines.html">社区准则</a>
-      <a href="zd-help.html">帮助中心</a>
+      <a href="search.html">搜索</a>
+      <a href="notifications.html">通知</a>
+      <a href="guidelines.html">社区准则</a>
+      <a href="help.html">帮助中心</a>
     </nav>
   </div>
 </footer>
@@ -798,8 +799,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
         { tags: ["设计师", "工具"], ai: false, title: "和 AI 结对做设计:我的半年实验报告", excerpt: "提示词、参考图、迭代评审——AI 进入设计流程后,我的产出结构发生了什么变化。", views: "6.8k", likes: "402", time: "上月" }
       ]
     },
-    zhiyun: {
-      name: "织云", char: "织", avatar: "avatar-g3", badge: "AI 作者",
+    yxiaozhi: {
+      name: "云小织", char: "云", avatar: "avatar-g3", badge: "AI 作者",
       loc: "云端", joined: "加入 8 个月", editor: "AI 生成内容",
       bio: "生成式设计观察者,专注配色、提示词与 AI 创作工具的实验记录。",
       about: "由社区 AI 创作能力驱动的作者账号。每一篇都附完整提示词与参数,目标是让生成过程可复制、可学习。内容由人类策展人审校后发布。",
@@ -888,7 +889,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
       art.innerHTML =
         meta +
-        '<h3 class="post-title"><a href="zd-post.html">' + w.title + "</a></h3>" +
+        '<h3 class="post-title"><a href="post.html">' + w.title + "</a></h3>" +
         '<p class="post-excerpt">' + w.excerpt + "</p>" +
         '<div class="post-foot">' +
           '<span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>' + w.views + "</span>" +
@@ -908,14 +909,14 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     user.topics.forEach(function (t) {
       var a = document.createElement("a");
       a.className = "tag";
-      a.href = "zd-topic.html?t=" + encodeURIComponent(t);
+      a.href = "topic.html?t=" + encodeURIComponent(t);
       a.textContent = t;
       box.appendChild(a);
     });
   }
 
   function apply() {
-    document.title = user.name + " · 作者主页 · zd";
+    document.title = user.name + " · 作者主页 · 织云";
     var av = document.getElementById("pf-avatar");
     av.textContent = user.char;
     av.className = "profile-avatar " + user.avatar;
@@ -973,7 +974,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     var inner = document.getElementById("ai-text-inner");
 
     btn.classList.add("is-busy");
-    document.getElementById("ai-ver").textContent = "zd-review-" + ("0" + (aiIdx + 1));
+    document.getElementById("ai-ver").textContent = "weavery-review-" + ("0" + (aiIdx + 1));
     document.getElementById("ai-score").textContent = r.score;
     renderAiDims(r.dims);
     document.getElementById("ai-loading-text").textContent =

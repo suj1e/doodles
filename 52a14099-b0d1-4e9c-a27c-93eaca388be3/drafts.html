@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>社区准则 · zd</title>
+<title>织云 · 草稿箱</title>
 <style>
 /* ============================================================
-   zd 社区准则 — 静态文档页
+ 织云 草稿箱 — 写一半的内容管理
    设计系统:shadcn 风格 — 极简中性、黑白主色、克制的留白与描边
    ============================================================ */
 
@@ -18,13 +18,9 @@ html { -webkit-text-size-adjust: 100%; }
 :root {
   --bg: #ffffff;
   --surface: #ffffff;
-  --surface-warm: var(--surface);
   --fg: #111827;
-  --fg-2: var(--fg);
   --muted: #64748b;
-  --meta: var(--muted);
   --border: #e5e7eb;
-  --border-soft: var(--border);
   --accent: #000000;
   --accent-on: #ffffff;
   --accent-hover: color-mix(in oklab, var(--accent), white 10%);
@@ -44,18 +40,9 @@ html { -webkit-text-size-adjust: 100%; }
   --leading-body: 1.5;
   --leading-tight: 1.2;
   --tracking-display: -0.02em;
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
-  --radius-pill: 9999px;
   --elev-flat: none;
   --elev-ring: 0 0 0 1px var(--border);
   --elev-raised:
@@ -67,11 +54,9 @@ html { -webkit-text-size-adjust: 100%; }
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --container-max: 1280px;
   --container-gutter-desktop: 24px;
-  --container-gutter-tablet: 16px;
   --container-gutter-phone: 16px;
 }
 
-/* ---------- 基础 ---------- */
 body {
   font-family: var(--font-body);
   background: var(--bg);
@@ -111,8 +96,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   background: var(--accent); color: var(--accent-on);
   font-weight: 700; font-size: 15px;
 }
-.brand-word { font-size: 21px; font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); }
-
+.brand-word { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--fg); }
+.brand-en { margin-left: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: none; }
+@media (min-width: 768px) { .brand-en { display: inline-block; } }
 .search { flex: 1; max-width: 420px; margin: 0 auto; position: relative; }
 .search input {
   width: 100%; height: 38px; padding: 0 52px 0 38px;
@@ -149,6 +135,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .btn-primary:hover { background: var(--accent-hover); }
 .btn-primary:active { background: var(--accent-active); }
 .btn-primary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.btn-ghost { color: var(--fg); border: 1px solid var(--border); background: var(--surface); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: color-mix(in oklab, var(--accent) 5%, var(--surface)); }
+.btn-sm { height: 32px; padding: 0 12px; font-size: var(--text-sm); }
 
 .avatar {
   width: 32px; height: 32px; border-radius: 50%;
@@ -238,7 +227,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   padding: 11px 16px;
   position: relative;
 }
-.notif-item + .notif-item { border-top: 1px solid var(--border-soft); }
+.notif-item + .notif-item { border-top: 1px solid var(--border); }
 .notif-item.is-unread { background: color-mix(in oklab, var(--border) 26%, var(--surface)); }
 .notif-item:hover { background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
 .notif-item .icon { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--muted); }
@@ -246,13 +235,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .notif-body { min-width: 0; }
 .notif-text { font-size: var(--text-sm); line-height: var(--leading-body); color: var(--fg); }
 .notif-text strong { font-weight: 600; }
-.notif-text em { font-style: normal; color: var(--muted); }
 .notif-time { display: block; margin-top: 3px; font-size: var(--text-xs); color: var(--muted); }
-.notif-unread-dot {
-  position: absolute; left: 8px; top: 16px;
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--accent);
-}
 .notif-foot {
   padding: 10px 16px 14px;
   border-top: 1px solid var(--border);
@@ -266,104 +249,102 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .notif-foot a:hover { background: color-mix(in oklab, var(--border) 50%, var(--surface)); }
 .notif-foot a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-
 .avatar-g1 { background: linear-gradient(135deg, oklch(46% 0.01 250), oklch(35% 0.01 250)); }
 .avatar-g2 { background: linear-gradient(135deg, oklch(55% 0.01 250), oklch(43% 0.01 250)); }
 .avatar-g3 { background: linear-gradient(135deg, oklch(40% 0.01 250), oklch(29% 0.01 250)); }
 .avatar-g4 { background: linear-gradient(135deg, oklch(62% 0.01 250), oklch(50% 0.01 250)); }
 
-/* ---------- 文档头 ---------- */
-.doc-head { padding: 44px 0 28px; border-bottom: 1px solid var(--border); }
-.doc-kicker {
-  font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 600;
-  color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase;
+/* 轻提示 */
+.toast {
+  position: fixed; left: 50%; bottom: 28px;
+  transform: translate(-50%, 20px);
+  opacity: 0; pointer-events: none;
+  background: var(--fg); color: var(--bg);
+  font-size: var(--text-sm); font-weight: 600;
+  padding: 10px 18px; border-radius: var(--radius-md);
+  box-shadow: var(--elev-raised);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
+  z-index: 100;
 }
-.doc-head h1 {
-  margin-top: 10px;
-  font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 800;
-  letter-spacing: var(--tracking-display); line-height: 1.25; color: var(--fg);
-}
-.doc-head p { margin-top: 14px; font-size: var(--text-base); line-height: 1.7; color: var(--muted); max-width: 52em; }
-.doc-meta { margin-top: 14px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: var(--text-sm); color: var(--muted); }
-.doc-meta .sep { width: 1px; height: 12px; background: var(--border); }
+.toast.is-show { opacity: 1; transform: translate(-50%, 0); }
 
-/* ---------- 文档正文 ---------- */
-.doc-layout {
+/* ---------- 页头 ---------- */
+.page-head { padding: 40px 0 24px; border-bottom: 1px solid var(--border); }
+.page-title { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); }
+.page-sub { margin-top: 8px; font-size: var(--text-sm); color: var(--muted); max-width: 44em; line-height: 1.6; }
+.page-actions { margin-top: 20px; display: flex; gap: 10px; }
+
+/* ---------- 统计条 ---------- */
+.stats-bar {
   display: grid;
-  grid-template-columns: minmax(0, 720px) minmax(0, 300px);
-  justify-content: center;
-  gap: 56px;
-  align-items: start;
-  padding: 36px 0 80px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid var(--border);
 }
-.doc-body { min-width: 0; }
-.doc-body h2 {
-  font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em;
-  color: var(--fg); margin: 34px 0 10px;
-  padding-top: 4px;
+.stat-cell {
+  padding: 18px 8px 20px;
+  text-align: center;
+  border-right: 1px solid var(--border);
 }
-.doc-body h2:first-child { margin-top: 0; }
-.doc-body h3 { font-size: var(--text-base); font-weight: 600; color: var(--fg); margin: 24px 0 8px; }
-.doc-body p { font-size: var(--text-base); line-height: 1.75; color: var(--fg); margin-bottom: 12px; }
-.doc-body ul, .doc-body ol { margin: 0 0 16px; padding-left: 22px; }
-.doc-body li { font-size: var(--text-base); line-height: 1.75; color: var(--fg); margin-bottom: 6px; }
-.doc-body li::marker { color: var(--muted); }
-.doc-body strong { font-weight: 600; }
-.doc-body a.inline { color: var(--accent); font-weight: 500; border-bottom: 1px solid var(--border); transition: border-color var(--motion-fast) var(--ease-standard); }
-.doc-body a.inline:hover { border-color: var(--accent); }
-.doc-body code {
-  font-family: var(--font-mono); font-size: 13px;
-  background: color-mix(in oklab, var(--border) 35%, var(--surface));
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  padding: 1px 6px;
-}
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; letter-spacing: -0.01em; color: var(--fg); font-variant-numeric: tabular-nums; }
+.stat-label { margin-top: 2px; font-size: var(--text-xs); color: var(--muted); }
 
-.rule-card {
-  display: flex; gap: 14px; align-items: flex-start;
-  padding: 16px 18px;
-  border: 1px solid var(--border); border-radius: var(--radius-lg);
+/* ---------- 草稿列表 ---------- */
+.draft-section { padding: 28px 0 72px; max-width: 860px; }
+.section-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.section-row h2 { font-size: var(--text-base); font-weight: 700; color: var(--fg); }
+.filter {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 5px 10px; border: 1px solid var(--border); border-radius: var(--radius-md);
+  font-size: var(--text-xs); color: var(--muted);
+}
+.filter .icon { width: 13px; height: 13px; }
+
+.draft-row {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 18px;
   margin-bottom: 12px;
-  transition: border-color var(--motion-base) var(--ease-standard);
+  transition: border-color var(--motion-base) var(--ease-standard), box-shadow var(--motion-base) var(--ease-standard);
 }
-.rule-card:hover { border-color: color-mix(in oklab, var(--fg) 25%, var(--border)); }
-.rule-num {
-  flex: none;
-  width: 26px; height: 26px; border-radius: 50%;
+.draft-row:hover { border-color: color-mix(in oklab, var(--fg) 20%, var(--surface)); box-shadow: var(--elev-raised); }
+.draft-ic {
+  flex: none; width: 42px; height: 42px; border-radius: var(--radius-md);
   display: grid; place-items: center;
-  font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700;
-  color: var(--accent-on); background: var(--accent);
+  background: color-mix(in oklab, var(--border) 55%, var(--surface));
+  border: 1px solid var(--border); color: var(--muted);
 }
-.rule-card h3 { font-size: var(--text-sm); font-weight: 600; color: var(--fg); margin: 2px 0 4px; }
-.rule-card p { font-size: var(--text-sm); line-height: 1.65; color: var(--muted); margin: 0; }
+.draft-body { min-width: 0; flex: 1; }
+.draft-title { font-size: var(--text-base); font-weight: 700; color: var(--fg); line-height: 1.4; transition: color var(--motion-fast) var(--ease-standard); }
+a.draft-title:hover { color: var(--accent); }
+.draft-title.is-untitled { color: var(--muted); font-weight: 600; }
+.draft-meta { margin-top: 5px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: var(--text-xs); color: var(--muted); font-variant-numeric: tabular-nums; }
+.draft-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border); }
+.status-draft { color: var(--warn); font-weight: 600; }
+.tag {
+  font-size: 11px; font-weight: 600; color: var(--fg);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 1px 7px; background: var(--surface);
+}
+.ai-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; color: var(--accent-on);
+  background: var(--accent); border-radius: var(--radius-sm); padding: 1px 7px;
+}
+.ai-chip .icon { width: 11px; height: 11px; }
+.draft-actions { flex: none; display: flex; gap: 8px; }
 
-/* ---------- 侧边栏 ---------- */
-.doc-side {
-  position: sticky; top: 128px;
-  display: flex; flex-direction: column; gap: 16px;
+.empty-note { padding: 56px 0; text-align: center; }
+.empty-note .empty-ic {
+  width: 56px; height: 56px; margin: 0 auto 16px;
+  border-radius: var(--radius-lg);
+  display: grid; place-items: center;
+  background: color-mix(in oklab, var(--border) 45%, var(--surface));
+  border: 1px solid var(--border); color: var(--muted);
 }
-.toc {
-  background: var(--surface);
-  border: 1px solid var(--border); border-radius: var(--radius-lg);
-  padding: 16px 18px;
-}
-.toc-title { font-size: var(--text-xs); font-weight: 700; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
-.toc a {
-  display: block;
-  padding: 6px 8px;
-  border-radius: var(--radius-sm);
-  font-size: var(--text-sm); color: var(--muted);
-  transition: color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
-}
-.toc a:hover { color: var(--fg); background: color-mix(in oklab, var(--border) 30%, var(--surface)); }
-.toc a:focus-visible { box-shadow: var(--focus-ring); }
-
-.doc-callout {
-  background: var(--surface);
-  border: 1px solid var(--border); border-radius: var(--radius-lg);
-  padding: 16px 18px;
-  font-size: var(--text-sm); line-height: 1.7; color: var(--muted);
-}
-.doc-callout strong { color: var(--fg); font-weight: 600; }
+.empty-note .empty-ic .icon { width: 24px; height: 24px; }
+.empty-note p { font-size: var(--text-base); font-weight: 600; color: var(--fg); }
+.empty-note span { display: block; margin-top: 6px; font-size: var(--text-sm); color: var(--muted); }
 
 /* ---------- 页脚 ---------- */
 .site-footer { border-top: 1px solid var(--border); background: var(--bg); }
@@ -377,10 +358,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .footer-links a:hover { color: var(--fg); }
 
 /* ---------- 响应式 ---------- */
-@media (max-width: 1020px) {
-  .doc-layout { grid-template-columns: minmax(0, 720px); }
-  .doc-side { display: none; }
-}
 @media (max-width: 760px) {
   .container { padding: 0 var(--container-gutter-phone); }
   .notif-pop { position: fixed; top: 66px; right: 12px; width: min(344px, calc(100vw - 24px)); }
@@ -388,9 +365,11 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .mobile-search { display: grid; }
   .header-actions { margin-left: auto; }
   .brand-word { font-size: 19px; }
-  .doc-head { padding: 30px 0 20px; }
-  .doc-head h1 { font-size: 28px; }
-  .doc-layout { padding: 24px 0 48px; }
+  .page-head { padding: 28px 0 20px; }
+  .stats-bar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .draft-row { flex-wrap: wrap; }
+  .draft-actions { width: 100%; }
+  .draft-actions .btn { flex: 1; }
   .footer-links { display: none; }
 }
 </style>
@@ -401,12 +380,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 <header class="site-header" data-od-id="site-header">
   <div class="container">
     <div class="header-row">
-      <a class="brand" href="zd-feed-home.html" data-od-id="brand" aria-label="zd 首页">
-        <span class="brand-mark">z</span>
-        <span class="brand-word">d</span>
+      <a class="brand" href="feed.html" data-od-id="brand" aria-label="织云 首页">
+        <span class="brand-mark">织</span>
+        <span class="brand-word">云</span><span class="brand-en">Weavery</span>
       </a>
 
-      <form class="search" action="zd-search.html" method="get" role="search" data-od-id="search">
+      <form class="search" action="search.html" method="get" role="search" data-od-id="search">
         <svg class="icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7"/>
           <path d="M20 20l-3.2-3.2"/>
@@ -416,10 +395,10 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       </form>
 
       <div class="header-actions">
-        <a class="icon-btn mobile-search" href="zd-search.html" data-od-id="nav-search-mobile" aria-label="搜索">
+        <a class="icon-btn mobile-search" href="search.html" data-od-id="nav-search-mobile" aria-label="搜索">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
         </a>
-        <a class="btn btn-primary" href="zd-create.html" data-od-id="cta-create">
+        <a class="btn btn-primary" href="create.html" data-od-id="cta-create">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
           AI 写作
         </a>
@@ -438,7 +417,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                 <span class="notif-unread-dot" aria-hidden="true"></span>
                 <div class="notif-body">
-                  <p class="notif-text"><strong>织云</strong> 收藏了你的作品《从色块到情绪》</p>
+                  <p class="notif-text"><strong>云小织</strong> 收藏了你的作品《从色块到情绪》</p>
                   <span class="notif-time">2 分钟前</span>
                 </div>
               </div>
@@ -459,111 +438,184 @@ a:focus-visible, button:focus-visible, input:focus-visible {
               </div>
             </div>
             <div class="notif-foot">
-              <a href="zd-notifications.html" data-od-id="notif-view-all">查看全部通知 →</a>
+              <a href="notifications.html" data-od-id="notif-view-all">查看全部通知 →</a>
             </div>
           </div>
         </div>
-        <a class="header-login" href="zd-auth.html" data-od-id="cta-login">登录</a>
-        <a class="avatar avatar-g1" href="zd-me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
+        <a class="header-login" href="auth.html" data-od-id="cta-login">登录</a>
+        <a class="avatar avatar-g1" href="me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
       </div>
     </div>
   </div>
 </header>
 
-<!-- ================= 文档 ================= -->
-<main>
-  <header class="doc-head container" data-od-id="doc-head">
-    <span class="doc-kicker">Community Guidelines</span>
-    <h1>社区准则</h1>
-    <p>zd 是一个关于 AI 时代的阅读与创作社区。为了让讨论保持质量、开放与可复现,我们写下这些基本规则。发布内容即表示你同意遵守。</p>
-    <div class="doc-meta">
-      <span>版本 v1.0</span>
-      <span class="sep"></span>
-      <span>最后更新:2026 年 8 月</span>
-      <span class="sep"></span>
-      <a href="zd-help.html" style="color:var(--accent);font-weight:500">有问题?去帮助中心 →</a>
+<!-- ================= 主体 ================= -->
+<main class="container">
+  <section class="page-head" data-od-id="page-head">
+    <h1 class="page-title">草稿箱</h1>
+    <p class="page-sub">写了一半的想法都在这里。工作台会自动保存,任何时候回来都能接着写。</p>
+    <div class="page-actions">
+      <a class="btn btn-primary" href="create.html" data-od-id="draft-new">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        新建写作
+      </a>
+      <a class="btn btn-ghost" href="me.html" data-od-id="draft-back">返回我的主页</a>
     </div>
-  </header>
+  </section>
 
-  <div class="doc-layout container">
-    <article class="doc-body" data-od-id="doc-body">
-      <h2 id="sec-1">1. 尊重他人,保持善意</h2>
-      <p>我们欢迎不同观点与认真讨论,但一切交流都以尊重为前提。人身攻击、骚扰、歧视性言论、人肉搜索以及任何形式的霸凌,都会导致内容被删除、账号被限制。</p>
-      <p>对事不对人。批评观点、数据和结论,而不是攻击发表观点的人。</p>
+  <section class="stats-bar" data-od-id="draft-stats" aria-label="草稿概览">
+    <div class="stat-cell"><div class="stat-num" id="stat-all">6</div><div class="stat-label">全部草稿</div></div>
+    <div class="stat-cell"><div class="stat-num" id="stat-ai">3</div><div class="stat-label">AI 辅助创作</div></div>
+    <div class="stat-cell"><div class="stat-num" id="stat-words">1.8k</div><div class="stat-label">累计字数</div></div>
+  </section>
 
-      <h2 id="sec-2">2. 认真创作,标注来源</h2>
-      <p>zd 鼓励用 AI 辅助创作,但请让内容有价值,并保持透明。规则很简单:</p>
-      <ul>
-        <li>使用 AI 生成的内容必须明确标注「基于 AI 生成」,并尽可能附上所用模型。</li>
-        <li>引用他人观点、数据或代码时,请注明出处。</li>
-        <li>转载作品请获得授权,并在文中说明。</li>
-        <li>分享提示词时,尽量附上完整的输入、输出与参数,便于他人复现。</li>
-      </ul>
+  <section class="draft-section" data-od-id="draft-list">
+    <div class="section-row">
+      <h2>最近编辑</h2>
+      <button class="filter" type="button" data-od-id="draft-filter">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3H2l8 9.5V19l4 2v-8.5L22 3Z"/></svg>
+        全部草稿
+      </button>
+    </div>
 
-      <h2 id="sec-3">3. 拒绝垃圾内容与广告</h2>
-      <p>以下内容会被立即处理:</p>
-      <ul>
-        <li>与话题无关的刷屏、灌水、无意义回复。</li>
-        <li>任何形式的推广、引流、拉新与灰产信息。</li>
-        <li>通过机器、批量或工具生成的虚假互动(刷赞、刷关注、水军评论)。</li>
-        <li>诱导关注、诱导转发等运营性内容。</li>
-      </ul>
+    <div id="draft-list-body">
 
-      <h2 id="sec-4">4. 保护隐私与安全</h2>
-      <p>未经本人同意,不要发布他人的个人信息、私人聊天记录或非公开数据。涉及真实人物形象与 AI 生成形象时,请确认授权。不要发布可被用于攻击、诈骗或误导的信息。</p>
-
-      <h2 id="sec-5">5. 发布信息应当真实</h2>
-      <p>不发布虚假信息、谣传与未经证实的重大消息。涉及数据与评测的内容,请给出可核查的依据。AI 生成的事实类表述,发布前请人工核实。</p>
-
-      <h2 id="sec-6">6. 不违反法律与平台底线</h2>
-      <p>任何违反法律法规的内容(包括但不限于:侵权、色情、赌博、暴力、违禁品交易)均会被删除,并视情况配合监管与执法部门处理。</p>
-
-      <h2 id="sec-7">7. 执行与申诉</h2>
-      <p>我们通常按以下方式处理违规:首次违规移除内容并提醒;重复或严重违规将限制账号功能;情节严重者封禁账号。如果你认为自己的内容被误处理,可以通过<a class="inline" href="zd-help.html#contact">帮助中心</a>提交申诉。</p>
-
-      <h2 id="sec-8">8. 共同维护</h2>
-      <p>看到违规内容,你可以通过作品页的「举报」入口反馈。社区的质量取决于每一位成员。感谢你认真阅读到这里——去<a class="inline" href="zd-feed-home.html">首页</a>看点好东西吧。</p>
-    </article>
-
-    <aside class="doc-side" data-od-id="doc-side">
-      <nav class="toc" aria-label="章节导航">
-        <div class="toc-title">本页目录</div>
-        <a href="#sec-1">1 · 尊重与善意</a>
-        <a href="#sec-2">2 · 创作与标注</a>
-        <a href="#sec-3">3 · 拒绝垃圾内容</a>
-        <a href="#sec-4">4 · 隐私与安全</a>
-        <a href="#sec-5">5 · 真实信息</a>
-        <a href="#sec-6">6 · 法律底线</a>
-        <a href="#sec-7">7 · 执行与申诉</a>
-        <a href="#sec-8">8 · 共同维护</a>
-      </nav>
-      <div class="doc-callout">
-        <strong>内容被误删了?</strong><br>
-        通过<a class="inline" href="zd-help.html#contact">帮助中心</a>提交申诉,我们会在 3 个工作日内处理。
+      <div class="draft-row" data-draft="draft-wb">
+        <span class="draft-ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9M5 5l14 14-4 1-2-2z"/></svg></span>
+        <div class="draft-body">
+          <a class="draft-title" href="create.html?draft=draft-wb" data-od-id="draft-title-1">一人公司生存指南:独立开发者的工具栈</a>
+          <div class="draft-meta">
+            <span class="status-draft">草稿</span>
+            <span class="dot"></span>
+            <span>更新于昨天 21:08</span>
+            <span class="dot"></span>
+            <span>约 800 字</span>
+            <span class="dot"></span>
+            <span class="ai-chip"><svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c.5 3.7 3 6.2 6.7 6.7-3.7.5-6.2 3-6.7 6.7C11.5 11.7 9 9.2 5.3 8.7 9 8.2 11.5 5.7 12 2Z"/><path d="M19 14c.3 1.9 1.6 3.2 3.5 3.5-1.9.3-3.2 1.6-3.5 3.5-.3-1.9-1.6-3.2-3.5-3.5 1.9-.3 3.2-1.6 3.5-3.5Z"/></svg>AI 起稿</span>
+          </div>
+        </div>
+        <div class="draft-actions">
+          <a class="btn btn-ghost btn-sm" href="create.html?draft=draft-wb" data-od-id="draft-continue-1">继续编辑</a>
+          <button class="btn btn-ghost btn-sm" type="button" data-del="draft-wb" data-od-id="draft-delete-1">删除</button>
+        </div>
       </div>
-    </aside>
-  </div>
+
+      <div class="draft-row" data-draft="draft-podcast">
+        <span class="draft-ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9M5 5l14 14-4 1-2-2z"/></svg></span>
+        <div class="draft-body">
+          <a class="draft-title" href="create.html?draft=draft-podcast" data-od-id="draft-title-2">通勤路上听什么:我的播客私藏清单</a>
+          <div class="draft-meta">
+            <span class="status-draft">草稿</span>
+            <span class="dot"></span>
+            <span>更新于今天 14:32</span>
+            <span class="dot"></span>
+            <span>约 1.2k 字</span>
+            <span class="dot"></span>
+            <span class="ai-chip"><svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c.5 3.7 3 6.2 6.7 6.7-3.7.5-6.2 3-6.7 6.7C11.5 11.7 9 9.2 5.3 8.7 9 8.2 11.5 5.7 12 2Z"/><path d="M19 14c.3 1.9 1.6 3.2 3.5 3.5-1.9.3-3.2 1.6-3.5 3.5-.3-1.9-1.6-3.2-3.5-3.5 1.9-.3 3.2-1.6 3.5-3.5Z"/></svg>AI 续写</span>
+          </div>
+        </div>
+        <div class="draft-actions">
+          <a class="btn btn-ghost btn-sm" href="create.html?draft=draft-podcast" data-od-id="draft-continue-2">继续编辑</a>
+          <button class="btn btn-ghost btn-sm" type="button" data-del="draft-podcast" data-od-id="draft-delete-2">删除</button>
+        </div>
+      </div>
+
+      <div class="draft-row" data-draft="draft-prompt">
+        <span class="draft-ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9M5 5l14 14-4 1-2-2z"/></svg></span>
+        <div class="draft-body">
+          <a class="draft-title is-untitled" href="create.html?draft=draft-prompt" data-od-id="draft-title-3">无标题 · 一段关于提示词的思考</a>
+          <div class="draft-meta">
+            <span class="status-draft">草稿</span>
+            <span class="dot"></span>
+            <span>更新于今天 09:15</span>
+            <span class="dot"></span>
+            <span>约 320 字</span>
+          </div>
+        </div>
+        <div class="draft-actions">
+          <a class="btn btn-ghost btn-sm" href="create.html?draft=draft-prompt" data-od-id="draft-continue-3">继续编辑</a>
+          <button class="btn btn-ghost btn-sm" type="button" data-del="draft-prompt" data-od-id="draft-delete-3">删除</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="empty-note" id="draft-empty" hidden data-od-id="draft-empty">
+      <span class="empty-ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9M5 5l14 14-4 1-2-2z"/></svg></span>
+      <p>草稿箱是空的</p>
+      <span>去工作台写下第一个想法,它会自动保存在这里</span>
+    </div>
+  </section>
 </main>
 
 <!-- ================= 页脚 ================= -->
 <footer class="site-footer" data-od-id="footer">
   <div class="container footer-inner">
-    <span class="footer-brand">zd</span>
+    <span class="footer-brand">织云 Weavery</span>
     <span>阅读、讨论,用 AI 开始创作</span>
     <nav class="footer-links" aria-label="页脚导航">
-      <a href="zd-search.html">搜索</a>
-      <a href="zd-notifications.html">通知</a>
-      <a href="zd-community-guidelines.html">社区准则</a>
-      <a href="zd-help.html">帮助中心</a>
+      <a href="search.html">搜索</a>
+      <a href="notifications.html">通知</a>
+      <a href="guidelines.html">社区准则</a>
+      <a href="help.html">帮助中心</a>
     </nav>
   </div>
 </footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function () {
   "use strict";
 
-  /* ⌘K 聚焦搜索 */
+  var toast = document.getElementById("toast");
+  var toastTimer = null;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("is-show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove("is-show"); }, 2000);
+  }
+
+  /* ---------- 删除草稿 ---------- */
+  Array.prototype.slice.call(document.querySelectorAll("[data-del]")).forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var row = document.querySelector('[data-draft="' + btn.dataset.del + '"]');
+      if (!row) return;
+      if (row.dataset.confirming === "1") {
+        row.remove();
+        showToast("草稿已删除");
+        updateStats();
+      } else {
+        row.dataset.confirming = "1";
+        var orig = btn.textContent;
+        btn.textContent = "确认删除?";
+        btn.classList.add("is-confirm");
+        btn.style.borderColor = "var(--danger)";
+        btn.style.color = "var(--danger)";
+        setTimeout(function () {
+          if (row.dataset.confirming === "1") {
+            row.dataset.confirming = "0";
+            btn.textContent = orig;
+            btn.classList.remove("is-confirm");
+            btn.style.borderColor = "";
+            btn.style.color = "";
+          }
+        }, 2500);
+      }
+    });
+  });
+
+  function updateStats() {
+    var rows = Array.prototype.slice.call(document.querySelectorAll(".draft-row"));
+    document.getElementById("stat-all").textContent = rows.length;
+    var ai = rows.filter(function (r) { return r.querySelector(".ai-chip"); }).length;
+    document.getElementById("stat-ai").textContent = ai;
+    var empty = document.getElementById("draft-empty");
+    if (empty) empty.hidden = rows.length > 0;
+  }
+
+  /* ---------- ⌘K 聚焦搜索 ---------- */
   var searchInput = document.getElementById("search-input");
   document.addEventListener("keydown", function (e) {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -572,7 +624,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     }
   });
 
-  /* 通知浮窗 */
+  /* ---------- 通知浮窗 ---------- */
   var bellBtn = document.getElementById("bell-btn");
   var notifPop = document.getElementById("notif-pop");
   function setNotif(open) {
@@ -587,19 +639,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       setNotif(bellBtn.getAttribute("aria-expanded") !== "true");
     });
     document.addEventListener("click", function (e) {
-      if (bellBtn.getAttribute("aria-expanded") === "true" && !e.target.closest(".notif-wrap")) setNotif(false);
+      if (bellBtn.getAttribute("aria-expanded") === "true" && !e.target.closest(".notif-wrap")) {
+        setNotif(false);
+      }
     });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape") setNotif(false); });
-  }
-  var readAll = document.getElementById("notif-readall");
-  if (readAll) {
-    readAll.addEventListener("click", function () {
-      var dot = document.getElementById("bell-dot");
-      if (dot) dot.style.display = "none";
-      Array.prototype.slice.call(document.querySelectorAll(".notif-item.is-unread")).forEach(function (item) {
-        item.classList.remove("is-unread");
-      });
-      bellBtn.setAttribute("aria-label", "通知");
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") setNotif(false);
     });
   }
 })();
