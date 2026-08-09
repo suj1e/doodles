@@ -174,18 +174,54 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .avatar:hover { transform: scale(1.05); }
 
-.header-login {
-  display: inline-flex; align-items: center;
-  height: 38px; padding: 0 14px;
-  border-radius: var(--radius-md);
-  font-size: var(--text-sm); font-weight: 600;
-  color: var(--muted);
-  border: 1px solid var(--border);
+/* 账户下拉菜单 */
+.user-wrap { position: relative; }
+.user-btn { cursor: pointer; }
+.user-btn.is-open, .user-btn:focus-visible { outline: none; border-color: var(--fg); box-shadow: var(--focus-ring); }
+.user-pop {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 240px;
+  max-width: calc(100vw - 32px);
   background: var(--surface);
-  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  z-index: 60;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard), visibility 0s linear var(--motion-base);
 }
-.header-login:hover { color: var(--fg); border-color: var(--fg); }
-.header-login:focus-visible { box-shadow: var(--focus-ring); }
+.user-pop.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
+}
+.user-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklab, var(--border) 22%, var(--surface));
+}
+.user-head .avatar { width: 36px; height: 36px; font-size: 14px; }
+.user-id { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.user-id strong { font-size: var(--text-sm); font-weight: 600; color: var(--fg); }
+.user-id span { font-size: var(--text-xs); color: var(--muted); }
+.user-list { padding: 6px; }
+.user-list a, .user-foot a {
+  display: flex; align-items: center;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm); font-weight: 500; color: var(--fg);
+  transition: background-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.user-list a:hover, .user-foot a:hover { background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.user-list a:focus-visible, .user-foot a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.user-foot { padding: 6px; border-top: 1px solid var(--border); }
 
 .icon-btn {
   position: relative;
@@ -376,8 +412,27 @@ a:focus-visible, button:focus-visible, input:focus-visible {
         <a class="icon-btn" href="notifications.html" data-od-id="nav-notifications" aria-label="通知" aria-current="page">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
         </a>
-        <a class="header-login" href="auth.html" data-od-id="cta-login">登录</a>
-        <a class="avatar avatar-g4" href="me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
+        <div class="user-wrap" data-od-id="user-menu">
+          <button class="avatar avatar-g4 user-btn" id="user-btn" type="button" aria-label="账户菜单" aria-haspopup="menu" aria-expanded="false" aria-controls="user-pop">我</button>
+          <div class="user-pop" id="user-pop" role="menu" aria-label="账户菜单">
+            <div class="user-head">
+              <span class="avatar avatar-g4" role="img" aria-label="我的头像">我</span>
+              <div class="user-id">
+                <strong>阿诚</strong>
+                <span>认证作者</span>
+              </div>
+            </div>
+            <div class="user-list">
+              <a href="me.html" data-od-id="menu-me">我的主页</a>
+              <a href="drafts.html" data-od-id="menu-drafts">草稿箱</a>
+              <a href="favorites.html" data-od-id="menu-favs">我的收藏</a>
+              <a href="settings.html" data-od-id="menu-settings">偏好设置</a>
+            </div>
+            <div class="user-foot">
+              <a href="auth.html" data-od-id="menu-logout">退出登录</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -607,5 +662,34 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   refreshUnread();
 })();
 </script>
+<script>
+  (function () {
+    var userBtn = document.getElementById('user-btn');
+    var userPop = document.getElementById('user-pop');
+    if (!userBtn || !userPop) return;
+    function closeMenu() {
+      userBtn.classList.remove('is-open');
+      userPop.classList.remove('is-open');
+      userBtn.setAttribute('aria-expanded', 'false');
+    }
+    userBtn.addEventListener('click', function () {
+      var open = userPop.classList.toggle('is-open');
+      userBtn.classList.toggle('is-open', open);
+      userBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      while (t && t !== document.documentElement) {
+        if (t === userBtn || t === userPop) return;
+        t = t.parentElement;
+      }
+      closeMenu();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeMenu();
+    });
+  })();
+</script>
+
 </body>
 </html>
