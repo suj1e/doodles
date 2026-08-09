@@ -423,6 +423,10 @@ a.brand-row:focus-visible { box-shadow: var(--focus-ring); }
   Array.prototype.slice.call(document.querySelectorAll("[data-jump]")).forEach(function (btn) {
     btn.addEventListener("click", function () { setMode(btn.dataset.jump); });
   });
+  (function () {
+    var mm = location.search.match(/[?&]mode=([^&]+)/);
+    if (mm && panes[mm[1]]) setMode(mm[1]);
+  })();
 
   /* ---------- 密码显隐 ---------- */
   Array.prototype.slice.call(document.querySelectorAll("[data-pwd-toggle]")).forEach(function (btn) {
@@ -439,7 +443,7 @@ a.brand-row:focus-visible { box-shadow: var(--focus-ring); }
       e.preventDefault();
       var valid = true;
       Array.prototype.slice.call(form.querySelectorAll("input[required]")).forEach(function (input) {
-        if (!input.value.trim() || (input.type === "email" && !/.+@.+\..+/.test(input.value))) valid = false;
+        if (!input.value.trim()) valid = false;
       });
       if (!valid) { showToast("请填写完整信息"); return; }
       var btn = form.querySelector('[type="submit"]');
