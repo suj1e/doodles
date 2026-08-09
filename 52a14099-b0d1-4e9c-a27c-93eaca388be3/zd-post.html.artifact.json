@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "zd-post.html",
+  "entry": "zd-post.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-09T09:46:29.843Z",
+  "updatedAt": "2026-08-09T09:46:29.843Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

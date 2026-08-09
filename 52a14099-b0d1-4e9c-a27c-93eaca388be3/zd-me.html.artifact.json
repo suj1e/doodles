@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "zd-me.html",
+  "entry": "zd-me.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-09T08:00:26.187Z",
+  "updatedAt": "2026-08-09T08:00:26.187Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

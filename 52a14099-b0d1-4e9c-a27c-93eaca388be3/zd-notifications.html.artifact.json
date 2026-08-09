@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "zd-notifications.html",
+  "entry": "zd-notifications.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-09T09:45:08.189Z",
+  "updatedAt": "2026-08-09T09:45:08.189Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}
