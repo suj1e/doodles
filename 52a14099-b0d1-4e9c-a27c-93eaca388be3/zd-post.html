@@ -173,6 +173,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .avatar:hover { transform: scale(1.05); }
 
+.header-login {
+  display: inline-flex; align-items: center;
+  height: 38px; padding: 0 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.header-login:hover { color: var(--fg); border-color: var(--fg); }
+.header-login:focus-visible { box-shadow: var(--focus-ring); }
+
 .icon-btn {
   position: relative;
   display: grid; place-items: center;
@@ -364,6 +377,34 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   transition: background-color var(--motion-fast) var(--ease-standard);
 }
 .btn-remix:hover { background: var(--accent-hover); }
+.owner-actions { display: none; align-items: center; gap: 8px; }
+.owner-actions.is-show { display: inline-flex; }
+.btn-owner {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 38px; padding: 0 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--fg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.btn-owner:hover { border-color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.btn-owner:focus-visible { box-shadow: var(--focus-ring); }
+.btn-owner .icon { width: 15px; height: 15px; }
+.btn-owner.is-danger:hover { color: var(--danger); border-color: var(--danger); background: color-mix(in oklab, var(--danger) 6%, var(--surface)); }
+.toast {
+  position: fixed; left: 50%; bottom: 28px;
+  transform: translate(-50%, 20px);
+  opacity: 0; pointer-events: none;
+  background: var(--fg); color: var(--bg);
+  font-size: var(--text-sm); font-weight: 600;
+  padding: 10px 18px; border-radius: var(--radius-md);
+  box-shadow: 0 1px 2px 0 color-mix(in oklab, var(--fg), transparent 92%), 0 1px 3px 0 color-mix(in oklab, var(--fg), transparent 88%);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
+  z-index: 100;
+}
+.toast.is-show { opacity: 1; transform: translate(-50%, 0); }
 
 .cover {
   position: relative;
@@ -708,6 +749,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
             </div>
           </div>
         </div>
+        <a class="header-login" href="zd-auth.html" data-od-id="cta-login">登录</a>
         <a class="avatar avatar-g4" href="zd-me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
       </div>
     </div>
@@ -764,6 +806,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-8 8H5l-2 2V12a8 8 0 0 1 8-8 8 8 0 0 1 8 8Z"/></svg>
           评论 <span id="comment-count-head">26</span>
         </a>
+        <span class="owner-actions" id="owner-actions" data-od-id="owner-actions">
+          <a class="btn-owner" href="zd-create.html?edit=1" data-od-id="edit-post">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9M5 5l14 14-4 1-2-2z"/></svg>
+            编辑
+          </a>
+          <button class="btn-owner is-danger" type="button" id="btn-delete-post" data-od-id="delete-post">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+            删除
+          </button>
+        </span>
         <span class="spacer"></span>
         <a class="btn-remix" href="zd-create.html" data-od-id="cta-remix">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
@@ -1055,8 +1107,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     <nav class="footer-links" aria-label="页脚导航">
       <a href="zd-search.html">搜索</a>
       <a href="zd-notifications.html">通知</a>
-      <a href="#">社区准则</a>
-      <a href="#">帮助中心</a>
+      <a href="zd-community-guidelines.html">社区准则</a>
+      <a href="zd-help.html">帮助中心</a>
     </nav>
   </div>
 </footer>
@@ -1088,6 +1140,47 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     favBtn.dataset.count = on ? v + 1 : v - 1;
     document.getElementById("fav-num").textContent = fmt(parseInt(favBtn.dataset.count, 10));
   });
+
+  /* 作者操作(编辑 / 删除)— 通过 ?owner=1 演示当前用户视角 */
+  function showToast(msg) {
+    var t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function () { t.classList.add("is-show"); }, 10);
+    setTimeout(function () { t.classList.remove("is-show"); }, 1800);
+    setTimeout(function () { t.remove(); }, 2200);
+  }
+  function isOwner() {
+    return /[?&]owner=1/.test(location.search);
+  }
+  var ownerBox = document.getElementById("owner-actions");
+  if (ownerBox && isOwner()) {
+    ownerBox.classList.add("is-show");
+    var delBtn = document.getElementById("btn-delete-post");
+    if (delBtn) {
+      delBtn.addEventListener("click", function () {
+        if (delBtn.dataset.confirming === "1") {
+          showToast("文章已删除");
+          setTimeout(function () { location.href = "zd-me.html"; }, 900);
+          return;
+        }
+        delBtn.dataset.confirming = "1";
+        delBtn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>确认删除?';
+        delBtn.classList.add("is-danger");
+        delBtn.style.borderColor = "var(--danger)";
+        delBtn.style.color = "var(--danger)";
+        setTimeout(function () {
+          if (delBtn.dataset.confirming === "1") {
+            delBtn.dataset.confirming = "0";
+            delBtn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>删除';
+            delBtn.style.borderColor = "";
+            delBtn.style.color = "";
+          }
+        }, 2500);
+      });
+    }
+  }
 
   /* 提示词折叠 */
   var promptCard = document.getElementById("prompt-card");

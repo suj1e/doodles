@@ -190,6 +190,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .avatar:hover { transform: scale(1.05); }
 
+.header-login {
+  display: inline-flex; align-items: center;
+  height: 38px; padding: 0 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.header-login:hover { color: var(--fg); border-color: var(--fg); }
+.header-login:focus-visible { box-shadow: var(--focus-ring); }
+
 .icon-btn {
   position: relative;
   display: grid; place-items: center;
@@ -653,6 +666,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .doc-foot .save-state { display: inline-flex; align-items: center; gap: 6px; }
 .doc-foot .save-state .icon { width: 13px; height: 13px; color: var(--success); }
+.doc-foot .drafts-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-left: 16px;
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 6px 12px;
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
+}
+.doc-foot .drafts-link .icon { width: 14px; height: 14px; }
+.doc-foot .drafts-link:hover { color: var(--fg); border-color: var(--fg); }
+.doc-foot .drafts-link:focus-visible { box-shadow: var(--focus-ring); }
 .doc-foot .spacer { flex: 1; }
 .doc-foot .publish-mini {
   display: inline-flex; align-items: center; gap: 6px;
@@ -797,6 +823,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
             </div>
           </div>
         </div>
+        <a class="header-login" href="zd-auth.html" data-od-id="cta-login">登录</a>
         <a class="avatar avatar-g1" href="zd-me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
       </div>
     </div>
@@ -919,6 +946,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
     <div class="doc-foot">
       <span class="save-state" id="save-state"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>已保存</span>
+      <a class="drafts-link" href="zd-drafts.html" data-od-id="cta-drafts">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14l-4-2-4 2-4-2z"/></svg>
+        草稿箱
+      </a>
       <span class="spacer"></span>
       <span id="char-count">428 字</span>
       <span>约 2 分钟读完</span>
@@ -1403,6 +1434,36 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   });
 
   /* ---------- 恢复草稿与日志 ---------- */
+  function qs(name) {
+    return new RegExp("[?&]" + name + "=([^&]*)").exec(location.search) ?
+      decodeURIComponent(RegExp.$1) : null;
+  }
+  var DRAFT_PRESETS = {
+    "draft-wb": {
+      title: "一人公司生存指南:独立开发者的工具栈",
+      content: "一个人活成一家公司,最关键的不是「什么都会」,而是「知道哪些该自己扛、哪些该外包」。我的工具栈分成三层:沟通、交付、现金流。沟通层用即时通讯加一份共享清单,交付层靠自动化脚本把重复劳动降到最低,现金流则是每个月雷打不动的订阅核销。没有哪一层需要最新最贵的工具,只要每一层都稳定运转。"
+    },
+    "draft-podcast": {
+      title: "通勤路上听什么:我的播客私藏清单",
+      content: "上班通勤的这四十分钟,以前是刷手机打发,现在是雷打不动的听播客时间。坚持了快两年,我的「下饭节目」换过几轮,但下面这六档,是无论如何都舍不得删的。"
+    },
+    "draft-prompt": {
+      title: "",
+      content: "提示词这个东西,与其说是在「跟模型对话」,不如说是在「跟自己对话」——你描述得越具体,得到的结果越接近你真正想要的东西。"
+    }
+  };
+  var draftId = qs("draft");
+  var editMode = qs("edit") === "1";
+  if (draftId && DRAFT_PRESETS[draftId]) {
+    var preset = DRAFT_PRESETS[draftId];
+    titleInput.value = preset.title;
+    contentInput.value = preset.content;
+    pushSys("⟠ 已载入草稿「" + (preset.title || "无标题") + "」");
+    try {
+      localStorage.setItem("zd-draft-title", preset.title);
+      localStorage.setItem("zd-draft-content", preset.content);
+    } catch (e) {}
+  }
   try {
     var st = localStorage.getItem("zd-console-log");
     if (st) {
@@ -1414,16 +1475,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
         pushSys("⟠ 已载入草稿「" + titleInput.value + "」 · " + countWords(contentInput.value) + " 字");
         pushSys("输入指令或点击下方 /命令,AI 会把修改直接写入右侧文档");
       }
-    } else {
+    } else if (!draftId) {
       pushSys("⟠ 已载入草稿「" + titleInput.value + "」 · " + countWords(contentInput.value) + " 字");
       pushSys("输入指令或点击下方 /命令,AI 会把修改直接写入右侧文档");
     }
     var sp = localStorage.getItem("zd-wb-step");
     if (sp) { var s = JSON.parse(sp); P1_STEP = s.p1 || 0; CONT_STEP = s.ct || 0; TI_STEP = s.ti || 0; }
-    var savedTitle = localStorage.getItem("zd-draft-title");
-    var savedContent = localStorage.getItem("zd-draft-content");
-    if (savedTitle) titleInput.value = savedTitle;
-    if (savedContent) contentInput.value = savedContent;
+    if (!draftId) {
+      var savedTitle = localStorage.getItem("zd-draft-title");
+      var savedContent = localStorage.getItem("zd-draft-content");
+      if (savedTitle) titleInput.value = savedTitle;
+      if (savedContent) contentInput.value = savedContent;
+    }
+    if (editMode) showToast("已进入编辑模式,保存后将覆盖原稿");
     refreshCount();
   } catch (e) {
     pushSys("⟠ 已载入草稿「" + titleInput.value + "」 · " + countWords(contentInput.value) + " 字");

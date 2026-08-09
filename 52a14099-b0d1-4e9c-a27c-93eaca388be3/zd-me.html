@@ -167,6 +167,19 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .avatar:hover { transform: scale(1.05); }
 
+.header-login {
+  display: inline-flex; align-items: center;
+  height: 38px; padding: 0 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.header-login:hover { color: var(--fg); border-color: var(--fg); }
+.header-login:focus-visible { box-shadow: var(--focus-ring); }
+
 .icon-btn {
   position: relative;
   display: grid; place-items: center;
@@ -417,6 +430,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .follow-info { min-width: 0; flex: 1; }
 .follow-name { font-size: var(--text-base); font-weight: 700; color: var(--fg); line-height: 1.4; }
+.follow-name a { transition: color var(--motion-fast) var(--ease-standard); }
+.follow-name a:hover { color: var(--accent); }
 .follow-bio { font-size: var(--text-sm); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .follow-btn {
   flex: none; height: 32px; padding: 0 14px;
@@ -543,6 +558,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
             </div>
           </div>
         </div>
+        <a class="header-login" href="zd-auth.html" data-od-id="cta-login">登录</a>
         <a class="avatar avatar-g1" href="zd-me.html" aria-current="page" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
       </div>
     </div>
@@ -572,19 +588,19 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     </div>
     <div class="profile-actions">
       <button class="btn btn-ghost" type="button" data-od-id="edit-profile">编辑资料</button>
-      <button class="btn btn-ghost" type="button" data-od-id="profile-settings">
+      <a class="btn btn-ghost" href="zd-settings.html" data-od-id="profile-settings">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h.1a1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.5 1h.2a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
         设置
-      </button>
+      </a>
     </div>
   </section>
 
   <section class="stats-bar" data-od-id="profile-stats" aria-label="数据概览">
-    <a class="stat-cell" href="#" data-od-id="stat-posts">
+    <a class="stat-cell" href="#pane-posts" data-od-id="stat-posts">
       <div class="stat-num">42</div>
       <div class="stat-label">已发布文章</div>
     </a>
-    <a class="stat-cell" href="#" data-od-id="stat-following">
+    <a class="stat-cell" href="#pane-following" data-od-id="stat-following">
       <div class="stat-num">128</div>
       <div class="stat-label">关注</div>
     </a>
@@ -615,7 +631,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
           <span class="status-pub">已发布</span>
           <span>3 天前</span>
         </div>
-        <h3 class="post-title"><a href="#">把 AI 当成同事,而不是搜索引擎</a></h3>
+        <h3 class="post-title"><a href="zd-post.html">把 AI 当成同事,而不是搜索引擎</a></h3>
         <p class="post-excerpt">同样是提问,「帮我总结」和「帮我做决策」得到的结果完全不同。聊聊如何给模型更完整的上下文,让每一次提问都能直接落地。</p>
         <div class="post-foot">
           <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>1.2 万</span>
@@ -631,7 +647,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
           <span class="status-pub">已发布</span>
           <span>上周</span>
         </div>
-        <h3 class="post-title"><a href="#">通勤路上听什么:我的播客私藏清单</a></h3>
+        <h3 class="post-title"><a href="zd-post.html">通勤路上听什么:我的播客私藏清单</a></h3>
         <p class="post-excerpt">6 档舍不得删的播客,从科技闲聊到深夜杂谈,陪你度过早高峰和晚高峰。</p>
         <div class="post-foot">
           <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>4.1 万</span>
@@ -645,7 +661,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
           <span class="status-pub">已发布</span>
           <span>上月</span>
         </div>
-        <h3 class="post-title"><a href="#">本地优先:数据住在你的设备上,而不是云端</a></h3>
+        <h3 class="post-title"><a href="zd-post.html">本地优先:数据住在你的设备上,而不是云端</a></h3>
         <p class="post-excerpt">从数据主权与隐私切入,梳理「本地优先」的发展脉络、代表性工具,以及它离主流还有多远。</p>
         <div class="post-foot">
           <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>860</span>
@@ -697,7 +713,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
           <span class="status-fav">已收藏</span>
           <span>作者 · 陈默</span>
         </div>
-        <h3 class="post-title"><a href="#">GPT 时刻之后:AI 编程正在重塑团队的协作方式</a></h3>
+        <h3 class="post-title"><a href="zd-post.html">GPT 时刻之后:AI 编程正在重塑团队的协作方式</a></h3>
         <p class="post-excerpt">从「帮你补全一行代码」到「理解整个代码库」,AI 助手正把写代码变成描述问题。</p>
         <div class="post-foot">
           <span>收藏于 2 小时前</span>
@@ -712,7 +728,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
           <span class="status-fav">已收藏</span>
           <span>作者 · 林晚</span>
         </div>
-        <h3 class="post-title"><a href="#">做设计 8 年,我才学会的 5 件事</a></h3>
+        <h3 class="post-title"><a href="zd-post.html">做设计 8 年,我才学会的 5 件事</a></h3>
         <p class="post-excerpt">关于品味、取舍,以及如何和开发者好好说话——一位资深设计师的年度复盘。</p>
         <div class="post-foot">
           <span>收藏于 3 天前</span>
@@ -725,33 +741,33 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     <!-- 关注 -->
     <div class="pane" id="pane-following" data-od-id="pane-following" role="tabpanel">
       <div class="follow-row" data-od-id="follow-row-chenmo">
-        <span class="avatar-md avatar-g1" role="img" aria-label="陈默">陈</span>
+        <a class="avatar-md avatar-g1" href="zd-profile.html?user=chenmo" role="img" aria-label="陈默">陈</a>
         <div class="follow-info">
-          <div class="follow-name">陈默</div>
+          <div class="follow-name"><a href="zd-profile.html?user=chenmo">陈默</a></div>
           <div class="follow-bio">AI 产品观察 · 12.8k 关注</div>
         </div>
         <button class="follow-btn is-followed" type="button" data-od-id="follow-chenmo">已关注</button>
       </div>
       <div class="follow-row" data-od-id="follow-row-linwan">
-        <span class="avatar-md avatar-g2" role="img" aria-label="林晚">林</span>
+        <a class="avatar-md avatar-g2" href="zd-profile.html?user=linwan" role="img" aria-label="林晚">林</a>
         <div class="follow-info">
-          <div class="follow-name">林晚</div>
+          <div class="follow-name"><a href="zd-profile.html?user=linwan">林晚</a></div>
           <div class="follow-bio">设计手记 · 8.3k 关注</div>
         </div>
         <button class="follow-btn is-followed" type="button" data-od-id="follow-linwan">已关注</button>
       </div>
       <div class="follow-row" data-od-id="follow-row-suhang">
-        <span class="avatar-md avatar-g3" role="img" aria-label="苏航">苏</span>
+        <a class="avatar-md avatar-g3" href="zd-profile.html?user=suhang" role="img" aria-label="苏航">苏</a>
         <div class="follow-info">
-          <div class="follow-name">苏航</div>
+          <div class="follow-name"><a href="zd-profile.html?user=suhang">苏航</a></div>
           <div class="follow-bio">大模型译事 · 6.1k 关注</div>
         </div>
         <button class="follow-btn is-followed" type="button" data-od-id="follow-suhang">已关注</button>
       </div>
       <div class="follow-row" data-od-id="follow-row-gunan">
-        <span class="avatar-md avatar-g4" role="img" aria-label="顾南">顾</span>
+        <a class="avatar-md avatar-g4" href="zd-profile.html?user=gunan" role="img" aria-label="顾南">顾</a>
         <div class="follow-info">
-          <div class="follow-name">顾南</div>
+          <div class="follow-name"><a href="zd-profile.html?user=gunan">顾南</a></div>
           <div class="follow-bio">城市与生活 · 4.7k 关注</div>
         </div>
         <button class="follow-btn" type="button" data-od-id="follow-gunan">关注</button>
@@ -766,10 +782,10 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     <span class="footer-brand">zd</span>
     <span>阅读、讨论,用 AI 开始创作</span>
     <nav class="footer-links" aria-label="页脚导航">
-      <a href="zd-feed-home.html">关于</a>
-      <a href="#">社区准则</a>
-      <a href="#">帮助中心</a>
-      <a href="#">移动端</a>
+      <a href="zd-search.html">搜索</a>
+      <a href="zd-notifications.html">通知</a>
+      <a href="zd-community-guidelines.html">社区准则</a>
+      <a href="zd-help.html">帮助中心</a>
     </nav>
   </div>
 </footer>
@@ -806,6 +822,36 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     if (saved && panes[saved]) showPane(saved);
   } catch (e) {}
 
+  /* 统计「文章」/「关注」→ 对应 tab */
+  document.querySelector('[data-od-id="stat-posts"]').addEventListener("click", function (e) {
+    e.preventDefault();
+    showPane("pane-posts");
+  });
+  document.querySelector('[data-od-id="stat-following"]').addEventListener("click", function (e) {
+    e.preventDefault();
+    showPane("pane-following");
+  });
+  document.querySelector('[data-od-id="stat-followers"]').addEventListener("click", function (e) {
+    e.preventDefault();
+    var t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = "粉丝列表(原型占位)";
+    document.body.appendChild(t);
+    setTimeout(function () { t.classList.add("is-show"); }, 10);
+    setTimeout(function () { t.classList.remove("is-show"); }, 1800);
+    setTimeout(function () { t.remove(); }, 2200);
+  });
+  document.querySelector('[data-od-id="stat-likes"]').addEventListener("click", function (e) {
+    e.preventDefault();
+    var t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = "获赞明细(原型占位)";
+    document.body.appendChild(t);
+    setTimeout(function () { t.classList.add("is-show"); }, 10);
+    setTimeout(function () { t.classList.remove("is-show"); }, 1800);
+    setTimeout(function () { t.remove(); }, 2200);
+  });
+
   /* 关注 / 取关 */
   Array.prototype.slice.call(document.querySelectorAll(".follow-btn")).forEach(function (btn) {
     btn.addEventListener("click", function () {
@@ -822,20 +868,19 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     });
   });
 
-  /* 编辑资料 / 设置(原型占位) */
-  document.getElementById("edit-profile");
-  document.querySelectorAll("#edit-profile, [data-od-id=profile-settings]").forEach(function (b) {
-    b.addEventListener("click", function () {
-      var msg = b.getAttribute("data-od-id") === "profile-settings" ? "设置面板(原型占位)" : "编辑资料(原型占位)";
+  /* 编辑资料(原型占位) */
+  var editBtn = document.getElementById("edit-profile");
+  if (editBtn) {
+    editBtn.addEventListener("click", function () {
       var t = document.createElement("div");
       t.className = "toast";
-      t.textContent = msg;
+      t.textContent = "编辑资料(原型占位)";
       document.body.appendChild(t);
       setTimeout(function () { t.classList.add("is-show"); }, 10);
       setTimeout(function () { t.classList.remove("is-show"); }, 1800);
       setTimeout(function () { t.remove(); }, 2200);
     });
-  });
+  }
 
   /* ⌘K 聚焦搜索 */
   var searchInput = document.getElementById("search-input");

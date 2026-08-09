@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>话题 · zd</title>
+<style>
+/* ============================================================
+   zd 话题详情 — 话题聚合页
+   设计系统:shadcn 风格 — 极简中性、黑白主色、克制的留白与描边
+   ============================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-warm: var(--surface);
+  --fg: #111827;
+  --fg-2: var(--fg);
+  --muted: #64748b;
+  --meta: var(--muted);
+  --border: #e5e7eb;
+  --border-soft: var(--border);
+  --accent: #000000;
+  --accent-on: #ffffff;
+  --accent-hover: color-mix(in oklab, var(--accent), white 10%);
+  --accent-active: color-mix(in oklab, var(--accent), white 18%);
+  --success: #16a34a;
+  --warn: #d97706;
+  --danger: #dc2626;
+  --font-display: "Geist", "Geist Sans", -apple-system, system-ui, "Segoe UI", Arial, sans-serif;
+  --font-body: "Geist", "Geist Sans", -apple-system, system-ui, "Segoe UI", Arial, sans-serif;
+  --font-mono: "Fira Code", ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+  --text-3xl: 40px;
+  --text-4xl: 48px;
+  --leading-body: 1.5;
+  --leading-tight: 1.2;
+  --tracking-display: -0.02em;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 9999px;
+  --elev-flat: none;
+  --elev-ring: 0 0 0 1px var(--border);
+  --elev-raised:
+    0 1px 2px 0 color-mix(in oklab, var(--fg), transparent 92%),
+    0 1px 3px 0 color-mix(in oklab, var(--fg), transparent 88%);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+  --motion-fast: 150ms;
+  --motion-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --container-max: 1280px;
+  --container-gutter-desktop: 24px;
+  --container-gutter-tablet: 16px;
+  --container-gutter-phone: 16px;
+}
+
+/* ---------- 基础 ---------- */
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 15px;
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; }
+button { font: inherit; border: none; background: none; cursor: pointer; color: inherit; }
+::selection { background: color-mix(in oklab, var(--accent) 12%, var(--surface)); }
+
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+.container { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--container-gutter-desktop); }
+.icon { width: 16px; height: 16px; flex: none; }
+
+/* ---------- 顶栏 ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in oklab, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+}
+.header-row { display: flex; align-items: center; gap: 20px; height: 60px; }
+.brand { display: flex; align-items: center; gap: 7px; flex: none; }
+.brand-mark {
+  width: 28px; height: 28px; border-radius: var(--radius-sm);
+  display: grid; place-items: center;
+  background: var(--accent); color: var(--accent-on);
+  font-weight: 700; font-size: 15px;
+}
+.brand-word { font-size: 21px; font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); }
+
+.search { flex: 1; max-width: 420px; margin: 0 auto; position: relative; }
+.search input {
+  width: 100%; height: 38px; padding: 0 52px 0 38px;
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--surface); color: var(--fg);
+  font-size: var(--text-sm);
+  transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
+}
+.search input::placeholder { color: var(--muted); }
+.search input:hover { border-color: var(--fg); }
+.search input:focus, .search input:focus-visible {
+  outline: none; border-color: var(--accent); box-shadow: var(--focus-ring);
+}
+.search-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); pointer-events: none;
+}
+.search-kbd {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+  background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
+  border-radius: var(--radius-sm); padding: 1px 6px; pointer-events: none; white-space: nowrap;
+}
+
+.header-actions { display: flex; align-items: center; gap: 14px; flex: none; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 38px; padding: 0 16px; border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  transition: background-color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard), transform .1s ease;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); color: var(--accent-on); box-shadow: var(--elev-ring); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { background: var(--accent-active); }
+.btn-primary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--accent-on); font-size: 13px; font-weight: 700;
+  border: 1px solid var(--border);
+  transition: transform var(--motion-fast) var(--ease-standard);
+}
+.avatar:hover { transform: scale(1.05); }
+
+.header-login {
+  display: inline-flex; align-items: center;
+  height: 38px; padding: 0 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.header-login:hover { color: var(--fg); border-color: var(--fg); }
+.header-login:focus-visible { box-shadow: var(--focus-ring); }
+
+.icon-btn {
+  position: relative;
+  display: grid; place-items: center;
+  width: 38px; height: 38px;
+  border-radius: var(--radius-md);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.icon-btn:hover { border-color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.mobile-search { display: none; }
+.icon-btn:focus-visible { box-shadow: var(--focus-ring); }
+.icon-btn .icon { width: 17px; height: 17px; }
+.bell-dot {
+  position: absolute; top: 7px; right: 8px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+  border: 1.5px solid var(--surface);
+}
+.icon-btn.is-open { border-color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+
+/* 通知浮窗 */
+.notif-wrap { position: relative; }
+.notif-pop {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 344px;
+  max-width: calc(100vw - 32px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  z-index: 60;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard), visibility 0s linear var(--motion-base);
+}
+.notif-pop.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
+}
+.notif-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.notif-head h3 { font-size: var(--text-base); font-weight: 600; color: var(--fg); }
+.notif-readall {
+  font-size: var(--text-xs); color: var(--muted);
+  border: 0; background: none; padding: 4px 6px; border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+.notif-readall:hover { color: var(--fg); }
+.notif-readall:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.notif-list { padding: 4px 0; max-height: 300px; overflow-y: auto; }
+.notif-item {
+  display: flex; gap: 10px;
+  padding: 11px 16px;
+  position: relative;
+}
+.notif-item + .notif-item { border-top: 1px solid var(--border-soft); }
+.notif-item.is-unread { background: color-mix(in oklab, var(--border) 26%, var(--surface)); }
+.notif-item:hover { background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.notif-item .icon { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--muted); }
+.notif-item.is-unread .icon { color: var(--accent); }
+.notif-body { min-width: 0; }
+.notif-text { font-size: var(--text-sm); line-height: var(--leading-body); color: var(--fg); }
+.notif-text strong { font-weight: 600; }
+.notif-text em { font-style: normal; color: var(--muted); }
+.notif-time { display: block; margin-top: 3px; font-size: var(--text-xs); color: var(--muted); }
+.notif-unread-dot {
+  position: absolute; left: 8px; top: 16px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+}
+.notif-foot {
+  padding: 10px 16px 14px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.notif-foot a {
+  display: inline-block;
+  font-size: var(--text-sm); font-weight: 500; color: var(--fg);
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  transition: background-color var(--motion-fast) var(--ease-standard);
+}
+.notif-foot a:hover { background: color-mix(in oklab, var(--border) 50%, var(--surface)); }
+.notif-foot a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* AI 徽标 / 标签 */
+.badge-ai {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs); font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-pill);
+  padding: 2px 9px;
+  background: var(--surface);
+}
+.badge-ai .icon { width: 12px; height: 12px; }
+.model-tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--muted);
+  background: color-mix(in oklab, var(--border) 30%, var(--surface));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+}
+.author-role.ai { color: var(--accent-on); background: var(--accent); border-color: var(--accent); }
+.tag {
+  font-size: var(--text-xs); font-weight: 600;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.tag:hover { color: var(--accent); border-color: var(--accent); background: color-mix(in oklab, var(--accent) 5%, var(--surface)); }
+.avatar-sm {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--accent-on); font-size: 12px; font-weight: 700; flex: none;
+}
+.avatar-g1 { background: linear-gradient(135deg, oklch(46% 0.01 250), oklch(35% 0.01 250)); }
+.avatar-g2 { background: linear-gradient(135deg, oklch(55% 0.01 250), oklch(43% 0.01 250)); }
+.avatar-g3 { background: linear-gradient(135deg, oklch(40% 0.01 250), oklch(29% 0.01 250)); }
+.avatar-g4 { background: linear-gradient(135deg, oklch(62% 0.01 250), oklch(50% 0.01 250)); }
+
+/* ---------- 话题头部 ---------- */
+.topic-hero {
+  display: flex; gap: 24px; align-items: flex-start;
+  padding: 40px 0 28px;
+}
+.topic-hero-main { min-width: 0; flex: 1; }
+.topic-kicker { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.topic-hash {
+  font-family: var(--font-mono);
+  font-size: 26px; font-weight: 700;
+  color: var(--muted);
+  line-height: 1;
+}
+.topic-name {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl); font-weight: 800;
+  letter-spacing: var(--tracking-display);
+  color: var(--fg);
+  line-height: 1;
+}
+.topic-desc {
+  margin-top: 12px;
+  font-size: var(--text-base); line-height: 1.7;
+  color: var(--muted); max-width: 54em;
+}
+.topic-meta {
+  margin-top: 12px;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  font-size: var(--text-sm); color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.topic-meta .sep { width: 1px; height: 12px; background: var(--border); }
+.topic-hero-actions { flex: none; display: flex; gap: 10px; }
+
+.follow-btn {
+  flex: none;
+  height: 38px; padding: 0 18px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: background-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
+}
+.follow-btn:hover { background: var(--accent); color: var(--accent-on); border-color: var(--accent); }
+.follow-btn:focus-visible { box-shadow: var(--focus-ring); }
+.follow-btn.is-followed {
+  color: var(--muted);
+  background: color-mix(in oklab, var(--border) 40%, var(--surface));
+  border-color: var(--border);
+}
+.follow-btn.is-followed:hover { color: var(--fg); background: color-mix(in oklab, var(--border) 60%, var(--surface)); }
+
+/* ---------- 主布局 ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 720px) minmax(0, 320px);
+  justify-content: center;
+  gap: 48px;
+  align-items: start;
+  padding: 6px 0 64px;
+}
+.feed { min-width: 0; }
+.sort-row { display: flex; align-items: center; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+.srtab {
+  position: relative; flex: none;
+  padding: 9px 12px;
+  font-size: var(--text-sm); font-weight: 500; color: var(--muted);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.srtab:hover { color: var(--fg); background: color-mix(in oklab, var(--border) 30%, var(--surface)); }
+.srtab:focus-visible { box-shadow: var(--focus-ring); }
+.srtab.is-active { color: var(--fg); font-weight: 600; }
+.srtab.is-active::after {
+  content: ""; position: absolute; left: 12px; right: 12px; bottom: -1px;
+  height: 2px; border-radius: 2px; background: var(--accent);
+}
+
+.feed-list { display: flex; flex-direction: column; gap: 20px; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: border-color var(--motion-base) var(--ease-standard), box-shadow var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
+}
+.card:hover {
+  border-color: color-mix(in oklab, var(--fg) 20%, var(--surface));
+  box-shadow: var(--elev-raised);
+  transform: translateY(-2px);
+}
+.card-body { padding: 22px 24px 20px; }
+.card-meta-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.readtime { font-size: var(--text-xs); color: var(--muted); }
+.card-title { font-size: 20px; line-height: var(--leading-tight); font-weight: 700; color: var(--fg); margin: 10px 0 8px; letter-spacing: -0.01em; }
+.card-title a { transition: color var(--motion-fast) var(--ease-standard); }
+.card-title a:hover { color: var(--accent); }
+.card-excerpt {
+  font-size: var(--text-base); line-height: var(--leading-body);
+  color: var(--muted);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-footer {
+  display: flex; align-items: center; gap: 8px; row-gap: 8px; flex-wrap: wrap;
+  margin-top: 16px;
+  font-size: var(--text-sm); color: var(--muted);
+}
+.card-footer .dot { opacity: .45; }
+.author { font-weight: 600; color: var(--fg); transition: color var(--motion-fast) var(--ease-standard); }
+.author:hover { color: var(--accent); }
+.author-role {
+  font-size: 11px; font-weight: 600;
+  color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 6%, var(--surface));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 1px 6px;
+}
+.spacer { flex: 1; }
+.stat { display: inline-flex; align-items: center; gap: 4px; font-variant-numeric: tabular-nums; }
+.stat .icon { width: 14px; height: 14px; }
+.like-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  color: var(--muted);
+  padding: 4px 6px; margin: -4px -6px;
+  border-radius: var(--radius-sm);
+  transition: color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.like-btn:hover { color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.like-btn:focus-visible { box-shadow: var(--focus-ring); }
+.like-btn .icon { width: 14px; height: 14px; }
+.like-btn.is-liked { color: var(--accent); }
+.like-btn.is-liked .icon { fill: var(--accent); stroke: var(--accent); }
+
+/* ---------- 侧边栏 ---------- */
+.sidebar {
+  position: sticky; top: 128px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+}
+.panel-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: var(--text-sm); font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 10px;
+}
+.topic {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 9px 4px;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--motion-fast) var(--ease-standard);
+}
+.topic:hover { background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.topic-rank {
+  width: 18px; flex: none;
+  font-size: var(--text-sm); font-weight: 700;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.topic-name { font-size: var(--text-sm); font-weight: 600; color: var(--fg); transition: color var(--motion-fast) var(--ease-standard); }
+.topic-name:hover { color: var(--accent); }
+.topic-count {
+  margin-left: auto;
+  font-size: var(--text-xs); color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.rule-text { font-size: var(--text-sm); line-height: 1.7; color: var(--muted); }
+.rule-text strong { color: var(--fg); font-weight: 600; }
+
+/* ---------- 页脚 ---------- */
+.site-footer { border-top: 1px solid var(--border); background: var(--bg); }
+.footer-inner {
+  display: flex; align-items: center; gap: 20px; height: 72px;
+  font-size: var(--text-sm); color: var(--muted);
+}
+.footer-brand { font-size: 16px; font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); }
+.footer-links { margin-left: auto; display: flex; gap: 20px; }
+.footer-links a { transition: color var(--motion-fast) var(--ease-standard); }
+.footer-links a:hover { color: var(--fg); }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1020px) {
+  .sidebar { display: none; }
+  .layout { grid-template-columns: minmax(0, 720px); }
+}
+@media (max-width: 760px) {
+  .container { padding: 0 var(--container-gutter-phone); }
+  .notif-pop { position: fixed; top: 66px; right: 12px; width: min(344px, calc(100vw - 24px)); }
+  .search { display: none; }
+  .mobile-search { display: grid; }
+  .header-actions { margin-left: auto; }
+  .brand-word { font-size: 19px; }
+  .topic-hero { flex-direction: column; gap: 16px; padding: 28px 0 20px; }
+  .topic-hero-actions { width: 100%; }
+  .topic-hero-actions .btn { flex: 1; }
+  .topic-name { font-size: 26px; }
+  .layout { padding: 0 0 48px; }
+  .footer-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= 顶栏 ================= -->
+<header class="site-header" data-od-id="site-header">
+  <div class="container">
+    <div class="header-row">
+      <a class="brand" href="zd-feed-home.html" data-od-id="brand" aria-label="zd 首页">
+        <span class="brand-mark">z</span>
+        <span class="brand-word">d</span>
+      </a>
+
+      <form class="search" action="zd-search.html" method="get" role="search" data-od-id="search">
+        <svg class="icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="M20 20l-3.2-3.2"/>
+        </svg>
+        <input id="search-input" name="q" type="search" placeholder="搜索文章、话题或作者" aria-label="搜索文章、话题或作者" autocomplete="off">
+        <kbd class="search-kbd">⌘K</kbd>
+      </form>
+
+      <div class="header-actions">
+        <a class="icon-btn mobile-search" href="zd-search.html" data-od-id="nav-search-mobile" aria-label="搜索">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+        </a>
+        <a class="btn btn-primary" href="zd-create.html" data-od-id="cta-create">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          AI 写作
+        </a>
+        <div class="notif-wrap" data-od-id="nav-notifications">
+          <button class="icon-btn" id="bell-btn" type="button" aria-label="通知,3 条未读" aria-haspopup="dialog" aria-expanded="false" aria-controls="notif-pop">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
+            <span class="bell-dot" id="bell-dot"></span>
+          </button>
+          <div class="notif-pop" id="notif-pop" role="dialog" aria-label="通知">
+            <div class="notif-head">
+              <h3>通知</h3>
+              <button class="notif-readall" id="notif-readall" type="button">全部已读</button>
+            </div>
+            <div class="notif-list">
+              <div class="notif-item is-unread">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                <span class="notif-unread-dot" aria-hidden="true"></span>
+                <div class="notif-body">
+                  <p class="notif-text"><strong>织云</strong> 收藏了你的作品《从色块到情绪》</p>
+                  <span class="notif-time">2 分钟前</span>
+                </div>
+              </div>
+              <div class="notif-item is-unread">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span class="notif-unread-dot" aria-hidden="true"></span>
+                <div class="notif-body">
+                  <p class="notif-text"><strong>@AI 助手</strong> 评论了你的文章 <em>「结尾可以更干脆一些」</em></p>
+                  <span class="notif-time">1 小时前</span>
+                </div>
+              </div>
+              <div class="notif-item">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <div class="notif-body">
+                  <p class="notif-text"><strong>苏航</strong> 开始关注你</p>
+                  <span class="notif-time">3 小时前</span>
+                </div>
+              </div>
+            </div>
+            <div class="notif-foot">
+              <a href="zd-notifications.html" data-od-id="notif-view-all">查看全部通知 →</a>
+            </div>
+          </div>
+        </div>
+        <a class="header-login" href="zd-auth.html" data-od-id="cta-login">登录</a>
+        <a class="avatar avatar-g1" href="zd-me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= 话题头部 ================= -->
+<main class="container">
+  <section class="topic-hero" data-od-id="topic-hero">
+    <div class="topic-hero-main">
+      <div class="topic-kicker">
+        <span class="topic-hash">#</span>
+        <h1 class="topic-name" id="tp-name">AI 编程</h1>
+      </div>
+      <p class="topic-desc" id="tp-desc">AI 编程正在重塑团队协作——从补全一行代码到理解整个代码库。分享实践、对比工具、交流提示词。</p>
+      <div class="topic-meta" id="tp-meta">
+        <span id="tp-discuss">12.4k 讨论</span>
+        <span class="sep"></span>
+        <span id="tp-followers">38k 人关注</span>
+        <span class="sep"></span>
+        <span id="tp-editor">编辑推荐 · 5 次</span>
+      </div>
+    </div>
+    <div class="topic-hero-actions">
+      <button class="follow-btn" id="tp-follow" type="button" data-od-id="topic-follow">关注话题</button>
+      <button class="btn btn-primary" type="button" data-od-id="topic-post">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        发帖
+      </button>
+    </div>
+  </section>
+
+  <div class="layout">
+    <section class="feed" data-od-id="feed" aria-label="话题内容流">
+      <div class="sort-row" role="tablist" aria-label="排序方式">
+        <button class="srtab is-active" type="button" data-sort="latest" data-od-id="sort-latest">最新</button>
+        <button class="srtab" type="button" data-sort="hot" data-od-id="sort-hot">热门</button>
+        <button class="srtab" type="button" data-sort="discuss" data-od-id="sort-discuss">讨论最多</button>
+      </div>
+      <div class="feed-list" id="topic-feed"><!-- JS 渲染 --></div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel" data-od-id="sidebar-related">
+        <h2 class="panel-title">相关话题</h2>
+        <div id="related-list"><!-- JS 渲染 --></div>
+      </section>
+      <section class="panel" data-od-id="sidebar-rule">
+        <h2 class="panel-title">话题规则</h2>
+        <p class="rule-text" id="tp-rule">本话题欢迎分享真实实践与可复现的过程,讨论请围绕主题。AI 生成内容请标注来源与提示词。</p>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<!-- ================= 页脚 ================= -->
+<footer class="site-footer" data-od-id="footer">
+  <div class="container footer-inner">
+    <span class="footer-brand">zd</span>
+    <span>阅读、讨论,用 AI 开始创作</span>
+    <nav class="footer-links" aria-label="页脚导航">
+      <a href="zd-search.html">搜索</a>
+      <a href="zd-notifications.html">通知</a>
+      <a href="zd-community-guidelines.html">社区准则</a>
+      <a href="zd-help.html">帮助中心</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  function fmt(n) {
+    if (typeof n === "string") return n;
+    if (n >= 10000) { var v = (n / 10000).toFixed(1).replace(/\.0$/, ""); return v + " 万"; }
+    return String(n);
+  }
+
+  var TOPICS = {
+    独立开发者: {
+      desc: "一个人就是一支团队。分享独立开发的工具栈、产品思路与踩坑记录。",
+      discuss: "8.9k", followers: "21k", editor: "编辑推荐 · 5 次", followed: false,
+      rule: "欢迎分享真实收入、成本与工具链拆解。广告与付费推广请移步相关渠道。",
+      related: ["AI 编程", "开源与商业化", "效率工具", "数字游民"],
+      posts: [
+        { tags: ["独立开发", "工具"], author: "顾南", ch: "顾", av: "avatar-g4", role: "专栏", title: "独立开发三年,我重新理解了「一个人就是一支团队」", excerpt: "从写代码到客服、运营、财务。聊聊一个人做产品最被低估的能力,以及哪些坑不必亲自踩。", views: "1.3 万", likes: 720, time: "昨天" },
+        { tags: ["收入", "复盘"], author: "陈默", ch: "陈", av: "avatar-g1", role: "专栏", title: "一个人做产品,收入构成比想象中多元", excerpt: "订阅、咨询、周边、开源捐赠——把一年的收入拆开看,哪些稳定哪些是惊喜。", views: "6.4k", likes: 431, time: "5 天前" }
+      ]
+    },
+    设计系统: {
+      desc: "从按钮到全站体系,聊设计 token、组件库与团队协作。",
+      discuss: "6.2k", followers: "18k", editor: "编辑推荐 · 7 次", followed: false,
+      rule: "分享请附组件示例或版本说明。讨论设计决策时,建议说明上下文与取舍。",
+      related: ["AI 编程", "配色", "职业成长", "工作流"],
+      posts: [
+        { tags: ["设计系统", "实战"], author: "林晚", ch: "林", av: "avatar-g2", role: "专栏", title: "一个设计系统是怎么从 3 个组件长到 90 个的", excerpt: "从按钮开始,到覆盖全站组件的完整体系。整理三年来搭建设计系统的决策记录与踩坑清单。", views: "9.4k", likes: 583, time: "上周" },
+        { tags: ["设计系统", "CSS"], author: "林晚", ch: "林", av: "avatar-g2", role: "专栏", title: "用 Oklch 重写色板:设计 token 的一次升级", excerpt: "为什么从 Hex 换到 Oklch?颜色插值与暗色模式的体验差异有多大。附迁移清单。", views: "3.8k", likes: 296, time: "3 天前" }
+      ]
+    },
+    开源与商业化: {
+      desc: "开源项目如何活下去:托管、双许可、支持计划与商业闭环。",
+      discuss: "5.7k", followers: "16k", editor: "编辑推荐 · 4 次", followed: false,
+      rule: "涉及具体项目可附链接与数据,但禁止在讨论中硬广或拉新。",
+      related: ["独立开发者", "AI 编程", "效率工具", "工作流"],
+      posts: [
+        { tags: ["开源", "商业模式"], author: "陈默", ch: "陈", av: "avatar-g1", role: "专栏", title: "开源项目赚到钱,靠的不是打赏", excerpt: "梳理开源的几种主流变现路径:托管、双许可、支持计划。附真实项目收入拆解。", views: "9.8k", likes: 602, time: "3 天前" }
+      ]
+    },
+    数字游民: {
+      desc: "远程工作与数字游民的生活方式、工具与取舍。",
+      discuss: "3.1k", followers: "9.1k", editor: "编辑推荐 · 2 次", followed: false,
+      rule: "欢迎分享真实体验与财务记录。谨慎看待「快速实现游民」类营销话术。",
+      related: ["独立开发者", "效率工具", "生活", "工作流"],
+      posts: [
+        { tags: ["生活方式", "工具"], author: "顾南", ch: "顾", av: "avatar-g4", role: "专栏", title: "我的 5-9 自由职业作息,和踩过的坑", excerpt: "从上班到自由职业的作息迁移记录:哪些方法有效,哪些只是自我感动。", views: "1.8 万", likes: 620, time: "上月" }
+      ]
+    },
+    "AI 编程": {
+      desc: "AI 编程正在重塑团队协作——从补全一行代码到理解整个代码库。分享实践、对比工具、交流提示词。",
+      discuss: "12.4k", followers: "38k", editor: "编辑推荐 · 5 次", followed: false,
+      rule: "分享真实工程实践与工具对比,禁止广告与拉新。涉及代码请附可运行示例,AI 辅助产出请标注。",
+      related: ["独立开发者", "开源与商业化", "效率工具", "工作流"],
+      posts: [
+        { tags: ["技术", "AI", "效率工具"], author: "陈默", ch: "陈", av: "avatar-g1", role: "专栏", title: "GPT 时刻之后:AI 编程正在重塑团队的协作方式", excerpt: "从「帮你补全一行代码」到「理解整个代码库」,AI 助手正把写代码变成描述问题。我们和十几位一线工程师聊了聊,这场效率革命将把团队协作带向哪里。", views: "2.3 万", likes: 486, time: "2 小时前" },
+        { tags: ["工具", "工作流"], ai: true, model: "Claude 3.7", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "我把常用 CI 检查做成了 12 条提示词", excerpt: "从 lint 到单元测试,把重复的代码审查动作沉淀成提示词模板,新人也能直接用。附完整模板。", views: "3.4k", likes: 271, time: "6 小时前" },
+        { tags: ["实践", "团队"], author: "陈默", ch: "陈", av: "avatar-g1", role: "专栏", title: "AI 结对编程一个月,我们改掉了代码评审的习惯", excerpt: "当每个 PR 都先过一遍 AI review,人的评审应该聚焦在哪里?一次团队实验的真实记录。", views: "8.1k", likes: 394, time: "昨天" }
+      ]
+    },
+    提示词: {
+      desc: "分享、对比与改进有效提示词的阵地——每个作品都附可复制的提示词。",
+      discuss: "8.9k", followers: "24k", editor: "编辑推荐 · 8 次", followed: true,
+      rule: "发布提示词请附示例输入与输出。鼓励注明模型版本与温度等参数,便于他人复现。",
+      related: ["AI 写作", "配色", "模型对比", "工作流"],
+      posts: [
+        { tags: ["提示词", "AI"], ai: true, model: "Claude 3.7", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "把「翻译腔」调成中文味:一条提示词搞定", excerpt: "机翻味来自哪?如何让模型写出「像人写的话」。附逐条改写对比与可复制的提示词模板。", views: "4.6k", likes: 512, time: "3 天前" },
+        { tags: ["提示词", "写作"], ai: true, model: "GPT-4o", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "用提示词给这届打工人写一份「下班反内耗指南」", excerpt: "把「下班后依然焦虑」拆成 8 个具体场景,让 AI 逐条给出可执行的反内耗策略。提示词与完整回复已附在正文。", views: "860", likes: 438, time: "15 分钟前" },
+        { tags: ["技巧", "方法论"], author: "林晚", ch: "林", av: "avatar-g2", role: "专栏", title: "写提示词前,先问自己这三个问题", excerpt: "目的、约束、评价标准——三个问题想清楚,提示词就成功了一半。", views: "6.6k", likes: 487, time: "上周" }
+      ]
+    },
+    模型对比: {
+      desc: "同一道题,GPT、Claude、文心各自怎么答。附双方提示词与输出差异。",
+      discuss: "6.2k", followers: "19k", editor: "编辑推荐 · 4 次", followed: false,
+      rule: "对比需同一组提示词与参数,附输出全文,结论尽量给出量化依据。",
+      related: ["大模型", "翻译", "AI 编程", "提示词"],
+      posts: [
+        { tags: ["大模型", "评测"], author: "苏航", ch: "苏", av: "avatar-g3", role: "专栏", title: "同一句话,GPT、Claude、文心各怎么翻", excerpt: "20 组中文语句的对照评测:命名、口语、成语、行业黑话,谁赢在哪。", views: "5.3k", likes: 346, time: "上周" },
+        { tags: ["大模型", "中文能力"], author: "苏航", ch: "苏", av: "avatar-g3", role: "专栏", title: "为什么国产大模型的翻译,总是差一点意思?", excerpt: "比起 ChatGPT 的流畅,不少国产模型的译文总带着一股「机翻味」。是语料的问题,还是产品思路的问题?", views: "9.6k", likes: 128, time: "3 小时前" },
+        { tags: ["评测", "编程"], author: "陈默", ch: "陈", av: "avatar-g1", role: "专栏", title: "四个模型,同一道 LeetCode 中等题", excerpt: "思路、实现、可读性、错误率,逐项打分。附完整代码与运行结果。", views: "4.2k", likes: 298, time: "4 天前" }
+      ]
+    },
+    梗图: {
+      desc: "用一条提示词生成一套梗图素材——提示词与出图配方全部公开。",
+      discuss: "4.1k", followers: "12k", editor: "编辑推荐 · 2 次", followed: false,
+      rule: "鼓励整活但请注明模型与提示词,含人物形象请确认授权。",
+      related: ["提示词", "配色", "工作流", "生成式设计"],
+      posts: [
+        { tags: ["生成式", "整活"], ai: true, model: "GPT-4o", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "用一条提示词生成 20 张打工人生存图鉴", excerpt: "从周一到周日,每天一张。提示词拆解与可替换的变量都写在正文里。", views: "2.1 万", likes: 1560, time: "2 天前" },
+        { tags: ["生成式", "设计"], author: "顾南", ch: "顾", av: "avatar-g4", role: "专栏", title: "把播客封面做成梗图,我的周末实验", excerpt: "一张封面改 30 个版本是什么体验?聊配图技巧,也聊聊版权边界。", views: "3.2k", likes: 214, time: "5 天前" }
+      ]
+    },
+    工作流: {
+      desc: "从想法到成品:大家晒自己的 AI 写作 / 设计流水线。",
+      discuss: "3.5k", followers: "9.6k", editor: "编辑推荐 · 3 次", followed: false,
+      rule: "欢迎拆解完整流程:输入、工具、人工介入点、产出。可附费用与耗时。",
+      related: ["提示词", "效率工具", "独立开发者", "AI 写作"],
+      posts: [
+        { tags: ["效率", "自动化"], author: "陈默", ch: "陈", av: "avatar-g1", role: "专栏", title: "我的 AI 写作流水线:从灵感到发布的 90 分钟", excerpt: "选题、大纲、初稿、事实核查、排版——每一环用什么工具、哪些步骤保留人工。", views: "7.2k", likes: 561, time: "3 天前" },
+        { tags: ["工作流", "设计"], author: "林晚", ch: "林", av: "avatar-g2", role: "专栏", title: "和 AI 结对做设计:我的半年实验报告", excerpt: "提示词、参考图、迭代评审——AI 进入设计流程后,我的产出结构发生了什么变化。", views: "6.8k", likes: 402, time: "上周" }
+      ]
+    },
+    "AI 写作": {
+      desc: "关于用 AI 写文章、改稿、出标题的一切,评论区 @AI 助手 可直接加入。",
+      discuss: "7.4k", followers: "22k", editor: "编辑推荐 · 6 次", followed: true,
+      rule: "AI 生成内容请明确标注。鼓励分享完整提示词与改稿过程,而非只贴结果。",
+      related: ["提示词", "工作流", "写作", "模型对比"],
+      posts: [
+        { tags: ["写作", "AI"], ai: true, model: "GPT-4o", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "用提示词给这届打工人写一份「下班反内耗指南」", excerpt: "把「下班后依然焦虑」拆成 8 个具体场景,让 AI 逐条给出可执行的反内耗策略。", views: "860", likes: 438, time: "15 分钟前" },
+        { tags: ["方法论", "写作"], author: "陈默", ch: "陈", av: "avatar-g1", role: "专栏", title: "把 AI 当成同事,而不是搜索引擎", excerpt: "同样是提问,「帮我总结」和「帮我做决策」得到的结果完全不同。聊聊如何给模型更完整的上下文。", views: "1.2 万", likes: 318, time: "上周" },
+        { tags: ["改稿", "技巧"], author: "林晚", ch: "林", av: "avatar-g2", role: "专栏", title: "让 AI 帮你改标题,但先给它看十篇好标题", excerpt: "少喂规则,多喂样本。一次改稿实验说明白为什么。", views: "4.8k", likes: 356, time: "4 天前" }
+      ]
+    },
+    配色: {
+      desc: "色卡、情绪配色与 CSS 变量——一切关于颜色的生成实验。",
+      discuss: "1.2k", followers: "4.8k", editor: "编辑推荐 · 1 次", followed: false,
+      rule: "分享色卡请注明生成方式,附色彩空间与变量方便直接取用。",
+      related: ["提示词", "渐变", "生成式设计", "梗图"],
+      posts: [
+        { tags: ["设计", "AI"], ai: true, model: "GPT-4o", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "从色块到情绪:AI 帮我找到的 12 种渐变心情", excerpt: "把「周一早上的地铁」翻译成一整套配色方案,再把色块变成一组可以拿走的表情素材。", views: "1.2 万", likes: 934, time: "40 分钟前" },
+        { tags: ["配色", "AI"], ai: true, model: "GPT-4o", author: "织云", ch: "织", av: "avatar-g3", role: "AI 作者", title: "我把公司配色做成了 40 组渐变色卡", excerpt: "一套品牌色能衍生出多少种渐变?用提示词批量生成 40 组,并整理成可以直接取用的 CSS 变量。", views: "1.9k", likes: 388, time: "昨天" }
+      ]
+    },
+    渐变: {
+      desc: "色卡、情绪配色与 CSS 变量——一切关于颜色的生成实验。",
+      discuss: "640", followers: "1.9k", editor: "编辑推荐 · 1 次", followed: false,
+      rule: "分享色卡请注明生成方式,附色彩空间与变量方便直接取用。",
+      related: ["配色", "提示词", "生成式设计", "梗图"],
+      posts: [
+        { tags: ["配色", "CSS"], author: "顾南", ch: "顾", av: "avatar-g4", role: "专栏", title: "渐变背后:从 Oklch 到 CSS color-mix 的手感", excerpt: "换一种颜色模型之后,调渐变的手感完全不同了。聊聊我最近的配色工作流。", views: "2.2k", likes: 187, time: "6 天前" }
+      ]
+    },
+    效率工具: {
+      desc: "让工作流更顺的工具测评与效率方法论。",
+      discuss: "2.7k", followers: "7.4k", editor: "编辑推荐 · 3 次", followed: false,
+      rule: "测评请注明版本与使用场景,优先本地可验证的结论。",
+      related: ["独立开发者", "工作流", "大模型", "数字游民"],
+      posts: [
+        { tags: ["效率工具", "测评"], author: "陈默", ch: "陈", av: "avatar-g1", role: "专栏", title: "本地优先:数据住在你的设备上,而不是云端", excerpt: "从数据主权与隐私切入,梳理「本地优先」的发展脉络、代表性工具,以及它离主流还有多远。", views: "860", likes: 204, time: "上月" }
+      ]
+    },
+    大模型: {
+      desc: "从模型能力到实际使用,一起聊大模型的变化与边界。",
+      discuss: "8.1k", followers: "24k", editor: "编辑推荐 · 8 次", followed: false,
+      rule: "评测请注明模型版本与运行环境,输出请保留原始内容以便复现。",
+      related: ["模型对比", "提示词", "AI 编程", "翻译"],
+      posts: [
+        { tags: ["大模型", "中文能力"], author: "苏航", ch: "苏", av: "avatar-g3", role: "专栏", title: "为什么国产大模型的翻译,总是差一点意思?", excerpt: "比起 ChatGPT 的流畅,不少国产模型的译文总带着一股「机翻味」。是语料的问题,还是产品思路的问题?", views: "9.6k", likes: 128, time: "3 小时前" }
+      ]
+    },
+    职业成长: {
+      desc: "职业路径、技能成长与团队协作的心得交流。",
+      discuss: "4.6k", followers: "13k", editor: "编辑推荐 · 3 次", followed: false,
+      rule: "欢迎分享真实经历与可验证的方法,避免贩卖焦虑。",
+      related: ["工作流", "独立开发者", "效率工具", "设计系统"],
+      posts: []
+    },
+    生活: {
+      desc: "工作之外的生活方式与日常分享。",
+      discuss: "5.2k", followers: "15k", editor: "编辑推荐 · 2 次", followed: false,
+      rule: "分享日常请保持友善,涉及隐私请打码。",
+      related: ["数字游民", "效率工具", "职业成长", "工作流"],
+      posts: []
+    },
+    翻译: {
+      desc: "关于机器翻译、译后编辑与多语言内容的一切。",
+      discuss: "1.4k", followers: "3.6k", editor: "编辑推荐 · 1 次", followed: false,
+      rule: "对比请附原文与译文,注明所用模型与版本。",
+      related: ["模型对比", "大模型", "AI 写作", "提示词"],
+      posts: []
+    },
+    写作: {
+      desc: "写作方法论、编辑技巧与 AI 协作写作实践。",
+      discuss: "6.3k", followers: "18k", editor: "编辑推荐 · 5 次", followed: false,
+      rule: "AI 生成内容请标注,鼓励分享改稿过程。",
+      related: ["AI 写作", "提示词", "工作流", "模型对比"],
+      posts: []
+    },
+    生成式设计: {
+      desc: "用生成式 AI 做设计:提示词、参考图与迭代工作流。",
+      discuss: "3.8k", followers: "11k", editor: "编辑推荐 · 4 次", followed: false,
+      rule: "请注明模型与提示词,分享可控与不可控的经验。",
+      related: ["配色", "梗图", "渐变", "工作流"],
+      posts: []
+    }
+  };
+
+  var params = new URLSearchParams(location.search);
+  var tName = params.get("t");
+  var topic = TOPICS[tName] || TOPICS["AI 编程"];
+
+  function fmtLike(n) { return fmt(n); }
+
+  function authorHref(name) {
+    var map = { "陈默": "chenmo", "林晚": "linwan", "织云": "zhiyun", "苏航": "suhang", "顾南": "gunan" };
+    var k = map[name];
+    return k ? "zd-profile.html?user=" + k : "zd-profile.html";
+  }
+
+  function renderPost(p) {
+    var meta = '<div class="card-meta-top">';
+    p.tags.forEach(function (t) { meta += '<span class="tag">' + t + "</span>"; });
+    if (p.ai) {
+      meta += '<span class="badge-ai"><svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c.5 3.7 3 6.2 6.7 6.7-3.7.5-6.2 3-6.7 6.7C11.5 11.7 9 9.2 5.3 8.7 9 8.2 11.5 5.7 12 2Z"/><path d="M19 14c.3 1.9 1.6 3.2 3.5 3.5-1.9.3-3.2 1.6-3.5 3.5-.3-1.9-1.6-3.2-3.5-3.5 1.9-.3 3.2-1.6 3.5-3.5Z"/></svg>基于 AI 生成</span>';
+      meta += '<span class="model-tag">' + p.model + "</span>";
+    }
+    meta += '<span class="readtime">' + (p.role === "AI 作者" ? "约 3 分钟" : "约 6 分钟") + "</span></div>";
+
+    var el = document.createElement("article");
+    el.className = "card";
+    el.setAttribute("data-od-id", "topic-post-" + p.title.slice(0, 4));
+    el.innerHTML =
+      '<div class="card-body">' + meta +
+      '<h3 class="card-title"><a href="zd-post.html">' + p.title + "</a></h3>" +
+      '<p class="card-excerpt">' + p.excerpt + "</p>" +
+      '<div class="card-footer">' +
+        '<span class="avatar-sm ' + p.av + '" role="img" aria-label="' + p.author + '">' + p.ch + "</span>" +
+        '<a class="author" href="' + authorHref(p.author) + '">' + p.author + "</a>" +
+        (p.role ? '<span class="author-role">' + p.role + "</span>" : "") +
+        '<span class="dot">·</span><time>' + p.time + "</time>" +
+        '<span class="spacer"></span>' +
+        '<span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>' + p.views + "</span>" +
+        '<button class="like-btn" type="button" data-count="' + p.likes + '" aria-label="点赞,当前 ' + p.likes + '">' +
+          '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.3 7.7 3.6 4.5 7 4.5c2 0 3.6 1 5 2.9 1.4-1.9 3-2.9 5-2.9 3.4 0 5.7 3.2 4.3 6.8C19.5 15.9 12 20.5 12 20.5Z"/></svg>' +
+          '<span class="like-num">' + fmtLike(p.likes) + "</span>" +
+        "</button>" +
+      "</div></div>";
+    return el;
+  }
+
+  function renderFeed(sort) {
+    var box = document.getElementById("topic-feed");
+    box.innerHTML = "";
+    var posts = topic.posts;
+    if (sort === "hot") {
+      posts = posts.slice().sort(function (a, b) { return (b.likes | 0) - (a.likes | 0); });
+    } else if (sort === "discuss") {
+      posts = posts.slice().sort(function (a, b) { return (b.views.slice ? parseInt(b.views) : 0) - (a.views.slice ? parseInt(a.views) : 0); });
+    }
+    posts.forEach(function (p) { box.appendChild(renderPost(p)); });
+  }
+
+  function renderRelated() {
+    var box = document.getElementById("related-list");
+    box.innerHTML = "";
+    topic.related.forEach(function (t, i) {
+      var a = document.createElement("a");
+      a.className = "topic";
+      a.href = "zd-topic.html?t=" + encodeURIComponent(t);
+      a.setAttribute("data-od-id", "related-topic-" + t);
+      a.innerHTML = '<span class="topic-rank">0' + (i + 1) + "</span><span class=\"topic-name\">" + t + "</span>";
+      box.appendChild(a);
+    });
+  }
+
+  function apply() {
+    document.title = "#" + tName + " · 话题 · zd";
+    document.getElementById("tp-name").textContent = tName;
+    document.getElementById("tp-desc").textContent = topic.desc;
+    document.getElementById("tp-discuss").textContent = topic.discuss + " 讨论";
+    document.getElementById("tp-followers").textContent = topic.followers + " 人关注";
+    document.getElementById("tp-editor").textContent = topic.editor;
+    document.getElementById("tp-rule").textContent = topic.rule;
+    var fb = document.getElementById("tp-follow");
+    if (topic.followed) { fb.classList.add("is-followed"); fb.textContent = "已关注"; }
+    renderFeed("latest");
+    renderRelated();
+  }
+  apply();
+
+  /* 排序 */
+  var sortTabs = Array.prototype.slice.call(document.querySelectorAll(".srtab"));
+  sortTabs.forEach(function (t) {
+    t.addEventListener("click", function () {
+      sortTabs.forEach(function (x) { x.classList.toggle("is-active", x === t); });
+      renderFeed(t.dataset.sort);
+    });
+  });
+
+  /* 整卡可点 */
+  document.getElementById("topic-feed").addEventListener("click", function (e) {
+    if (e.target.closest("a, button")) return;
+    var card = e.target.closest(".card");
+    if (card) location.href = "zd-post.html";
+  });
+
+  /* 关注话题 */
+  var followBtn = document.getElementById("tp-follow");
+  followBtn.addEventListener("click", function () {
+    var on = followBtn.classList.toggle("is-followed");
+    followBtn.textContent = on ? "已关注" : "关注话题";
+  });
+
+  /* 发帖 → 工作台 */
+  document.querySelector('[data-od-id="topic-post"]').addEventListener("click", function () {
+    location.href = "zd-create.html";
+  });
+
+  /* 点赞 */
+  Array.prototype.slice.call(document.querySelectorAll(".like-btn")).forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var liked = btn.classList.toggle("is-liked");
+      var num = btn.querySelector(".like-num");
+      var v = parseInt(btn.dataset.count, 10) || 0;
+      btn.dataset.count = liked ? v + 1 : v - 1;
+      num.textContent = fmt(parseInt(btn.dataset.count, 10));
+    });
+  });
+
+  /* ⌘K 聚焦搜索 */
+  var searchInput = document.getElementById("search-input");
+  document.addEventListener("keydown", function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      if (searchInput) searchInput.focus();
+    }
+  });
+
+  /* 通知浮窗 */
+  var bellBtn = document.getElementById("bell-btn");
+  var notifPop = document.getElementById("notif-pop");
+  function setNotif(open) {
+    if (!bellBtn || !notifPop) return;
+    bellBtn.classList.toggle("is-open", open);
+    notifPop.classList.toggle("is-open", open);
+    bellBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  if (bellBtn && notifPop) {
+    bellBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      setNotif(bellBtn.getAttribute("aria-expanded") !== "true");
+    });
+    document.addEventListener("click", function (e) {
+      if (bellBtn.getAttribute("aria-expanded") === "true" && !e.target.closest(".notif-wrap")) setNotif(false);
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") setNotif(false); });
+  }
+  var readAll = document.getElementById("notif-readall");
+  if (readAll) {
+    readAll.addEventListener("click", function () {
+      var dot = document.getElementById("bell-dot");
+      if (dot) dot.style.display = "none";
+      Array.prototype.slice.call(document.querySelectorAll(".notif-item.is-unread")).forEach(function (item) {
+        item.classList.remove("is-unread");
+      });
+      bellBtn.setAttribute("aria-label", "通知");
+    });
+  }
+})();
+</script>
+</body>
+</html>

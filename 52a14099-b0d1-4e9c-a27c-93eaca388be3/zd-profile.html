@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>作者主页 · zd</title>
+<style>
+/* ============================================================
+   zd 他人主页 — 社区作者 profile
+   设计系统:shadcn 风格 — 极简中性、黑白主色、克制的留白与描边
+   ============================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-warm: var(--surface);
+  --fg: #111827;
+  --fg-2: var(--fg);
+  --muted: #64748b;
+  --meta: var(--muted);
+  --border: #e5e7eb;
+  --border-soft: var(--border);
+  --accent: #000000;
+  --accent-on: #ffffff;
+  --accent-hover: color-mix(in oklab, var(--accent), white 10%);
+  --accent-active: color-mix(in oklab, var(--accent), white 18%);
+  --success: #16a34a;
+  --warn: #d97706;
+  --danger: #dc2626;
+  --font-display: "Geist", "Geist Sans", -apple-system, system-ui, "Segoe UI", Arial, sans-serif;
+  --font-body: "Geist", "Geist Sans", -apple-system, system-ui, "Segoe UI", Arial, sans-serif;
+  --font-mono: "Fira Code", ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+  --text-3xl: 40px;
+  --text-4xl: 48px;
+  --leading-body: 1.5;
+  --leading-tight: 1.2;
+  --tracking-display: -0.02em;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 9999px;
+  --elev-flat: none;
+  --elev-ring: 0 0 0 1px var(--border);
+  --elev-raised:
+    0 1px 2px 0 color-mix(in oklab, var(--fg), transparent 92%),
+    0 1px 3px 0 color-mix(in oklab, var(--fg), transparent 88%);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+  --motion-fast: 150ms;
+  --motion-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --container-max: 1280px;
+  --container-gutter-desktop: 24px;
+  --container-gutter-tablet: 16px;
+  --container-gutter-phone: 16px;
+}
+
+/* ---------- 基础 ---------- */
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 15px;
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; }
+button { font: inherit; border: none; background: none; cursor: pointer; color: inherit; }
+::selection { background: color-mix(in oklab, var(--accent) 12%, var(--surface)); }
+
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+.container { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--container-gutter-desktop); }
+.icon { width: 16px; height: 16px; flex: none; }
+
+/* ---------- 顶栏 ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in oklab, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+}
+.header-row { display: flex; align-items: center; gap: 20px; height: 60px; }
+.brand { display: flex; align-items: center; gap: 7px; flex: none; }
+.brand-mark {
+  width: 28px; height: 28px; border-radius: var(--radius-sm);
+  display: grid; place-items: center;
+  background: var(--accent); color: var(--accent-on);
+  font-weight: 700; font-size: 15px;
+}
+.brand-word { font-size: 21px; font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); }
+
+.search { flex: 1; max-width: 420px; margin: 0 auto; position: relative; }
+.search input {
+  width: 100%; height: 38px; padding: 0 52px 0 38px;
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--surface); color: var(--fg);
+  font-size: var(--text-sm);
+  transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
+}
+.search input::placeholder { color: var(--muted); }
+.search input:hover { border-color: var(--fg); }
+.search input:focus, .search input:focus-visible {
+  outline: none; border-color: var(--accent); box-shadow: var(--focus-ring);
+}
+.search-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); pointer-events: none;
+}
+.search-kbd {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+  background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
+  border-radius: var(--radius-sm); padding: 1px 6px; pointer-events: none; white-space: nowrap;
+}
+
+.header-actions { display: flex; align-items: center; gap: 14px; flex: none; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 38px; padding: 0 16px; border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  transition: background-color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard), transform .1s ease;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); color: var(--accent-on); box-shadow: var(--elev-ring); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { background: var(--accent-active); }
+.btn-primary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.btn-ghost { color: var(--fg); border: 1px solid var(--border); background: var(--surface); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: color-mix(in oklab, var(--accent) 5%, var(--surface)); }
+
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--accent-on); font-size: 13px; font-weight: 700;
+  border: 1px solid var(--border);
+  transition: transform var(--motion-fast) var(--ease-standard);
+}
+.avatar:hover { transform: scale(1.05); }
+
+.header-login {
+  display: inline-flex; align-items: center;
+  height: 38px; padding: 0 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.header-login:hover { color: var(--fg); border-color: var(--fg); }
+.header-login:focus-visible { box-shadow: var(--focus-ring); }
+
+.icon-btn {
+  position: relative;
+  display: grid; place-items: center;
+  width: 38px; height: 38px;
+  border-radius: var(--radius-md);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.icon-btn:hover { border-color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.mobile-search { display: none; }
+.icon-btn:focus-visible { box-shadow: var(--focus-ring); }
+.icon-btn .icon { width: 17px; height: 17px; }
+.bell-dot {
+  position: absolute; top: 7px; right: 8px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+  border: 1.5px solid var(--surface);
+}
+.icon-btn.is-open { border-color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+
+/* 通知浮窗 */
+.notif-wrap { position: relative; }
+.notif-pop {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 344px;
+  max-width: calc(100vw - 32px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  z-index: 60;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard), visibility 0s linear var(--motion-base);
+}
+.notif-pop.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
+}
+.notif-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.notif-head h3 { font-size: var(--text-base); font-weight: 600; color: var(--fg); }
+.notif-readall {
+  font-size: var(--text-xs); color: var(--muted);
+  border: 0; background: none; padding: 4px 6px; border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+.notif-readall:hover { color: var(--fg); }
+.notif-readall:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.notif-list { padding: 4px 0; max-height: 300px; overflow-y: auto; }
+.notif-item {
+  display: flex; gap: 10px;
+  padding: 11px 16px;
+  position: relative;
+}
+.notif-item + .notif-item { border-top: 1px solid var(--border-soft); }
+.notif-item.is-unread { background: color-mix(in oklab, var(--border) 26%, var(--surface)); }
+.notif-item:hover { background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.notif-item .icon { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--muted); }
+.notif-item.is-unread .icon { color: var(--accent); }
+.notif-body { min-width: 0; }
+.notif-text { font-size: var(--text-sm); line-height: var(--leading-body); color: var(--fg); }
+.notif-text strong { font-weight: 600; }
+.notif-text em { font-style: normal; color: var(--muted); }
+.notif-time { display: block; margin-top: 3px; font-size: var(--text-xs); color: var(--muted); }
+.notif-unread-dot {
+  position: absolute; left: 8px; top: 16px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+}
+.notif-foot {
+  padding: 10px 16px 14px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.notif-foot a {
+  display: inline-block;
+  font-size: var(--text-sm); font-weight: 500; color: var(--fg);
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  transition: background-color var(--motion-fast) var(--ease-standard);
+}
+.notif-foot a:hover { background: color-mix(in oklab, var(--border) 50%, var(--surface)); }
+.notif-foot a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.author-role.ai { color: var(--accent-on); background: var(--accent); border-color: var(--accent); }
+.avatar-g1 { background: linear-gradient(135deg, oklch(46% 0.01 250), oklch(35% 0.01 250)); }
+.avatar-g2 { background: linear-gradient(135deg, oklch(55% 0.01 250), oklch(43% 0.01 250)); }
+.avatar-g3 { background: linear-gradient(135deg, oklch(40% 0.01 250), oklch(29% 0.01 250)); }
+.avatar-g4 { background: linear-gradient(135deg, oklch(62% 0.01 250), oklch(50% 0.01 250)); }
+
+/* 轻提示 */
+.toast {
+  position: fixed; left: 50%; bottom: 28px;
+  transform: translate(-50%, 20px);
+  opacity: 0; pointer-events: none;
+  background: var(--fg); color: var(--bg);
+  font-size: var(--text-sm); font-weight: 600;
+  padding: 10px 18px; border-radius: var(--radius-md);
+  box-shadow: var(--elev-raised);
+  transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
+  z-index: 100;
+}
+.toast.is-show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- 个人资料 ---------- */
+.profile {
+  display: flex; gap: 28px; align-items: flex-start;
+  padding: 40px 0 36px;
+  border-bottom: 1px solid var(--border);
+}
+.profile-avatar {
+  flex: none;
+  width: 84px; height: 84px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--accent-on);
+  font-size: 30px; font-weight: 800;
+  border: 1px solid var(--border);
+}
+.profile-main { min-width: 0; flex: 1; }
+.profile-name-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.profile-name { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); }
+.profile-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 6%, var(--surface));
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 2px 8px;
+}
+.profile-bio { margin-top: 10px; font-size: var(--text-base); line-height: 1.7; color: var(--muted); max-width: 46em; }
+.profile-meta { margin-top: 10px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-size: var(--text-sm); color: var(--muted); }
+.profile-meta .sep { width: 1px; height: 12px; background: var(--border); }
+.profile-actions { flex: none; display: flex; gap: 10px; }
+
+.follow-btn {
+  flex: none;
+  height: 38px; padding: 0 18px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: background-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
+}
+.follow-btn:hover { background: var(--accent); color: var(--accent-on); border-color: var(--accent); }
+.follow-btn:focus-visible { box-shadow: var(--focus-ring); }
+.follow-btn.is-followed {
+  color: var(--muted);
+  background: color-mix(in oklab, var(--border) 40%, var(--surface));
+  border-color: var(--border);
+}
+.follow-btn.is-followed:hover { color: var(--fg); background: color-mix(in oklab, var(--border) 60%, var(--surface)); }
+
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-bottom: 1px solid var(--border);
+}
+.stat-cell {
+  padding: 20px 8px 22px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  transition: background-color var(--motion-fast) var(--ease-standard);
+}
+.stat-cell:last-child { border-right: none; }
+.stat-cell:hover { background: color-mix(in oklab, var(--border) 25%, var(--surface)); }
+.stat-num { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; letter-spacing: -0.01em; color: var(--fg); font-variant-numeric: tabular-nums; }
+.stat-label { margin-top: 2px; font-size: var(--text-xs); color: var(--muted); }
+
+/* ---------- AI 评价 ---------- */
+.ai-card {
+  margin-top: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--accent) 2%, var(--surface));
+  overflow: hidden;
+}
+.ai-card-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.ai-card-mark {
+  flex: none;
+  width: 34px; height: 34px; border-radius: var(--radius-md);
+  display: grid; place-items: center;
+  background: var(--accent); color: var(--accent-on);
+  box-shadow: var(--elev-ring);
+}
+.ai-card-mark .icon { width: 17px; height: 17px; }
+.ai-card-titles { min-width: 0; }
+.ai-card-title { font-size: var(--text-base); font-weight: 700; color: var(--fg); letter-spacing: -0.01em; }
+.ai-card-sub { margin-top: 2px; font-size: var(--text-xs); color: var(--muted); }
+.ai-regen {
+  margin-left: auto; flex: none;
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 34px; padding: 0 14px;
+  font-size: var(--text-xs); font-weight: 600; color: var(--fg);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard), transform .1s ease;
+}
+.ai-regen:hover { border-color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.ai-regen:active { transform: translateY(1px); }
+.ai-regen:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ai-regen .icon { width: 14px; height: 14px; }
+.ai-regen.is-busy { color: var(--muted); pointer-events: none; }
+.ai-regen.is-busy .ai-regen-icon { animation: ai-spin .7s linear infinite; }
+@keyframes ai-spin { to { transform: rotate(360deg); } }
+
+.ai-card-body {
+  display: flex; align-items: stretch;
+  padding: 24px 22px;
+}
+.ai-score-col {
+  flex: none; width: 172px;
+  padding-right: 22px;
+  border-right: 1px solid var(--border);
+}
+.ai-score-row { display: flex; align-items: baseline; gap: 4px; }
+.ai-score-num {
+  font-family: var(--font-display);
+  font-size: 44px; font-weight: 800;
+  letter-spacing: -0.03em; line-height: 1;
+  color: var(--fg); font-variant-numeric: tabular-nums;
+}
+.ai-score-den { font-size: var(--text-xs); color: var(--muted); font-weight: 500; }
+.ai-score-label { display: block; margin-top: 6px; font-size: var(--text-xs); color: var(--muted); }
+.ai-dims { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.ai-dim { display: flex; align-items: center; gap: 8px; font-size: var(--text-xs); }
+.ai-dim-name { width: 52px; flex: none; color: var(--muted); }
+.ai-dim-bar { flex: 1; height: 4px; border-radius: var(--radius-pill); background: color-mix(in oklab, var(--border) 60%, var(--surface)); overflow: hidden; }
+.ai-dim-fill { display: block; height: 100%; width: 0; border-radius: var(--radius-pill); background: var(--accent); transition: width .6s var(--ease-standard); }
+.ai-dim-val { width: 30px; flex: none; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; font-weight: 600; }
+
+.ai-eval { flex: 1; min-width: 0; padding-left: 24px; }
+.ai-eval-head { display: flex; align-items: center; gap: 8px; font-size: var(--text-xs); color: var(--muted); }
+.ai-eval-head strong { font-weight: 600; color: var(--fg); }
+.ai-eval-head .mono { font-family: var(--font-mono); color: var(--muted); }
+.ai-eval-text {
+  margin-top: 8px;
+  font-size: var(--text-base); line-height: 1.8; color: var(--fg);
+  letter-spacing: 0;
+  min-height: 4.6em;
+}
+.ai-caret {
+  display: none;
+  width: 2px; height: 1em;
+  background: var(--accent);
+  margin-left: 2px; vertical-align: text-bottom;
+  animation: ai-blink 1s steps(1) infinite;
+}
+.ai-eval-text.is-typing .ai-caret { display: inline-block; }
+@keyframes ai-blink { 50% { opacity: 0; } }
+.ai-loading { display: none; }
+.ai-eval.is-loading .ai-loading { display: block; font-size: var(--text-sm); color: var(--muted); }
+.ai-eval.is-loading .ai-eval-text { display: none; }
+.ai-dots { display: inline-flex; gap: 2px; margin-left: 2px; }
+.ai-dots i { width: 3px; height: 3px; border-radius: 50%; background: currentColor; animation: ai-dot 1.2s infinite; }
+.ai-dots i:nth-child(2) { animation-delay: .2s; }
+.ai-dots i:nth-child(3) { animation-delay: .4s; }
+@keyframes ai-dot { 0%, 60%, 100% { opacity: .25; } 30% { opacity: 1; } }
+.ai-eval-note { margin-top: 10px; font-size: var(--text-xs); color: var(--muted); }
+
+/* ---------- 内容列表 ---------- */
+.content-section { padding: 32px 0 72px; }
+.profile-tabs { display: flex; align-items: center; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 22px; }
+.ptab {
+  position: relative; flex: none;
+  padding: 10px 16px 12px;
+  font-size: var(--text-base); font-weight: 500; color: var(--muted);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.ptab:hover { color: var(--fg); background: color-mix(in oklab, var(--border) 30%, var(--surface)); }
+.ptab:focus-visible { box-shadow: var(--focus-ring); }
+.ptab.is-active { color: var(--fg); font-weight: 600; }
+.ptab.is-active::after {
+  content: ""; position: absolute; left: 14px; right: 14px; bottom: -1px;
+  height: 2px; border-radius: 2px; background: var(--accent);
+}
+.ptab .cnt { font-size: var(--text-xs); color: var(--muted); font-weight: 500; margin-left: 4px; font-variant-numeric: tabular-nums; }
+
+.pane { display: none; }
+.pane.is-active { display: block; }
+
+/* 文章卡片 */
+.post-card {
+  display: block;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 20px 22px;
+  margin-bottom: 16px;
+  transition: border-color var(--motion-base) var(--ease-standard), box-shadow var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
+}
+.post-card:hover { border-color: color-mix(in oklab, var(--fg) 20%, var(--surface)); box-shadow: var(--elev-raised); transform: translateY(-2px); }
+.post-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: var(--text-xs); color: var(--muted); }
+.tag {
+  font-size: var(--text-xs); font-weight: 600; color: var(--fg);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 2px 8px; background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
+}
+.tag:hover { color: var(--accent); border-color: var(--accent); }
+.badge-ai {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs); font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-pill);
+  padding: 2px 9px;
+  background: var(--surface);
+}
+.badge-ai .icon { width: 12px; height: 12px; }
+.post-title { font-size: 18px; line-height: var(--leading-tight); font-weight: 700; color: var(--fg); margin: 10px 0 6px; letter-spacing: -0.01em; transition: color var(--motion-fast) var(--ease-standard); }
+.post-card:hover .post-title { color: var(--accent); }
+.post-excerpt {
+  font-size: var(--text-sm); line-height: var(--leading-body); color: var(--muted);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.post-foot { display: flex; align-items: center; gap: 14px; margin-top: 12px; font-size: var(--text-xs); color: var(--muted); font-variant-numeric: tabular-nums; }
+.post-foot .spacer { flex: 1; }
+.post-foot .stat { display: inline-flex; align-items: center; gap: 4px; }
+.post-foot .stat .icon { width: 13px; height: 13px; }
+
+/* 简介 */
+.about { max-width: 680px; }
+.about h2 { font-size: var(--text-base); font-weight: 700; color: var(--fg); margin: 26px 0 8px; }
+.about p { font-size: var(--text-base); line-height: 1.75; color: var(--muted); margin-bottom: 12px; }
+.about-topics { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+
+/* ---------- 页脚 ---------- */
+.site-footer { border-top: 1px solid var(--border); background: var(--bg); }
+.footer-inner {
+  display: flex; align-items: center; gap: 20px; height: 72px;
+  font-size: var(--text-sm); color: var(--muted);
+}
+.footer-brand { font-size: 16px; font-weight: 800; letter-spacing: var(--tracking-display); color: var(--fg); }
+.footer-links { margin-left: auto; display: flex; gap: 20px; }
+.footer-links a { transition: color var(--motion-fast) var(--ease-standard); }
+.footer-links a:hover { color: var(--fg); }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1020px) {
+  .profile { gap: 22px; }
+  .profile-avatar { width: 68px; height: 68px; font-size: 24px; }
+  .stats-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat-cell:nth-child(2) { border-right: none; }
+  .stat-cell:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+}
+@media (max-width: 760px) {
+  .container { padding: 0 var(--container-gutter-phone); }
+  .notif-pop { position: fixed; top: 66px; right: 12px; width: min(344px, calc(100vw - 24px)); }
+  .search { display: none; }
+  .mobile-search { display: grid; }
+  .header-actions { margin-left: auto; }
+  .brand-word { font-size: 19px; }
+  .profile { flex-direction: column; gap: 16px; padding: 28px 0; }
+  .profile-actions { width: 100%; }
+  .profile-actions .btn { flex: 1; }
+  .profile-name { font-size: 26px; }
+  .content-section { padding: 24px 0 48px; }
+  .ai-card { margin-top: 24px; }
+  .ai-card-head { padding: 14px 16px; }
+  .ai-card-body { flex-direction: column; padding: 18px 16px 22px; }
+  .ai-score-col { width: 100%; padding-right: 0; padding-bottom: 16px; border-right: none; border-bottom: 1px solid var(--border); }
+  .ai-dims { flex-direction: row; flex-wrap: wrap; gap: 10px 20px; }
+  .ai-dim { flex: none; width: calc(50% - 10px); }
+  .ai-dim-name { width: auto; }
+  .ai-eval { padding-left: 0; margin-top: 16px; }
+  .ai-eval-text { min-height: 0; }
+  .ai-card-sub { display: none; }
+  .footer-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= 顶栏 ================= -->
+<header class="site-header" data-od-id="site-header">
+  <div class="container">
+    <div class="header-row">
+      <a class="brand" href="zd-feed-home.html" data-od-id="brand" aria-label="zd 首页">
+        <span class="brand-mark">z</span>
+        <span class="brand-word">d</span>
+      </a>
+
+      <form class="search" action="zd-search.html" method="get" role="search" data-od-id="search">
+        <svg class="icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="M20 20l-3.2-3.2"/>
+        </svg>
+        <input id="search-input" name="q" type="search" placeholder="搜索文章、话题或作者" aria-label="搜索文章、话题或作者" autocomplete="off">
+        <kbd class="search-kbd">⌘K</kbd>
+      </form>
+
+      <div class="header-actions">
+        <a class="icon-btn mobile-search" href="zd-search.html" data-od-id="nav-search-mobile" aria-label="搜索">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+        </a>
+        <a class="btn btn-primary" href="zd-create.html" data-od-id="cta-create">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          AI 写作
+        </a>
+        <div class="notif-wrap" data-od-id="nav-notifications">
+          <button class="icon-btn" id="bell-btn" type="button" aria-label="通知,3 条未读" aria-haspopup="dialog" aria-expanded="false" aria-controls="notif-pop">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
+            <span class="bell-dot" id="bell-dot"></span>
+          </button>
+          <div class="notif-pop" id="notif-pop" role="dialog" aria-label="通知">
+            <div class="notif-head">
+              <h3>通知</h3>
+              <button class="notif-readall" id="notif-readall" type="button">全部已读</button>
+            </div>
+            <div class="notif-list">
+              <div class="notif-item is-unread">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                <span class="notif-unread-dot" aria-hidden="true"></span>
+                <div class="notif-body">
+                  <p class="notif-text"><strong>织云</strong> 收藏了你的作品《从色块到情绪》</p>
+                  <span class="notif-time">2 分钟前</span>
+                </div>
+              </div>
+              <div class="notif-item is-unread">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span class="notif-unread-dot" aria-hidden="true"></span>
+                <div class="notif-body">
+                  <p class="notif-text"><strong>@AI 助手</strong> 评论了你的文章 <em>「结尾可以更干脆一些」</em></p>
+                  <span class="notif-time">1 小时前</span>
+                </div>
+              </div>
+              <div class="notif-item">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <div class="notif-body">
+                  <p class="notif-text"><strong>苏航</strong> 开始关注你</p>
+                  <span class="notif-time">3 小时前</span>
+                </div>
+              </div>
+            </div>
+            <div class="notif-foot">
+              <a href="zd-notifications.html" data-od-id="notif-view-all">查看全部通知 →</a>
+            </div>
+          </div>
+        </div>
+        <a class="header-login" href="zd-auth.html" data-od-id="cta-login">登录</a>
+        <a class="avatar avatar-g1" href="zd-me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= 个人资料 ================= -->
+<main class="container">
+  <section class="profile" data-od-id="profile-header">
+    <span class="profile-avatar avatar-g1" id="pf-avatar" role="img" aria-label="作者头像">陈</span>
+    <div class="profile-main">
+      <div class="profile-name-row">
+        <h1 class="profile-name" id="pf-name">陈默</h1>
+        <span class="profile-badge" id="pf-badge">认证作者</span>
+      </div>
+      <p class="profile-bio" id="pf-bio">专注 AI 产品观察与效率工具的独立作者,记录技术与产品如何在真实协作中落地。</p>
+      <div class="profile-meta" id="pf-meta">
+        <span id="pf-loc">北京</span>
+        <span class="sep"></span>
+        <span id="pf-joined">加入 2 年</span>
+        <span class="sep"></span>
+        <span id="pf-editor">编辑推荐 · 3 次入选</span>
+      </div>
+    </div>
+    <div class="profile-actions">
+      <button class="follow-btn" id="pf-follow" type="button" data-od-id="profile-follow">关注</button>
+      <button class="btn btn-ghost" id="pf-msg" type="button" data-od-id="profile-message">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        私信
+      </button>
+    </div>
+  </section>
+
+  <section class="stats-bar" id="pf-stats" data-od-id="profile-stats" aria-label="数据概览">
+    <a class="stat-cell" href="zd-profile.html#pane-works" data-od-id="stat-posts">
+      <div class="stat-num" id="st-posts">68</div>
+      <div class="stat-label">作品</div>
+    </a>
+    <a class="stat-cell" href="#" data-od-id="stat-following">
+      <div class="stat-num" id="st-following">312</div>
+      <div class="stat-label">关注</div>
+    </a>
+    <a class="stat-cell" href="#" data-od-id="stat-followers">
+      <div class="stat-num" id="st-followers">12.8 万</div>
+      <div class="stat-label">粉丝</div>
+    </a>
+    <a class="stat-cell" href="#" data-od-id="stat-likes">
+      <div class="stat-num" id="st-likes">3.1 万</div>
+      <div class="stat-label">获赞</div>
+    </a>
+  </section>
+
+  <section class="ai-card" data-od-id="ai-review" aria-label="AI 评价">
+    <div class="ai-card-head">
+      <span class="ai-card-mark" aria-hidden="true">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c.5 3.7 3 6.2 6.7 6.7-3.7.5-6.2 3-6.7 6.7C11.5 11.7 9 9.2 5.3 8.7 9 8.2 11.5 5.7 12 2Z"/><path d="M19 14c.3 1.9 1.6 3.2 3.5 3.5-1.9.3-3.2 1.6-3.5 3.5-.3-1.9-1.6-3.2-3.5-3.5 1.9-.3 3.2-1.6 3.5-3.5Z"/></svg>
+      </span>
+      <div class="ai-card-titles">
+        <h2 class="ai-card-title">AI 评价</h2>
+        <p class="ai-card-sub">由 zd 社区模型生成 · 基于公开作品与互动数据</p>
+      </div>
+      <button class="ai-regen" id="ai-regen" type="button" data-od-id="ai-review-regenerate">
+        <svg class="icon ai-regen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+        重新生成
+      </button>
+    </div>
+    <div class="ai-card-body">
+      <div class="ai-score-col">
+        <div class="ai-score-row">
+          <span class="ai-score-num" id="ai-score">—</span>
+          <span class="ai-score-den">/ 10</span>
+        </div>
+        <span class="ai-score-label">综合评分</span>
+        <div class="ai-dims" id="ai-dims"></div>
+      </div>
+      <div class="ai-eval" id="ai-eval">
+        <div class="ai-eval-head">
+          <span>综合印象 · <strong id="ai-name"></strong></span>
+          <span class="mono" id="ai-ver"></span>
+        </div>
+        <p class="ai-loading" aria-live="polite"><span id="ai-loading-text"></span><span class="ai-dots" aria-hidden="true"><i></i><i></i><i></i></span></p>
+        <p class="ai-eval-text" aria-live="polite" id="ai-text"><span id="ai-text-inner"></span><span class="ai-caret" aria-hidden="true"></span></p>
+        <p class="ai-eval-note" id="ai-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section" data-od-id="content-section">
+    <div class="profile-tabs" data-od-id="profile-tabs" role="tablist" aria-label="作者内容">
+      <button class="ptab is-active" type="button" data-pane="pane-works" data-od-id="ptab-works" role="tab">作品<span class="cnt" id="cnt-works">68</span></button>
+      <button class="ptab" type="button" data-pane="pane-about" data-od-id="ptab-about" role="tab">简介</button>
+    </div>
+
+    <div class="pane is-active" id="pane-works" data-od-id="pane-works" role="tabpanel">
+      <div id="works-list"><!-- JS 渲染 --></div>
+    </div>
+
+    <div class="pane" id="pane-about" data-od-id="pane-about" role="tabpanel">
+      <div class="about">
+        <h2 id="ab-about-title">关于作者</h2>
+        <p id="ab-about"></p>
+        <h2>常写话题</h2>
+        <div class="about-topics" id="ab-topics"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= 页脚 ================= -->
+<footer class="site-footer" data-od-id="footer">
+  <div class="container footer-inner">
+    <span class="footer-brand">zd</span>
+    <span>阅读、讨论,用 AI 开始创作</span>
+    <nav class="footer-links" aria-label="页脚导航">
+      <a href="zd-search.html">搜索</a>
+      <a href="zd-notifications.html">通知</a>
+      <a href="zd-community-guidelines.html">社区准则</a>
+      <a href="zd-help.html">帮助中心</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var USERS = {
+    chenmo: {
+      name: "陈默", char: "陈", avatar: "avatar-g1", badge: "认证作者",
+      loc: "北京", joined: "加入 2 年", editor: "编辑推荐 · 3 次入选",
+      bio: "专注 AI 产品观察与效率工具的独立作者,记录技术与产品如何在真实协作中落地。",
+      about: "做过七年企业软件产品经理,现在全职写作。关注 AI 编程工具如何改变团队协作,也关心效率工具背后的产品判断。相信「少而好」,每一篇都是亲手验证过的观点。",
+      followers: "12.8 万", likes: "3.1 万", following: "312", posts: "68",
+      topics: ["AI 编程", "效率工具", "产品观察", "独立开发者"],
+      ai: {
+        reviews: [
+          { score: "8.4", dims: [["内容力", "9.0"], ["独特性", "8.2"], ["社区亲和", "7.6"]], text: "效率工具观察者里的清醒派:不追风口,专写「AI 到底怎么改变协作」。从 GPT 时刻到本地优先,每一篇都像一份写好注释的 PR——观点先亮,论据随后,结尾永远留一行:能落地。" },
+          { score: "8.1", dims: [["内容力", "8.7"], ["独特性", "7.9"], ["社区亲和", "8.0"]], text: "他让「效率」这个词第一次有了呼吸感。不是方法论堆砌,是十几位一线工程师的真话。技术人读他会点头,产品人读他会记笔记,产品经理读完大概会连夜改需求。" },
+          { score: "8.6", dims: [["内容力", "9.2"], ["独特性", "8.4"], ["社区亲和", "7.8"]], text: "把 AI 当成同事,而不是搜索引擎——这句话几乎可以成为一代 AI 工具使用者的口头禅。而「数据住在设备上」的观点,让他从追风者里脱颖而出,值得放进收藏夹反复翻。" }
+        ]
+      },
+      works: [
+        { tags: ["技术", "AI", "效率工具"], ai: false, title: "GPT 时刻之后:AI 编程正在重塑团队的协作方式", excerpt: "从「帮你补全一行代码」到「理解整个代码库」,AI 助手正把写代码变成描述问题。我们和十几位一线工程师聊了聊,这场效率革命将把团队协作带向哪里。", views: "2.3 万", likes: "486", time: "2 小时前" },
+        { tags: ["效率工具", "方法论"], ai: false, title: "把 AI 当成同事,而不是搜索引擎", excerpt: "同样是提问,「帮我总结」和「帮我做决策」得到的结果完全不同。聊聊如何给模型更完整的上下文,让每一次提问都能直接落地。", views: "1.2 万", likes: "318", time: "上周" },
+        { tags: ["本地优先", "技术"], ai: false, title: "本地优先:数据住在你的设备上,而不是云端", excerpt: "从数据主权与隐私切入,梳理「本地优先」的发展脉络、代表性工具,以及它离主流还有多远。", views: "860", likes: "204", time: "上月" }
+      ]
+    },
+    linwan: {
+      name: "林晚", char: "林", avatar: "avatar-g2", badge: "认证作者",
+      loc: "杭州", joined: "加入 4 年", editor: "编辑推荐 · 12 次入选",
+      bio: "资深设计师,写设计方法、职业成长与和开发者协作的那些事。",
+      about: "八年设计生涯,从视觉到产品。这里记录我对品味的理解、对取舍的判断,以及如何和开发者好好说话。不定期分享真实项目里踩过的坑。",
+      followers: "8.3 万", likes: "5.2 万", following: "96", posts: "42",
+      topics: ["设计系统", "职业成长", "设计方法", "团队协作"],
+      ai: {
+        reviews: [
+          { score: "8.8", dims: [["内容力", "9.1"], ["独特性", "8.5"], ["社区亲和", "8.6"]], text: "从 3 个组件长到 90 个,他讲的不只是设计系统,是审美与妥协的编年史。文字里有像素级执念,也有和开发者吵完架又和好的温情——设计圈难得能读的复盘。" },
+          { score: "8.5", dims: [["内容力", "8.9"], ["独特性", "8.2"], ["社区亲和", "8.4"]], text: "设计师里少见的「可读性」:不堆术语,不装玄学,每个结论都像交过稿才敢说的话。和 AI 结对做设计那篇,几乎把半年的踩坑写成了连续剧。" },
+          { score: "9.0", dims: [["内容力", "9.3"], ["独特性", "8.6"], ["社区亲和", "8.9"]], text: "他把「品味」拆成了可以执行的步骤。做设计 8 年才学会的 5 件事,每一条都来自真实项目教训,读起来像一位值得托付的老朋友在复盘。" }
+        ]
+      },
+      works: [
+        { tags: ["设计", "职业成长"], ai: false, title: "做设计 8 年,我才学会的 5 件事", excerpt: "关于品味、取舍,以及如何和开发者好好说话——一位资深设计师的年度复盘,每一条都来自真实的项目教训。", views: "1.8 万", likes: "672", time: "昨天" },
+        { tags: ["设计系统", "实战"], ai: false, title: "一个设计系统是怎么从 3 个组件长到 90 个的", excerpt: "从按钮开始,到覆盖全站组件的完整体系。整理三年来搭建设计系统的决策记录与踩坑清单。", views: "9.4k", likes: "583", time: "上周" },
+        { tags: ["设计师", "工具"], ai: false, title: "和 AI 结对做设计:我的半年实验报告", excerpt: "提示词、参考图、迭代评审——AI 进入设计流程后,我的产出结构发生了什么变化。", views: "6.8k", likes: "402", time: "上月" }
+      ]
+    },
+    zhiyun: {
+      name: "织云", char: "织", avatar: "avatar-g3", badge: "AI 作者",
+      loc: "云端", joined: "加入 8 个月", editor: "AI 生成内容",
+      bio: "生成式设计观察者,专注配色、提示词与 AI 创作工具的实验记录。",
+      about: "由社区 AI 创作能力驱动的作者账号。每一篇都附完整提示词与参数,目标是让生成过程可复制、可学习。内容由人类策展人审校后发布。",
+      followers: "2.4 万", likes: "9.8k", following: "21", posts: "68",
+      topics: ["提示词", "配色", "生成式设计", "渐变"],
+      ai: {
+        reviews: [
+          { score: "8.3", dims: [["内容力", "8.8"], ["独特性", "8.6"], ["社区亲和", "7.4"]], text: "AI 作者的天花板样板:提示词公开、参数透明、人类策展兜底。她把「生成内容」做成了可以复制的诚实——从色块到情绪,每一篇都是可以带走的素材库。" },
+          { score: "8.6", dims: [["内容力", "8.9"], ["独特性", "9.0"], ["社区亲和", "7.8"]], text: "把「周一早上的地铁」翻译成配色方案,把「翻译腔」调成中文味——她擅长把抽象的情绪变成能直接取用的产物。如果 AI 有签名,大概长她这样。" },
+          { score: "8.1", dims: [["内容力", "8.6"], ["独特性", "8.8"], ["社区亲和", "7.2"]], text: "跑在生成式设计的最前面,却从不炫技:模型、提示词、参数全公开。这份坦诚比任何神秘感都更能打动人——唯一的风险是,读者会拿走去抄作业。" }
+        ]
+      },
+      works: [
+        { tags: ["设计", "AI"], ai: true, model: "GPT-4o", title: "从色块到情绪:AI 帮我找到的 12 种渐变心情", excerpt: "把「周一早上的地铁」翻译成一整套配色方案,再把色块变成一组可以拿走的表情素材。完整提示词与参数见正文。", views: "1.2 万", likes: "934", time: "40 分钟前" },
+        { tags: ["提示词", "AI"], ai: true, model: "Claude 3.7", title: "把「翻译腔」调成中文味:一条提示词搞定", excerpt: "机翻味来自哪?如何让模型写出「像人写的话」。附逐条改写对比与可复制的提示词模板。", views: "4.6k", likes: "512", time: "3 天前" },
+        { tags: ["配色", "AI"], ai: true, model: "GPT-4o", title: "我把公司配色做成了 40 组渐变色卡", excerpt: "一套品牌色能衍生出多少种渐变?用提示词批量生成 40 组,并整理成可以直接取用的 CSS 变量。", views: "1.9k", likes: "388", time: "昨天" }
+      ]
+    },
+    suhang: {
+      name: "苏航", char: "苏", avatar: "avatar-g3", badge: "认证作者",
+      loc: "广州", joined: "加入 1 年", editor: "编辑推荐 · 6 次入选",
+      bio: "大模型与中文语料爱好者,专注翻译质量与多语言产品体验。",
+      about: "翻译这件事,机器和人差的不是词库,是语感。长期追踪国内外大模型在中文上的表现,把对比测试与真实用户反馈整理成可读的评测。",
+      followers: "6.1 万", likes: "2.7 万", following: "144", posts: "37",
+      topics: ["大模型", "翻译", "中文能力", "模型对比"],
+      ai: {
+        reviews: [
+          { score: "8.5", dims: [["内容力", "8.9"], ["独特性", "8.3"], ["社区亲和", "8.2"]], text: "大模型中文评测界的「刑侦队长」:同一句话,GPT、Claude、文心各怎么翻,他当场出对照报告。不装高深,只问一句——这里像人话,那里像机翻。" },
+          { score: "8.7", dims: [["内容力", "9.1"], ["独特性", "8.5"], ["社区亲和", "8.4"]], text: "把「翻译腔」这个玄学问题,变成可执行的三个追问。专业到能让大模型团队连夜改语料,又亲切到让每个读者都能立刻上手试一遍。" },
+          { score: "8.3", dims: [["内容力", "8.8"], ["独特性", "8.1"], ["社区亲和", "8.0"]], text: "国产模型的翻译为什么总差一点意思?他的答案藏在语料里,也藏在产品思路里。评测做得越细,越看得出他是个较真的人——这份较真,读者买账。" }
+        ]
+      },
+      works: [
+        { tags: ["大模型", "中文能力"], ai: false, title: "为什么国产大模型的翻译,总是差一点意思?", excerpt: "比起 ChatGPT 的流畅,不少国产模型的译文总带着一股「机翻味」。是语料的问题,还是产品思路的问题?", views: "9.6k", likes: "128", time: "3 小时前" },
+        { tags: ["大模型", "评测"], ai: false, title: "同一句话,GPT、Claude、文心各怎么翻", excerpt: "20 组中文语句的对照评测:命名、口语、成语、行业黑话,谁赢在哪。", views: "5.3k", likes: "346", time: "上周" },
+        { tags: ["翻译", "方法论"], ai: false, title: "让译文像人话的三个追问", excerpt: "每次机翻后先问三个问题,再决定要不要重写。一个可执行的中文润色框架。", views: "3.1k", likes: "289", time: "上月" }
+      ]
+    },
+    gunan: {
+      name: "顾南", char: "顾", avatar: "avatar-g4", badge: "认证作者",
+      loc: "成都", joined: "加入 3 年", editor: "编辑推荐 · 4 次入选",
+      bio: "城市与生活观察者,写通勤、播客和那些被忽略的日常细节。",
+      about: "白天写代码,晚上写生活。记录城市里的人、声音与片刻,偶尔推荐几档舍不得删的播客。",
+      followers: "4.7 万", likes: "1.9 万", following: "88", posts: "51",
+      topics: ["生活", "播客", "城市观察", "效率"],
+      ai: {
+        reviews: [
+          { score: "8.6", dims: [["内容力", "8.8"], ["独特性", "8.9"], ["社区亲和", "8.3"]], text: "凌晨四点的早餐铺子被他写活了。白天写代码,晚上写生活——代码写城市逻辑,文字写城市体温。在这条赛道上,他几乎没有对手。" },
+          { score: "8.9", dims: [["内容力", "9.0"], ["独特性", "9.2"], ["社区亲和", "8.5"]], text: "播客私藏、5-9 作息、早餐铺——他写的是生活的最小单位,却总能在里面翻出时代的褶皱。更新提醒像一道慢生活开胃菜,适合在快餐阅读里喘口气。" },
+          { score: "8.4", dims: [["内容力", "8.7"], ["独特性", "8.8"], ["社区亲和", "8.0"]], text: "通勤路上听什么,凌晨的城市在干什么,自由职业的作息怎么踩坑。他把「日常」拍出了纪录片感,让阅读这件事重新有了温度。" }
+        ]
+      },
+      works: [
+        { tags: ["生活", "播客"], ai: false, title: "通勤路上听什么:我的播客私藏清单", excerpt: "6 档舍不得删的播客,从科技闲聊到深夜杂谈,陪你度过早高峰和晚高峰。", views: "4.1 万", likes: "12000", time: "8 小时前" },
+        { tags: ["生活", "城市观察"], ai: false, title: "凌晨四点的早餐铺子:一座城市的另一面", excerpt: "当大部分人还在睡梦里,有些人的一天已经开始了。跟随镜头,看看城市苏醒之前的样子。", views: "2.6 万", likes: "884", time: "上周" },
+        { tags: ["效率", "生活"], ai: false, title: "我的 5-9 自由职业作息,和踩过的坑", excerpt: "从上班到自由职业的作息迁移记录:哪些方法有效,哪些只是自我感动。", views: "1.8 万", likes: "620", time: "上月" }
+      ]
+    }
+  };
+
+  var params = new URLSearchParams(location.search);
+  var key = params.get("user");
+  var user = USERS[key] || USERS.chenmo;
+
+  function fmtLike(n) {
+    if (typeof n === "string") return n;
+    if (n >= 10000) { var v = (n / 10000).toFixed(1).replace(/\.0$/, ""); return v + " 万"; }
+    return String(n);
+  }
+
+  function renderWorks() {
+    var box = document.getElementById("works-list");
+    box.innerHTML = "";
+    user.works.forEach(function (w) {
+      var art = document.createElement("article");
+      art.className = "post-card";
+      art.setAttribute("data-od-id", "pf-work-" + w.title.slice(0, 4));
+
+      var meta = '<div class="post-meta">';
+      w.tags.forEach(function (t) { meta += '<span class="tag">' + t + "</span>"; });
+      if (w.ai) {
+        meta += '<span class="badge-ai"><svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c.5 3.7 3 6.2 6.7 6.7-3.7.5-6.2 3-6.7 6.7C11.5 11.7 9 9.2 5.3 8.7 9 8.2 11.5 5.7 12 2Z"/><path d="M19 14c.3 1.9 1.6 3.2 3.5 3.5-1.9.3-3.2 1.6-3.5 3.5-.3-1.9-1.6-3.2-3.5-3.5 1.9-.3 3.2-1.6 3.5-3.5Z"/></svg>基于 AI 生成</span>';
+        meta += '<span class="tag" style="font-family:var(--font-mono);color:var(--muted)">' + w.model + "</span>";
+      }
+      meta += '<span>' + w.time + "</span></div>";
+
+      art.innerHTML =
+        meta +
+        '<h3 class="post-title"><a href="zd-post.html">' + w.title + "</a></h3>" +
+        '<p class="post-excerpt">' + w.excerpt + "</p>" +
+        '<div class="post-foot">' +
+          '<span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>' + w.views + "</span>" +
+          '<span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.3 7.7 3.6 4.5 7 4.5c2 0 3.6 1 5 2.9 1.4-1.9 3-2.9 5-2.9 3.4 0 5.7 3.2 4.3 6.8C19.5 15.9 12 20.5 12 20.5Z"/></svg>' + fmtLike(w.likes) + "</span>" +
+          '<span class="spacer"></span>' +
+          '<span>约 ' + (3 + w.title.length % 4) + " 分钟</span>" +
+        "</div>";
+      box.appendChild(art);
+    });
+    document.getElementById("cnt-works").textContent = user.posts;
+  }
+
+  function renderAbout() {
+    document.getElementById("ab-about").textContent = user.about;
+    var box = document.getElementById("ab-topics");
+    box.innerHTML = "";
+    user.topics.forEach(function (t) {
+      var a = document.createElement("a");
+      a.className = "tag";
+      a.href = "zd-topic.html?t=" + encodeURIComponent(t);
+      a.textContent = t;
+      box.appendChild(a);
+    });
+  }
+
+  function apply() {
+    document.title = user.name + " · 作者主页 · zd";
+    var av = document.getElementById("pf-avatar");
+    av.textContent = user.char;
+    av.className = "profile-avatar " + user.avatar;
+    document.getElementById("pf-name").textContent = user.name;
+    document.getElementById("pf-badge").textContent = user.badge;
+    document.getElementById("pf-bio").textContent = user.bio;
+    document.getElementById("pf-loc").textContent = user.loc;
+    document.getElementById("pf-joined").textContent = user.joined;
+    document.getElementById("pf-editor").textContent = user.editor;
+    document.getElementById("st-posts").textContent = user.posts;
+    document.getElementById("st-following").textContent = user.following;
+    document.getElementById("st-followers").textContent = user.followers;
+    document.getElementById("st-likes").textContent = user.likes;
+    if (user.badge === "AI 作者") {
+      document.getElementById("pf-badge").className = "profile-badge";
+    }
+    renderWorks();
+    renderAbout();
+  }
+
+  apply();
+
+  /* ---------- AI 评价 ---------- */
+  var aiData = user.ai;
+  var aiIdx = -1;
+  var aiBusy = false;
+
+  document.getElementById("ai-name").textContent = user.name;
+  document.getElementById("ai-note").textContent =
+    "以上评价由社区 AI 自动生成,仅供娱乐参考 · 基于 " + user.posts + " 篇作品与 " + user.likes + " 次获赞";
+
+  function renderAiDims(dims) {
+    var box = document.getElementById("ai-dims");
+    box.innerHTML = "";
+    dims.forEach(function (d) {
+      var row = document.createElement("div");
+      row.className = "ai-dim";
+      var fillW = (parseFloat(d[1]) * 10).toFixed(1) + "%";
+      row.innerHTML =
+        '<span class="ai-dim-name">' + d[0] + "</span>" +
+        '<span class="ai-dim-bar"><span class="ai-dim-fill" style="width:' + fillW + '"></span></span>' +
+        '<span class="ai-dim-val">' + d[1] + "</span>";
+      box.appendChild(row);
+    });
+  }
+
+  function runAiCycle() {
+    if (aiBusy) return;
+    aiBusy = true;
+    aiIdx = (aiIdx + 1) % aiData.reviews.length;
+    var r = aiData.reviews[aiIdx];
+    var btn = document.getElementById("ai-regen");
+    var evalBox = document.getElementById("ai-eval");
+    var textEl = document.getElementById("ai-text");
+    var inner = document.getElementById("ai-text-inner");
+
+    btn.classList.add("is-busy");
+    document.getElementById("ai-ver").textContent = "zd-review-" + ("0" + (aiIdx + 1));
+    document.getElementById("ai-score").textContent = r.score;
+    renderAiDims(r.dims);
+    document.getElementById("ai-loading-text").textContent =
+      "正在阅读" + user.name + "的 " + user.posts + " 篇作品与互动数据,形成印象";
+    evalBox.classList.add("is-loading");
+
+    setTimeout(function () {
+      evalBox.classList.remove("is-loading");
+      inner.textContent = "";
+      textEl.classList.add("is-typing");
+      var i = 0;
+      (function tick() {
+        inner.textContent = r.text.slice(0, ++i);
+        if (i < r.text.length) {
+          setTimeout(tick, 16);
+        } else {
+          textEl.classList.remove("is-typing");
+          btn.classList.remove("is-busy");
+          aiBusy = false;
+        }
+      })();
+    }, 900 + Math.random() * 600);
+  }
+
+  var regenBtn = document.getElementById("ai-regen");
+  if (regenBtn) regenBtn.addEventListener("click", runAiCycle);
+  setTimeout(runAiCycle, 700);
+
+  /* Tab 切换 */
+  var ptabs = Array.prototype.slice.call(document.querySelectorAll(".ptab"));
+  var panes = {};
+  ptabs.forEach(function (t) { panes[t.dataset.pane] = document.getElementById(t.dataset.pane); });
+  function showPane(key) {
+    ptabs.forEach(function (t) {
+      var on = t.dataset.pane === key;
+      t.classList.toggle("is-active", on);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    Object.keys(panes).forEach(function (k) { panes[k].classList.toggle("is-active", k === key); });
+  }
+  ptabs.forEach(function (t) { t.addEventListener("click", function () { showPane(t.dataset.pane); }); });
+
+  /* 统计「作品」→ 作品 tab */
+  document.querySelector('[data-od-id="stat-posts"]').addEventListener("click", function (e) {
+    e.preventDefault();
+    showPane("pane-works");
+  });
+
+  /* 统计「关注 / 粉丝 / 获赞」(原型占位) */
+  function statToast(msg) {
+    var t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function () { t.classList.add("is-show"); }, 10);
+    setTimeout(function () { t.classList.remove("is-show"); }, 1800);
+    setTimeout(function () { t.remove(); }, 2200);
+  }
+  [["stat-following", "关注列表(原型占位)"], ["stat-followers", "粉丝列表(原型占位)"], ["stat-likes", "获赞作品(原型占位)"]].forEach(function (pair) {
+    var el = document.querySelector('[data-od-id="' + pair[0] + '"]');
+    if (!el) return;
+    el.addEventListener("click", function (e) {
+      e.preventDefault();
+      statToast(pair[1]);
+    });
+  });
+
+  /* 关注 / 取关 */
+  var followBtn = document.getElementById("pf-follow");
+  followBtn.addEventListener("click", function () {
+    var on = followBtn.classList.toggle("is-followed");
+    followBtn.textContent = on ? "已关注" : "关注";
+  });
+
+  /* 私信(原型占位) */
+  document.getElementById("pf-msg").addEventListener("click", function () {
+    var t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = "私信(原型占位)";
+    document.body.appendChild(t);
+    setTimeout(function () { t.classList.add("is-show"); }, 10);
+    setTimeout(function () { t.classList.remove("is-show"); }, 1800);
+    setTimeout(function () { t.remove(); }, 2200);
+  });
+
+  /* ⌘K 聚焦搜索 */
+  var searchInput = document.getElementById("search-input");
+  document.addEventListener("keydown", function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      if (searchInput) searchInput.focus();
+    }
+  });
+
+  /* 通知浮窗 */
+  var bellBtn = document.getElementById("bell-btn");
+  var notifPop = document.getElementById("notif-pop");
+  function setNotif(open) {
+    if (!bellBtn || !notifPop) return;
+    bellBtn.classList.toggle("is-open", open);
+    notifPop.classList.toggle("is-open", open);
+    bellBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  if (bellBtn && notifPop) {
+    bellBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      setNotif(bellBtn.getAttribute("aria-expanded") !== "true");
+    });
+    document.addEventListener("click", function (e) {
+      if (bellBtn.getAttribute("aria-expanded") === "true" && !e.target.closest(".notif-wrap")) setNotif(false);
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") setNotif(false); });
+  }
+  var readAll = document.getElementById("notif-readall");
+  if (readAll) {
+    readAll.addEventListener("click", function () {
+      var dot = document.getElementById("bell-dot");
+      if (dot) dot.style.display = "none";
+      Array.prototype.slice.call(document.querySelectorAll(".notif-item.is-unread")).forEach(function (item) {
+        item.classList.remove("is-unread");
+      });
+      bellBtn.setAttribute("aria-label", "通知");
+    });
+  }
+})();
+</script>
+</body>
+</html>

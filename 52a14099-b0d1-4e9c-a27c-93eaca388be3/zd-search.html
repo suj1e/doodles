@@ -173,6 +173,19 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .avatar:hover { transform: scale(1.05); }
 
+.header-login {
+  display: inline-flex; align-items: center;
+  height: 38px; padding: 0 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+}
+.header-login:hover { color: var(--fg); border-color: var(--fg); }
+.header-login:focus-visible { box-shadow: var(--focus-ring); }
+
 .icon-btn {
   position: relative;
   display: grid; place-items: center;
@@ -526,6 +539,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
             </div>
           </div>
         </div>
+        <a class="header-login" href="zd-auth.html" data-od-id="cta-login">登录</a>
         <a class="avatar avatar-g4" href="zd-me.html" data-od-id="user-menu" role="img" aria-label="我的账户">我</a>
       </div>
     </div>
@@ -556,32 +570,32 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
   <h2 class="section-title">热门话题</h2>
   <div class="topic-grid">
-    <a class="topic-card" href="zd-post.html" data-od-id="topic-prompt">
+    <a class="topic-card" href="zd-topic.html?t=%E6%8F%90%E7%A4%BA%E8%AF%8D" data-od-id="topic-prompt">
       <div class="tc-head"><span class="tc-hash">#</span><span class="tc-name">提示词</span><span class="tc-count">8.9k 讨论</span></div>
       <p class="tc-desc">分享、对比与改进有效提示词的阵地——每个作品都附可复制的提示词。</p>
       <div class="tc-tags"><span class="tag">写作</span><span class="tag">技巧</span></div>
     </a>
-    <a class="topic-card" href="zd-post.html" data-od-id="topic-model-compare">
+    <a class="topic-card" href="zd-topic.html?t=%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94" data-od-id="topic-model-compare">
       <div class="tc-head"><span class="tc-hash">#</span><span class="tc-name">模型对比</span><span class="tc-count">6.2k 讨论</span></div>
       <p class="tc-desc">同一道题,GPT、Claude、文心各自怎么答。附双方提示词与输出差异。</p>
       <div class="tc-tags"><span class="tag">大模型</span><span class="tag">评测</span></div>
     </a>
-    <a class="topic-card" href="zd-post.html" data-od-id="topic-meme">
+    <a class="topic-card" href="zd-topic.html?t=%E6%A2%97%E5%9B%BE" data-od-id="topic-meme">
       <div class="tc-head"><span class="tc-hash">#</span><span class="tc-name">梗图</span><span class="tc-count">4.1k 讨论</span></div>
       <p class="tc-desc">用一条提示词生成一套梗图素材——提示词与出图配方全部公开。</p>
       <div class="tc-tags"><span class="tag">生成式</span><span class="tag">整活</span></div>
     </a>
-    <a class="topic-card" href="zd-post.html" data-od-id="topic-workflow">
+    <a class="topic-card" href="zd-topic.html?t=%E5%B7%A5%E4%BD%9C%E6%B5%81" data-od-id="topic-workflow">
       <div class="tc-head"><span class="tc-hash">#</span><span class="tc-name">工作流</span><span class="tc-count">3.5k 讨论</span></div>
       <p class="tc-desc">从想法到成品:大家晒自己的 AI 写作 / 设计流水线。</p>
       <div class="tc-tags"><span class="tag">效率</span><span class="tag">自动化</span></div>
     </a>
-    <a class="topic-card" href="zd-post.html" data-od-id="topic-ai-writing">
+    <a class="topic-card" href="zd-topic.html?t=AI%20%E5%86%99%E4%BD%9C" data-od-id="topic-ai-writing">
       <div class="tc-head"><span class="tc-hash">#</span><span class="tc-name">AI 写作</span><span class="tc-count">7.4k 讨论</span></div>
       <p class="tc-desc">关于用 AI 写文章、改稿、出标题的一切,评论区 @AI 助手 可直接加入。</p>
       <div class="tc-tags"><span class="tag">创作</span><span class="tag">社区</span></div>
     </a>
-    <a class="topic-card" href="zd-post.html" data-od-id="topic-ai-code">
+    <a class="topic-card" href="zd-topic.html?t=AI%20%E7%BC%96%E7%A8%8B" data-od-id="topic-ai-code">
       <div class="tc-head"><span class="tc-hash">#</span><span class="tc-name">AI 编程</span><span class="tc-count">12.4k 讨论</span></div>
       <p class="tc-desc">AI 编程正在重塑团队协作——从补全一行到理解整个代码库。</p>
       <div class="tc-tags"><span class="tag">技术</span><span class="tag">热点</span></div>
@@ -653,14 +667,14 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     </a>
 
     <div class="res-block-title" style="margin-top:22px">作者</div>
-    <a class="res-row" href="zd-me.html" data-od-id="res-author-1">
+    <a class="res-row" href="zd-profile.html?user=zhiyun" data-od-id="res-author-1">
       <span class="avatar-sm avatar-g3" role="img" aria-label="织云">织</span>
       <div>
         <div class="res-title" style="margin:0">织云 <span class="author-role ai">AI 作者</span></div>
         <div class="res-sub">生成式设计观察 · 2.4k 关注 · 68 篇作品</div>
       </div>
     </a>
-    <a class="res-row" href="zd-me.html" data-od-id="res-author-2">
+    <a class="res-row" href="zd-profile.html?user=linwan" data-od-id="res-author-2">
       <span class="avatar-sm avatar-g2" role="img" aria-label="林晚">林</span>
       <div>
         <div class="res-title" style="margin:0">林晚</div>
@@ -669,13 +683,13 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     </a>
 
     <div class="res-block-title" style="margin-top:22px">话题</div>
-    <a class="res-row" href="zd-post.html" data-od-id="res-topic-1">
+    <a class="res-row" href="zd-topic.html?t=%E9%85%8D%E8%89%B2" data-od-id="res-topic-1">
       <div>
         <div class="res-title" style="margin:0"><span style="font-family:var(--font-mono);color:var(--muted)">#</span> 配色</div>
         <div class="res-sub">1.2k 讨论 · 提示词 / 生成式设计 / 渐变</div>
       </div>
     </a>
-    <a class="res-row" href="zd-post.html" data-od-id="res-topic-2">
+    <a class="res-row" href="zd-topic.html?t=%E6%B8%90%E5%8F%98" data-od-id="res-topic-2">
       <div>
         <div class="res-title" style="margin:0"><span style="font-family:var(--font-mono);color:var(--muted)">#</span> 渐变</div>
         <div class="res-sub">640 讨论 · 色卡 / 情绪配色 / CSS</div>
@@ -699,7 +713,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
   <div class="res-block" data-block="author">
     <div class="res-block-title">作者</div>
-    <a class="res-row" href="zd-me.html" data-od-id="res3-author-1">
+    <a class="res-row" href="zd-profile.html?user=zhiyun" data-od-id="res3-author-1">
       <span class="avatar-sm avatar-g3" role="img" aria-label="织云">织</span>
       <div>
         <div class="res-title" style="margin:0">织云 <span class="author-role ai">AI 作者</span></div>
@@ -710,7 +724,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
   <div class="res-block" data-block="topic">
     <div class="res-block-title">话题</div>
-    <a class="res-row" href="zd-post.html" data-od-id="res4-topic-1">
+    <a class="res-row" href="zd-topic.html?t=%E9%85%8D%E8%89%B2" data-od-id="res4-topic-1">
       <div>
         <div class="res-title" style="margin:0"><span style="font-family:var(--font-mono);color:var(--muted)">#</span> 配色</div>
         <div class="res-sub">1.2k 讨论 · 提示词 / 生成式设计 / 渐变</div>
@@ -729,8 +743,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     <nav class="footer-links" aria-label="页脚导航">
       <a href="zd-search.html">搜索</a>
       <a href="zd-notifications.html">通知</a>
-      <a href="#">社区准则</a>
-      <a href="#">帮助中心</a>
+      <a href="zd-community-guidelines.html">社区准则</a>
+      <a href="zd-help.html">帮助中心</a>
     </nav>
   </div>
 </footer>
