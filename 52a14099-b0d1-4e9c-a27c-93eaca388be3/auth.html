@@ -96,7 +96,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   background: radial-gradient(120% 90% at 110% 0%, color-mix(in oklab, var(--accent-on) 10%, transparent), transparent 55%);
   pointer-events: none;
 }
-.brand-row { display: flex; align-items: center; gap: 10px; }
+.brand-row { display: flex; align-items: center; gap: 10px; border-radius: var(--radius-sm); transition: opacity var(--motion-fast) var(--ease-standard); }
+a.brand-row:hover { opacity: .85; }
+a.brand-row:focus-visible { box-shadow: var(--focus-ring); }
 .brand-mark {
   width: 32px; height: 32px; border-radius: var(--radius-sm);
   display: grid; place-items: center;
@@ -104,6 +106,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-weight: 800; font-size: 17px;
 }
 .brand-word { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--fg); }
+.auth-brand .brand-word { color: var(--accent-on); }
 .brand-en { margin-left: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: none; }
 @media (min-width: 768px) { .brand-en { display: inline-block; } }
 .auth-brand .brand-en { color: color-mix(in oklab, var(--accent-on) 62%, transparent); }
@@ -223,17 +226,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .form-foot button:hover { opacity: .7; }
 .form-foot button:focus-visible { box-shadow: var(--focus-ring); }
 
-/* 顶部返回 */
-.auth-top { position: fixed; top: 0; left: 0; right: 0; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; z-index: 5; }
-.auth-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); padding: 8px 12px; border-radius: var(--radius-md); transition: color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard); }
-.auth-back:hover { color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
-.auth-back:focus-visible { box-shadow: var(--focus-ring); }
-.auth-back .icon { width: 15px; height: 15px; }
-.auth-help { font-size: 13px; color: var(--muted); }
-.auth-help a { padding: 8px 10px; border-radius: var(--radius-md); transition: color var(--motion-fast) var(--ease-standard); }
-.auth-help a:hover { color: var(--fg); }
-.auth-help a:focus-visible { box-shadow: var(--focus-ring); }
-
 /* 轻提示 */
 .toast {
   position: fixed; left: 50%; bottom: 28px;
@@ -262,28 +254,19 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .auth-brand { padding: 24px 20px; }
   .auth-main { padding: 24px 20px; }
   .social-row { grid-template-columns: 1fr; }
-  .auth-top { padding: 12px 14px; }
 }
 </style>
 </head>
 <body>
 
-<div class="auth-top">
-  <a class="auth-back" href="feed.html" data-od-id="auth-back">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-    返回首页
-  </a>
-  <span class="auth-help"><a href="help.html" data-od-id="auth-help">需要帮助?</a></span>
-</div>
-
 <div class="auth-card" data-od-id="auth-card">
 
   <!-- 左侧品牌区 -->
   <aside class="auth-brand" data-od-id="auth-brand">
-    <div class="brand-row">
+    <a class="brand-row" href="feed.html" aria-label="返回织云首页" data-od-id="auth-back">
       <span class="brand-mark">织</span>
       <span class="brand-word">织云</span><span class="brand-en">Weavery</span>
-    </div>
+    </a>
     <p class="auth-slogan">阅读、讨论,<em>用 AI 开始创作</em>。你的想法,值得被更多人看见。</p>
     <div class="auth-points">
       <div class="auth-point">
@@ -405,6 +388,13 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   var toast = $("toast");
   var toastTimer = null;
 
+  var nextParam = "feed.html";
+  (function () {
+    var m = location.search.match(/[?&]next=([^&]+)/);
+    if (m) nextParam = decodeURIComponent(m[1]);
+    if (!/\.html$/.test(nextParam)) nextParam = "feed.html";
+  })();
+
   function showToast(msg) {
     toast.textContent = msg;
     toast.classList.add("is-show");
@@ -461,13 +451,14 @@ a:focus-visible, button:focus-visible, input:focus-visible {
         btn.style.opacity = "";
         showToast(okMsg);
         setTimeout(function () {
+          try { localStorage.setItem("weavery-auth", "in"); } catch (_) {}
           if (next) location.href = next;
         }, 700);
       }, 900);
     });
   }
-  simulateSubmit($("form-login"), "登录成功,欢迎回来", "feed.html");
-  simulateSubmit($("form-register"), "注册成功,已为你登录", "feed.html");
+  simulateSubmit($("form-login"), "登录成功,欢迎回来", nextParam);
+  simulateSubmit($("form-register"), "注册成功,已为你登录", nextParam);
   simulateSubmit($("form-forgot"), "重置邮件已发送,请查收", null);
 
   /* ---------- ⌘K / Esc ---------- */

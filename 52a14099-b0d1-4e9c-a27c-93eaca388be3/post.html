@@ -3,6 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>try { document.documentElement.dataset.auth = localStorage.getItem("weavery-auth") === "in" ? "in" : "out"; } catch (_) { document.documentElement.dataset.auth = "out"; }</script>
+  <style>
+    .guest-only { display: none; }
+    html[data-auth="out"] .authed-only { display: none !important; }
+    html[data-auth="out"] .guest-only { display: inline-flex; align-items: center; gap: 8px; }
+    .guest-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      height: 38px; padding: 0 16px;
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm); font-weight: 600;
+      transition: background-color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard), transform .1s ease;
+    }
+    .guest-btn:active { transform: translateY(1px); }
+    .guest-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+    .guest-login { color: var(--fg); border: 1px solid var(--border); background: var(--surface); }
+    .guest-login:hover { background: color-mix(in oklab, var(--border) 40%, var(--surface)); border-color: color-mix(in oklab, var(--fg) 20%, var(--surface)); }
+    .guest-register { background: var(--accent); color: var(--accent-on); box-shadow: var(--elev-ring); }
+    .guest-register:hover { background: var(--accent-hover); }
+    @media (max-width: 760px) {
+      .guest-only .guest-btn { height: 34px; padding: 0 12px; }
+    }
+  </style>
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>从色块到情绪 · 织云</title>
@@ -742,11 +764,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
         <a class="icon-btn mobile-search" href="search.html" data-od-id="nav-search-mobile" aria-label="搜索">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
         </a>
-        <a class="btn btn-primary" href="create.html" data-od-id="cta-create">
+        <div class="guest-only">
+          <a class="guest-btn guest-login" href="auth.html" data-od-id="guest-login">登录</a>
+          <a class="guest-btn guest-register" href="auth.html?mode=register" data-od-id="guest-register">注册</a>
+        </div>
+        <a class="btn btn-primary authed-only" href="create.html" data-od-id="cta-create">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
           AI 写作
         </a>
-        <div class="notif-wrap" data-od-id="nav-notifications">
+        <div class="notif-wrap authed-only" data-od-id="nav-notifications">
           <button class="icon-btn" id="bell-btn" type="button" aria-label="通知,3 条未读" aria-haspopup="dialog" aria-expanded="false" aria-controls="notif-pop">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
             <span class="bell-dot" id="bell-dot"></span>
@@ -786,7 +812,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
             </div>
           </div>
         </div>
-        <div class="user-wrap" data-od-id="user-menu">
+        <div class="user-wrap authed-only" data-od-id="user-menu">
           <button class="avatar avatar-g4 user-btn" id="user-btn" type="button" aria-label="账户菜单" aria-haspopup="menu" aria-expanded="false" aria-controls="user-pop">我</button>
           <div class="user-pop" id="user-pop" role="menu" aria-label="账户菜单">
             <div class="user-head">
@@ -1464,5 +1490,55 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   })();
 </script>
 
+<script>
+(function () {
+  var AUTH = document.documentElement.dataset.auth === "in";
+  function showLogin(verb) {
+    var t = document.getElementById("toast");
+    var next = location.pathname.split("/").pop();
+    var html = verb + ',请先 <a href="auth.html?next=' + encodeURIComponent(next) + '" style="color:inherit;text-decoration:underline;font-weight:600;">登录</a>';
+    if (t) {
+      t.innerHTML = html;
+      t.classList.add("is-show");
+      clearTimeout(t._g);
+      t._g = setTimeout(function () { t.classList.remove("is-show"); }, 2600);
+    } else {
+      t = document.createElement("div");
+      t.id = "toast";
+      t.setAttribute("role", "status");
+      t.setAttribute("aria-live", "polite");
+      t.style.cssText = "position:fixed;left:50%;bottom:24px;transform:translate(-50%,12px);z-index:1200;padding:10px 16px;border-radius:8px;background:#111827;color:#fff;font-size:13px;line-height:1.5;opacity:0;transition:opacity .2s ease,transform .2s ease;pointer-events:none;box-shadow:0 12px 32px rgba(0,0,0,.18);";
+      t.innerHTML = html;
+      document.body.appendChild(t);
+      t.style.opacity = "1";
+      t.style.transform = "translate(-50%,0)";
+      clearTimeout(t._g);
+      t._g = setTimeout(function () { t.style.opacity = "0"; t.style.transform = "translate(-50%,12px)"; }, 2600);
+    }
+  }
+  var logout = document.querySelector('[data-od-id="menu-logout"]');
+  if (logout) logout.addEventListener("click", function (e) {
+    e.preventDefault();
+    try { localStorage.setItem("weavery-auth", "out"); } catch (_) {}
+    location.href = "feed.html";
+  });
+  Array.prototype.slice.call(document.querySelectorAll(".guest-btn")).forEach(function (b) {
+    b.href += (b.href.indexOf("?") > -1 ? "&" : "?") + "next=" + encodeURIComponent(location.pathname.split("/").pop());
+  });
+  if (!AUTH) {
+    document.addEventListener("click", function (e) {
+      var t = e.target;
+      var el = t && t.closest ? t.closest(".like-btn,.follow-btn,.action-btn,.fav-btn,#btn-like,#btn-fav,#pf-follow,#tp-follow,.remix-btn,[data-od-id^=like-],[data-od-id^=follow-],[data-tab=follow]") : null;
+      if (!el) return;
+      e.preventDefault();
+      e.stopPropagation();
+      showLogin("登录后即可使用");
+    }, true);
+    if (/(me|drafts|favorites|settings|messages|notifications|dashboard|create)\.html/.test(location.pathname)) {
+      location.replace("auth.html?next=" + encodeURIComponent(location.pathname.split("/").pop()));
+    }
+  }
+})();
+</script>
 </body>
 </html>
