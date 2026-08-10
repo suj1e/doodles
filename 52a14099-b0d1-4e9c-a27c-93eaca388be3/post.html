@@ -138,7 +138,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   background: var(--accent); color: var(--accent-on);
   font-weight: 700; font-size: 15px;
 }
-.brand-word { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--fg); }
+.brand-word { font-size: 21px; font-weight: 800; letter-spacing: 0; color: var(--fg); }
 .brand-en { margin-left: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: none; }
 @media (min-width: 768px) { .brand-en { display: inline-block; } }
 .search { flex: 1; max-width: 420px; margin: 0 auto; position: relative; }
@@ -382,9 +382,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .art-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
 .art-title {
   font-size: 34px;
-  line-height: 1.25;
+  line-height: 1.4;
   font-weight: 800;
-  letter-spacing: var(--tracking-display);
+  letter-spacing: 0;
   color: var(--fg);
   margin-bottom: 16px;
 }
@@ -422,6 +422,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
 }
 .action-btn:hover { border-color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.action-btn:active { transform: translateY(1px); }
 .action-btn:focus-visible { box-shadow: var(--focus-ring); }
 .action-btn .icon { width: 15px; height: 15px; }
 .action-btn.is-on { color: var(--accent); }
@@ -436,6 +437,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   transition: background-color var(--motion-fast) var(--ease-standard);
 }
 .btn-remix:hover { background: var(--accent-hover); }
+.btn-remix:active { transform: translateY(1px); }
 .owner-actions { display: none; align-items: center; gap: 8px; }
 .owner-actions.is-show { display: inline-flex; }
 .btn-owner {
@@ -449,6 +451,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
 }
 .btn-owner:hover { border-color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
+.btn-owner:active { transform: translateY(1px); }
 .btn-owner:focus-visible { box-shadow: var(--focus-ring); }
 .btn-owner .icon { width: 15px; height: 15px; }
 .btn-owner.is-danger:hover { color: var(--danger); border-color: var(--danger); background: color-mix(in oklab, var(--danger) 6%, var(--surface)); }
@@ -478,7 +481,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 .art-body { font-size: var(--text-base); line-height: 1.85; color: var(--fg); }
 .art-body p { margin: 0 0 20px; }
-.art-body h2 { font-size: var(--text-xl); font-weight: 700; letter-spacing: -0.01em; margin: 34px 0 12px; }
+.art-body h2 { font-size: var(--text-xl); font-weight: 700; letter-spacing: 0; margin: 34px 0 12px; }
 .art-body blockquote {
   margin: 24px 0;
   padding-left: 18px;
@@ -536,7 +539,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* ---------- 评论区 ---------- */
 .comments { margin-top: 40px; }
 .comments-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
-.comments-head h2 { font-size: var(--text-xl); font-weight: 700; letter-spacing: -0.01em; }
+.comments-head h2 { font-size: var(--text-xl); font-weight: 700; letter-spacing: 0; }
 .comments-head .hint { font-size: var(--text-sm); color: var(--muted); }
 
 .composer { position: relative; margin-bottom: 26px; }
@@ -629,7 +632,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* ---------- 相关作品 ---------- */
 .related { margin-top: 46px; }
-.related h2 { font-size: var(--text-xl); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 18px; }
+.related h2 { font-size: var(--text-xl); font-weight: 700; letter-spacing: 0; margin-bottom: 18px; }
 .rel-list { display: flex; flex-direction: column; gap: 14px; }
 .rel-card {
   display: flex; gap: 16px; align-items: flex-start;
@@ -683,6 +686,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   transition: background-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
 }
 .follow-btn:hover { background: var(--accent); color: var(--accent-on); }
+.follow-btn:active { transform: translateY(1px); }
 .follow-btn.is-followed { color: var(--muted); background: color-mix(in oklab, var(--border) 40%, var(--surface)); border-color: var(--border); }
 .follow-btn.is-followed:hover { color: var(--fg); background: color-mix(in oklab, var(--border) 60%, var(--surface)); }
 
@@ -737,6 +741,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .prompt-actions { margin-left: 0; }
   .art-actions { gap: 6px; }
   .footer-links { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 </style>
 </head>
@@ -880,7 +891,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.3 7.7 3.6 4.5 7 4.5c2 0 3.6 1 5 2.9 1.4-1.9 3-2.9 5-2.9 3.4 0 5.7 3.2 4.3 6.8C19.5 15.9 12 20.5 12 20.5Z"/></svg>
           <span id="like-num">934</span>
         </button>
-        <button class="action-btn" type="button" id="btn-fav" aria-label="收藏" data-od-id="favorite-post">
+        <button class="action-btn" type="button" id="btn-fav" aria-label="收藏,当前 128" data-od-id="favorite-post">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z"/></svg>
           <span id="fav-num">128</span>
         </button>
@@ -1213,14 +1224,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     var on = likeBtn.classList.toggle("is-on");
     var v = parseInt(likeBtn.dataset.count, 10) || 0;
     likeBtn.dataset.count = on ? v + 1 : v - 1;
-    document.getElementById("like-num").textContent = fmt(parseInt(likeBtn.dataset.count, 10));
+    var shown = fmt(parseInt(likeBtn.dataset.count, 10));
+    document.getElementById("like-num").textContent = shown;
+    likeBtn.setAttribute("aria-label", (on ? "取消点赞,当前 " : "点赞,当前 ") + shown);
   });
   var favBtn = document.getElementById("btn-fav");
   favBtn.addEventListener("click", function () {
     var on = favBtn.classList.toggle("is-on");
     var v = parseInt(favBtn.dataset.count, 10) || 0;
     favBtn.dataset.count = on ? v + 1 : v - 1;
-    document.getElementById("fav-num").textContent = fmt(parseInt(favBtn.dataset.count, 10));
+    var shown = fmt(parseInt(favBtn.dataset.count, 10));
+    document.getElementById("fav-num").textContent = shown;
+    favBtn.setAttribute("aria-label", (on ? "取消收藏,当前 " : "收藏,当前 ") + shown);
   });
 
   /* 作者操作(编辑 / 删除)— 通过 ?owner=1 演示当前用户视角 */

@@ -267,7 +267,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-weight: 700; font-size: 15px;
   letter-spacing: 0;
 }
-.brand-word { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--fg); }
+.brand-word { font-size: 21px; font-weight: 800; letter-spacing: 0; color: var(--fg); }
 .brand-en { margin-left: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: none; }
 @media (min-width: 768px) { .brand-en { display: inline-block; } }
 /* 搜索 */
@@ -398,6 +398,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .icon-btn:hover { border-color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
 .mobile-search { display: none; }
+.icon-btn:active { transform: translateY(1px); }
 .icon-btn:focus-visible { box-shadow: var(--focus-ring); }
 .icon-btn .icon { width: 17px; height: 17px; }
 .bell-dot {
@@ -573,7 +574,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  cursor: pointer;
   transition: border-color var(--motion-base) var(--ease-standard), box-shadow var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
 }
 .card:hover {
@@ -597,7 +597,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .tag:hover { color: var(--accent); border-color: var(--accent); background: color-mix(in oklab, var(--accent) 5%, var(--surface)); }
 .readtime { font-size: var(--text-xs); color: var(--muted); }
 
-.card-title { font-size: 20px; line-height: var(--leading-tight); font-weight: 700; color: var(--fg); margin: 10px 0 8px; letter-spacing: -0.01em; }
+.card-title { font-size: 20px; line-height: 1.4; font-weight: 700; color: var(--fg); margin: 10px 0 8px; letter-spacing: 0; }
 .card-title a { transition: color var(--motion-fast) var(--ease-standard); }
 .card-title a:hover { color: var(--accent); }
 
@@ -647,10 +647,11 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   color: var(--muted);
   padding: 4px 6px; margin: -4px -6px;
   border-radius: var(--radius-sm);
-  transition: color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+  transition: color var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard), transform .1s ease;
 }
 .like-btn:hover { color: var(--fg); background: color-mix(in oklab, var(--border) 40%, var(--surface)); }
 .like-btn:focus-visible { box-shadow: var(--focus-ring); }
+.like-btn:active { transform: translateY(1px); }
 .like-btn .icon { width: 14px; height: 14px; }
 .like-btn.is-liked { color: var(--accent); }
 .like-btn.is-liked .icon { fill: var(--accent); stroke: var(--accent); }
@@ -801,6 +802,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   transition: background-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
 }
 .follow-btn:hover { background: var(--accent); color: var(--accent-on); border-color: var(--accent); }
+.follow-btn:active { transform: translateY(1px); }
 .follow-btn:focus-visible { box-shadow: var(--focus-ring); }
 .follow-btn.is-followed {
   color: var(--muted);
@@ -808,6 +810,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   border-color: var(--border);
 }
 .follow-btn.is-followed:hover { color: var(--fg); background: color-mix(in oklab, var(--border) 60%, var(--surface)); }
+.follow-btn.is-followed:active { transform: translateY(1px); }
 
 /* AI 创作引导 */
 .ai-panel {
@@ -1115,7 +1118,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
             <div class="discuss-stats">
               <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-8 8H5l-2 2V12a8 8 0 0 1 8-8 8 8 0 0 1 8 8Z"/></svg>128 条讨论</span>
               <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-4.6-9.3-9.2C1.3 8 3.6 5 7 5c2 0 3.6 1 5 2.8C13.4 6 15 5 17 5c3.4 0 5.7 3 4.3 6.8C19 16.4 12 21 12 21Z"/></svg>32 人关注</span>
-              <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>浏览 9.6k</span>
+              <span class="stat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>浏览 9600</span>
             </div>
             <div class="card-footer">
               <span class="avatar-sm avatar-g3" role="img" aria-label="作者:苏航">苏</span>
@@ -1250,7 +1253,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
             <p class="card-excerpt">把「下班后依然焦虑」拆成 8 个具体场景,让 AI 逐条给出可执行的反内耗策略。提示词与完整回复已附在正文,可直接照抄复刻。</p>
             <div class="card-footer">
               <span class="avatar-sm avatar-g3" role="img" aria-label="作者:云小织">云</span>
-              <a class="author" href="profile.html?user=yxiaozhi" data-od-id="author-yxiaozhi">云小织</a>
+              <a class="author" href="profile.html?user=yxiaozhi" data-od-id="author-yxiaozhi-2">云小织</a>
               <span class="author-role ai">AI 作者</span>
               <span class="dot">·</span>
               <time>15 分钟前</time>
@@ -1448,7 +1451,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       var num = btn.querySelector(".like-num");
       var v = parseInt(btn.dataset.count, 10) || 0;
       btn.dataset.count = liked ? v + 1 : v - 1;
-      num.textContent = fmt(parseInt(btn.dataset.count, 10));
+      var nv = parseInt(btn.dataset.count, 10);
+      num.textContent = fmt(nv);
+      btn.setAttribute("aria-label", "点赞,当前 " + fmt(nv));
     });
   });
 

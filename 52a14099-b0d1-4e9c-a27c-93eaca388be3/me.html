@@ -1082,9 +1082,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       e.stopPropagation();
       showLogin("登录后即可使用");
     }, true);
-    if (/(me|drafts|favorites|settings|messages|notifications|dashboard|create)\.html/.test(location.pathname)) {
-      location.replace("auth.html?next=" + encodeURIComponent(location.pathname.split("/").pop()));
-    }
   }
 })();
 </script>
