@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>织云 Weavery · 原型导览</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --fg: #111827;
+    --muted: #64748b;
+    --border: #e5e7eb;
+    --accent: #000000;
+    --accent-on: #ffffff;
+  }
+  body {
+    font-family: "Geist", "Geist Sans", -apple-system, system-ui, "Segoe UI", "PingFang SC", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    min-height: 100vh;
+    padding: 40px 24px 64px;
+  }
+
+  .header {
+    max-width: 960px;
+    margin: 0 auto 32px;
+    text-align: center;
+  }
+  .header .logo {
+    font-size: 13px;
+    letter-spacing: 0.4em;
+    color: var(--muted);
+    margin-bottom: 8px;
+    padding-left: 0.4em;
+  }
+  .header .tagline {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    padding-left: 0.15em;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1;
+    color: var(--muted);
+    text-decoration: none;
+    min-height: 44px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition: border-color 0.15s, color 0.15s, transform 0.1s;
+  }
+  .back-link:hover { color: var(--fg); border-color: color-mix(in oklab, var(--fg) 20%, var(--border)); }
+  .back-link:active { transform: scale(0.98); }
+  .back-link:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+
+  .group {
+    max-width: 960px;
+    margin: 0 auto 28px;
+  }
+  .group-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    margin: 0 2px 12px;
+  }
+
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 880px) {
+    .projects { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .projects { grid-template-columns: 1fr; }
+  }
+
+  .project {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow 0.2s cubic-bezier(0.2,0,0,1), border-color 0.2s, transform 0.1s;
+    padding: 16px 16px 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .project:hover { box-shadow: 0 2px 8px color-mix(in oklab, var(--fg) 8%, transparent); border-color: color-mix(in oklab, var(--fg) 20%, var(--border)); }
+  .project:active { transform: scale(0.99); }
+  .project:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project { transition: none; }
+    .project:active { transform: none; }
+    .back-link { transition: none; }
+    .back-link:active { transform: none; }
+  }
+
+  .project-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .thumb {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    background: color-mix(in oklab, var(--fg) 3%, var(--surface));
+  }
+  .thumb svg { width: 20px; height: 20px; }
+
+  .project-info { flex: 1; min-width: 0; }
+  .project-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--fg);
+    letter-spacing: 0;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .project-num {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  .project-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">织 云 · W E A V E R Y</div>
+  <div class="tagline">A I 内 容 社 区 · 原 型 导 览</div>
+  <a class="back-link" href="../index.html">
+    <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    返回产品列表
+  </a>
+</header>
+
+<main>
+
+<div class="group">
+  <div class="group-label">阅 读 与 发 现</div>
+  <div class="projects">
+
+    <a class="project" href="../feed.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 9h18M3 13h12M3 17h8"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">首页 Feed<span class="project-num">01</span></div>
+          <div class="project-desc">双栏信息流,AI 推荐 / 关注,侧栏话题</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../post.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v12H7l-3 3V5z"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">文章详情<span class="project-num">02</span></div>
+          <div class="project-desc">单帖阅读、点赞、评论与分享</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../topic.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3L7 21M15 3l-2 18M5 9h14M4 15h14"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">话题详情<span class="project-num">03</span></div>
+          <div class="project-desc">话题聚合,排序切换与相关推荐</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../search.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">搜索与发现<span class="project-num">04</span></div>
+          <div class="project-desc">关键词搜索、话题与作者发现</div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<div class="group">
+  <div class="group-label">创 作 与 数 据</div>
+  <div class="projects">
+
+    <a class="project" href="../create.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">AI 写作工作台<span class="project-num">05</span></div>
+          <div class="project-desc">AI 辅助写作,草稿自动保存与发布</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../drafts.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6V3z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 16h4"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">草稿箱<span class="project-num">06</span></div>
+          <div class="project-desc">草稿管理,继续编辑与删除回收</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../dashboard.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V10M12 20V4M19 20v-6"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">创作者看板<span class="project-num">07</span></div>
+          <div class="project-desc">数据看板,阅读趋势与 AI 创作用量</div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<div class="group">
+  <div class="group-label">社 交 与 互 动</div>
+  <div class="projects">
+
+    <a class="project" href="../profile.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2.5"/><path d="M14 10h4M14 13h3"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">他人主页<span class="project-num">08</span></div>
+          <div class="project-desc">作者主页,作品 / AI 评价与关注</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../me.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">我的主页<span class="project-num">09</span></div>
+          <div class="project-desc">个人主页,作品、关注与数据一览</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../notifications.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9zM13.7 21a2 2 0 01-3.4 0"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">通知<span class="project-num">10</span></div>
+          <div class="project-desc">关注、点赞、评论的动态中心</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../messages.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v10H8l-4 4V5z"/><path d="M8 9h8M8 12h5"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">私信<span class="project-num">11</span></div>
+          <div class="project-desc">会话列表,实时收发与打字指示</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../favorites.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10v18l-5-4-5 4V3z"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">我的收藏<span class="project-num">12</span></div>
+          <div class="project-desc">文章 / 话题 / 作者分类筛选</div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<div class="group">
+  <div class="group-label">账 号 与 社 区</div>
+  <div class="projects">
+
+    <a class="project" href="../auth.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">登录注册<span class="project-num">13</span></div>
+          <div class="project-desc">登录 / 注册 / 忘记密码切换</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../settings.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 12h2M10 12h10M4 17h6M16 17h4"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="14" cy="17" r="2"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">偏好设置<span class="project-num">14</span></div>
+          <div class="project-desc">账号 / 隐私 / 通知偏好 / 个性化</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../guidelines.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">社区准则<span class="project-num">15</span></div>
+          <div class="project-desc">社区规范,8 节准则与目录导航</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="project" href="../help.html">
+      <div class="project-row">
+        <div class="thumb"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 0c0 2-2.5 2-2.5 4"/><circle cx="12" cy="17" r="0.5" fill="currentColor"/></svg></div>
+        <div class="project-info">
+          <div class="project-name">帮助中心<span class="project-num">16</span></div>
+          <div class="project-desc">FAQ 手风琴与联系支持表单</div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+</main>
+</body>
+</html>
