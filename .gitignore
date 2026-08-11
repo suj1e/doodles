@@ -1,3 +1,5 @@
 .DS_Store
 *.artifact.json
 .od-skills/
+out.txt
+gitver.txt
