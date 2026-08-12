@@ -484,7 +484,7 @@ a.brand-row:focus-visible { box-shadow: var(--focus-ring); }
   simulateSubmit($("form-register"), "注册成功,已为你登录", nextParam);
   simulateSubmit($("form-forgot"), "重置邮件已发送,请查收", null);
 
-  /* ---------- ⌘K / Esc ---------- */
+  /* Esc: 返回首页 */
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
       var a = document.querySelector('[data-od-id="auth-back"]');

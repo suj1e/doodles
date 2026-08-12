@@ -992,7 +992,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
           <path d="M20 20l-3.2-3.2"/>
         </svg>
         <input id="search-input" name="q" type="search" placeholder="搜索文章、话题或作者" aria-label="搜索文章、话题或作者" autocomplete="off">
-        <kbd class="search-kbd">⌘K</kbd>
       </form>
 
       <div class="header-actions">
@@ -1541,14 +1540,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     });
   });
 
-  /* ⌘K / Ctrl+K 聚焦搜索 */
-  var searchInput = document.getElementById("search-input");
-  document.addEventListener("keydown", function (e) {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-      e.preventDefault();
-      if (searchInput) searchInput.focus();
-    }
-  });
 
   /* 通知浮窗 */
   var bellBtn = document.getElementById("bell-btn");

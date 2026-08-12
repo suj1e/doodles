@@ -922,7 +922,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
           <path d="M20 20l-3.2-3.2"/>
         </svg>
         <input id="search-input" name="q" type="search" placeholder="搜索文章、话题或作者" aria-label="搜索文章、话题或作者" autocomplete="off">
-        <kbd class="search-kbd">⌘K</kbd>
       </form>
 
       <div class="header-actions">
@@ -1112,7 +1111,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
       <span class="tool-sep"></span>
       <button class="tool-btn" type="button" title="链接" aria-label="插入链接"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg></button>
       <button class="tool-btn" type="button" title="插入图片" aria-label="插入图片"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 15l-4-4-8 8"/></svg></button>
-      <span class="tool-hint">支持 Markdown · ⌘B 加粗</span>
+      <span class="tool-hint">支持 Markdown</span>
     </div>
 
     <div class="doc-scroll">
@@ -1475,10 +1474,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     cliInput.style.height = Math.min(cliInput.scrollHeight, 120) + "px";
   }
   cliInput.addEventListener("input", autosize);
-  cliInput.addEventListener("keydown", function (e) {
-    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleCommand(cliInput.value); }
-    if (e.key === "Enter" && e.shiftKey) { autosize(); }
-  });
 
   /* ---------- 侧栏:新建对话 / 模型 / 模式 / 附件 ---------- */
   document.querySelector(".sidebar-new").addEventListener("click", function () {
@@ -1673,14 +1668,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     pushSys("⟠ 已载入草稿「" + titleInput.value + "」 · " + countWords(contentInput.value) + " 字");
   }
 
-  /* ---------- ⌘K 聚焦搜索 ---------- */
-  document.addEventListener("keydown", function (e) {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-      e.preventDefault();
-      var s = $("search-input");
-      if (s) s.focus();
-    }
-  });
 
   /* 通知浮窗 */
   var bellBtn = document.getElementById("bell-btn");

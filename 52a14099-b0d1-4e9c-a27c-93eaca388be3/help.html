@@ -431,11 +431,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .help-head h1 { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 800; letter-spacing: var(--tracking-display); line-height: 1.3; color: var(--fg); }
 .help-head p { margin-top: 12px; font-size: var(--text-base); color: var(--muted); }
 .help-head p.help-head-sub { margin-top: 16px; font-size: var(--text-sm); }
-.help-kbd {
-  font-family: var(--font-mono); font-size: 11px; color: var(--muted);
-  background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
-  border-radius: var(--radius-sm); padding: 1px 6px; white-space: nowrap;
-}
 
 /* ---------- 帮助布局 ---------- */
 .help-layout {
@@ -582,7 +577,6 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
           <path d="M20 20l-3.2-3.2"/>
         </svg>
         <input id="search-input" name="q" type="search" placeholder="搜索文章、话题或作者" aria-label="搜索文章、话题或作者" autocomplete="off">
-        <kbd class="search-kbd">⌘K</kbd>
       </form>
 
       <div class="header-actions">
@@ -670,7 +664,7 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
   <header class="help-head container" data-od-id="help-head">
     <h1>帮助中心</h1>
     <p>从入门到进阶,找到使用 织云 的答案</p>
-    <p class="help-head-sub">想快速找答案?在顶栏搜索框输入关键词,或直接按 <kbd class="help-kbd">⌘K</kbd> 聚焦搜索。</p>
+    <p class="help-head-sub">想快速找答案?用顶栏搜索框输入关键词。</p>
   </header>
 
   <div class="help-layout container">
@@ -702,7 +696,7 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
         </div>
         <div class="faq-item" data-od-id="faq-begin-4">
           <button class="faq-q" type="button" aria-expanded="false">如何快速搜索?</button>
-          <div class="faq-a">随时按 <code>⌘K</code>(Windows 为 <code>Ctrl+K</code>)聚焦顶栏搜索框,可检索文章、话题与作者。</div>
+          <div class="faq-a">随时可用顶栏搜索框检索文章、话题与作者。</div>
         </div>
       </section>
 
@@ -844,14 +838,6 @@ textarea.input { height: auto; min-height: 110px; padding: 10px 12px; resize: ve
     setTimeout(function () { t.remove(); }, 2400);
   });
 
-  /* ⌘K 聚焦搜索 */
-  document.addEventListener("keydown", function (e) {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-      e.preventDefault();
-      var mainInput = document.getElementById("search-input");
-      if (mainInput) mainInput.focus();
-    }
-  });
 
   /* 通知浮窗 */
   var bellBtn = document.getElementById("bell-btn");

@@ -662,8 +662,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   transition: background-color var(--motion-fast) var(--ease-standard);
 }
 .chip-btn:hover { background: var(--accent); color: var(--accent-on); }
-.composer-hint { margin-left: auto; font-size: var(--text-xs); color: var(--muted); }
-.btn-send { height: 32px; padding: 0 16px; font-size: var(--text-sm); }
+.btn-send { height: 32px; padding: 0 16px; margin-left: auto; font-size: var(--text-sm); }
 .btn-send:disabled { opacity: .5; cursor: not-allowed; }
 
 .mention-pop {
@@ -859,7 +858,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
           <path d="M20 20l-3.2-3.2"/>
         </svg>
         <input name="q" type="search" placeholder="搜索文章、话题或作者" aria-label="搜索文章、话题或作者" autocomplete="off">
-        <kbd class="search-kbd">⌘K</kbd>
       </form>
 
       <div class="header-actions">
@@ -1109,7 +1107,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
                 <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c.5 3.7 3 6.2 6.7 6.7-3.7.5-6.2 3-6.7 6.7C11.5 11.7 9 9.2 5.3 8.7 9 8.2 11.5 5.7 12 2Z"/></svg>
                 @AI 助手
               </button>
-              <span class="composer-hint">Enter 发送</span>
               <button class="btn btn-primary btn-send" type="button" id="btn-send" disabled data-od-id="cta-send-comment">发送</button>
             </div>
           </div>
@@ -1430,12 +1427,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   commentInput.addEventListener("input", function () { showMention(); updateSendState(); });
   commentInput.addEventListener("keyup", showMention);
   commentInput.addEventListener("click", showMention);
-  commentInput.addEventListener("keydown", function (e) {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendComment();
-    }
-  });
 
   var mentionItems = Array.prototype.slice.call(document.querySelectorAll(".mention-item"));
   mentionItems.forEach(function (item) {
