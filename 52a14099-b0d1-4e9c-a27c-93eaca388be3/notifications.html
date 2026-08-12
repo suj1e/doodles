@@ -21,6 +21,84 @@
     .guest-login:hover { background: color-mix(in oklab, var(--border) 40%, var(--surface)); border-color: color-mix(in oklab, var(--fg) 20%, var(--surface)); }
     .guest-register { background: var(--accent); color: var(--accent-on); box-shadow: var(--elev-ring); }
     .guest-register:hover { background: var(--accent-hover); }
+    /* auth modal */
+    .am-overlay {
+      position: fixed; inset: 0; z-index: 1100;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      background: rgba(17, 24, 39, 0.45);
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity var(--motion-base) var(--ease-standard), visibility var(--motion-base) var(--ease-standard);
+    }
+    .am-overlay.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+    .am-dialog {
+      width: 100%; max-width: 400px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 8px 24px rgba(0,0,0,.12), 0 24px 56px rgba(0,0,0,.16);
+      padding: 28px 24px 20px;
+      transform: translateY(14px) scale(.98);
+      opacity: 0;
+      transition: transform var(--motion-base) var(--ease-standard), opacity var(--motion-base) var(--ease-standard);
+    }
+    .am-overlay.is-open .am-dialog { transform: translateY(0) scale(1); opacity: 1; }
+    .am-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .am-title { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; line-height: 1.3; letter-spacing: 0; color: var(--fg); }
+    .am-close {
+      display: grid; place-items: center; width: 32px; height: 32px;
+      border: 0; border-radius: var(--radius-sm);
+      background: transparent; color: var(--muted); cursor: pointer;
+      transition: background-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+    }
+    .am-close:hover { background: color-mix(in oklab, var(--border) 40%, var(--surface)); color: var(--fg); }
+    .am-close:active { transform: translateY(1px); }
+    .am-close:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+    .am-sub { font-size: var(--text-sm); color: var(--muted); margin: 2px 0 14px; }
+    .am-modes { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+    .am-mode {
+      flex: 1; padding: 9px 0;
+      border: 0; background: none; cursor: pointer;
+      font-size: var(--text-sm); font-weight: 600; color: var(--muted);
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+      transition: color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
+    }
+    .am-mode:hover { color: var(--fg); }
+    .am-mode.is-active { color: var(--fg); border-bottom-color: var(--accent); }
+    .am-mode:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+    .am-pane { display: none; }
+    .am-pane.is-active { display: block; }
+    .am-field { margin-bottom: 14px; }
+    .am-label { display: block; margin-bottom: 6px; font-size: var(--text-sm); font-weight: 600; color: var(--fg); }
+    .am-input {
+      width: 100%; height: 38px; padding: 0 12px;
+      border: 1px solid var(--border); border-radius: var(--radius-md);
+      background: var(--surface); color: var(--fg);
+      font-size: var(--text-sm); font-family: var(--font-body, inherit);
+      transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
+    }
+    .am-input::placeholder { color: color-mix(in oklab, var(--muted) 55%, transparent); }
+    .am-input:hover { border-color: color-mix(in oklab, var(--fg) 20%, var(--border)); }
+    .am-input:focus { outline: none; border-color: var(--fg); box-shadow: var(--focus-ring); }
+    .am-form-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; font-size: var(--text-sm); }
+    .am-form-row label { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); cursor: pointer; }
+    .am-link { border: 0; background: none; padding: 0; cursor: pointer; font-size: var(--text-sm); color: var(--fg); font-weight: 600; }
+    .am-link:hover { text-decoration: underline; }
+    .am-link:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+    .am-pane .btn { width: 100%; margin-top: 2px; }
+    .am-foot { margin-top: 14px; text-align: center; font-size: var(--text-sm); color: var(--muted); }
+    .am-foot button { border: 0; background: none; padding: 0; cursor: pointer; color: var(--fg); font-weight: 600; font-size: var(--text-sm); }
+    .am-foot button:hover { text-decoration: underline; }
+    .am-foot button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+    .am-note { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--muted); }
+    .am-note a { color: var(--fg); font-weight: 600; text-decoration: underline; }
+    @media (max-width: 480px) {
+      .am-overlay { padding: 0; align-items: flex-end; }
+      .am-dialog { max-width: none; border-radius: var(--radius-lg) var(--radius-lg) 0 0; padding: 24px 20px 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .am-overlay, .am-dialog { transition: none; }
+    }
     @media (max-width: 760px) {
       .guest-only .guest-btn { height: 34px; padding: 0 12px; }
     }
@@ -428,8 +506,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
         </a>
         <div class="guest-only">
-          <a class="guest-btn guest-login" href="auth.html" data-od-id="guest-login">登录</a>
-          <a class="guest-btn guest-register" href="auth.html?mode=register" data-od-id="guest-register">注册</a>
+          <a class="guest-btn guest-login" href="#" data-auth-modal="login" data-od-id="guest-login">登录</a>
+          <a class="guest-btn guest-register" href="#" data-auth-modal="register" data-od-id="guest-register">注册</a>
         </div>
         <a class="btn btn-primary authed-only" href="create.html" data-od-id="cta-create">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
@@ -723,7 +801,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   function showLogin(verb) {
     var t = document.getElementById("toast");
     var next = location.pathname.split("/").pop();
-    var html = verb + ',请先 <a href="auth.html?next=' + encodeURIComponent(next) + '" style="color:inherit;text-decoration:underline;font-weight:600;">登录</a>';
+    var html = verb + ',请先 <a href="#" data-auth-modal="login" style="color:inherit;text-decoration:underline;font-weight:600;">登录</a>';
     if (t) {
       t.innerHTML = html;
       t.classList.add("is-show");
@@ -749,9 +827,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     try { localStorage.setItem("weavery-auth", "out"); } catch (_) {}
     location.href = "feed.html";
   });
-  Array.prototype.slice.call(document.querySelectorAll(".guest-btn")).forEach(function (b) {
-    b.href += (b.href.indexOf("?") > -1 ? "&" : "?") + "next=" + encodeURIComponent(location.pathname.split("/").pop());
-  });
   if (!AUTH) {
     document.addEventListener("click", function (e) {
       var t = e.target;
@@ -759,9 +834,147 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       if (!el) return;
       e.preventDefault();
       e.stopPropagation();
-      showLogin("登录后即可使用");
+      if (document.documentElement.dataset.auth !== "in") openAuthModal("login");
     }, true);
   }
+})();
+</script>
+<div class="am-overlay" id="am-overlay" aria-hidden="true">
+  <div class="am-dialog" role="dialog" aria-modal="true" aria-labelledby="am-title">
+    <div class="am-head">
+      <h2 class="am-title" id="am-title">登录织云</h2>
+      <button class="am-close" type="button" data-am-close aria-label="关闭">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <p class="am-sub">登录后即可点赞、关注与创作</p>
+    <div class="am-modes" role="tablist" aria-label="登录方式">
+      <button class="am-mode is-active" type="button" role="tab" aria-selected="true" data-am-mode="login">登录</button>
+      <button class="am-mode" type="button" role="tab" aria-selected="false" data-am-mode="register">注册</button>
+    </div>
+    <form class="am-pane is-active" data-am-pane="login" novalidate>
+      <div class="am-field">
+        <label class="am-label" for="am-mail">邮箱</label>
+        <input class="am-input" id="am-mail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+      </div>
+      <div class="am-field">
+        <label class="am-label" for="am-pass">密码</label>
+        <input class="am-input" id="am-pass" name="password" type="password" placeholder="输入密码" autocomplete="current-password" required>
+      </div>
+      <div class="am-form-row">
+        <label><input type="checkbox" checked> 记住我</label>
+        <button class="am-link" type="button" data-am-jump="forgot">忘记密码?</button>
+      </div>
+      <button class="btn btn-primary" type="submit">登录</button>
+      <p class="am-foot">还没有账号?<button type="button" data-am-jump="register">立即注册</button></p>
+    </form>
+    <form class="am-pane" data-am-pane="register" novalidate>
+      <div class="am-field">
+        <label class="am-label" for="am-reg-name">昵称</label>
+        <input class="am-input" id="am-reg-name" name="nick" type="text" placeholder="社区里如何称呼你" autocomplete="nickname" required>
+      </div>
+      <div class="am-field">
+        <label class="am-label" for="am-reg-mail">邮箱</label>
+        <input class="am-input" id="am-reg-mail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+      </div>
+      <div class="am-field">
+        <label class="am-label" for="am-reg-pass">密码</label>
+        <input class="am-input" id="am-reg-pass" name="password" type="password" placeholder="设置登录密码" autocomplete="new-password" required>
+      </div>
+      <button class="btn btn-primary" type="submit">创建账号</button>
+      <p class="am-foot">已经有账号?<button type="button" data-am-jump="login">直接登录</button></p>
+    </form>
+    <form class="am-pane" data-am-pane="forgot" novalidate>
+      <div class="am-field">
+        <label class="am-label" for="am-forgot-mail">注册邮箱</label>
+        <input class="am-input" id="am-forgot-mail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+      </div>
+      <button class="btn btn-primary" type="submit">发送重置邮件</button>
+      <p class="am-foot">想起密码了?<button type="button" data-am-jump="login">返回登录</button></p>
+    </form>
+    <p class="am-note">继续即代表同意 <a href="guidelines.html">社区准则</a></p>
+  </div>
+</div>
+<script>
+(function () {
+  var ov = document.getElementById("am-overlay");
+  if (!ov) return;
+  var modes = Array.prototype.slice.call(ov.querySelectorAll("[data-am-mode]"));
+  var panes = Array.prototype.slice.call(ov.querySelectorAll("[data-am-pane]"));
+  var lastFocus = null;
+  function setMode(key) {
+    modes.forEach(function (m) {
+      var on = m.getAttribute("data-am-mode") === key;
+      m.classList.toggle("is-active", on);
+      m.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    panes.forEach(function (p) { p.classList.toggle("is-active", p.getAttribute("data-am-pane") === key); });
+  }
+  function toast(msg) {
+    var t = document.getElementById("am-toast");
+    if (!t) {
+      t = document.createElement("div");
+      t.id = "am-toast";
+      t.setAttribute("role", "status");
+      t.setAttribute("aria-live", "polite");
+      t.style.cssText = "position:fixed;left:50%;bottom:24px;transform:translate(-50%,12px);z-index:1300;padding:10px 16px;border-radius:8px;background:#111827;color:#fff;font-size:13px;line-height:1.5;opacity:0;transition:opacity .2s ease,transform .2s ease;pointer-events:none;box-shadow:0 12px 32px rgba(0,0,0,.18);";
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity = "1";
+    t.style.transform = "translate(-50%,0)";
+    clearTimeout(t._g);
+    t._g = setTimeout(function () { t.style.opacity = "0"; t.style.transform = "translate(-50%,12px)"; }, 2600);
+  }
+  function open(mode) {
+    lastFocus = document.activeElement;
+    setMode(mode || "login");
+    ov.classList.add("is-open");
+    ov.setAttribute("aria-hidden", "false");
+    var first = ov.querySelector(".am-pane.is-active input");
+    if (first) { try { first.focus(); } catch (_) {} }
+    document.documentElement.style.overflow = "hidden";
+  }
+  function close() {
+    ov.classList.remove("is-open");
+    ov.setAttribute("aria-hidden", "true");
+    document.documentElement.style.overflow = "";
+    if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (_) {} }
+  }
+  window.openAuthModal = open;
+  window.closeAuthModal = close;
+  modes.forEach(function (m) { m.addEventListener("click", function () { setMode(m.getAttribute("data-am-mode")); }); });
+  Array.prototype.slice.call(ov.querySelectorAll("[data-am-jump]")).forEach(function (b) {
+    b.addEventListener("click", function () { setMode(b.getAttribute("data-am-jump")); });
+  });
+  var closeBtn = ov.querySelector("[data-am-close]");
+  if (closeBtn) closeBtn.addEventListener("click", close);
+  ov.addEventListener("click", function (e) { if (e.target === ov) close(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && ov.classList.contains("is-open")) close();
+  });
+  Array.prototype.slice.call(ov.querySelectorAll("form")).forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var key = form.getAttribute("data-am-pane");
+      var empty = Array.prototype.slice.call(form.querySelectorAll("input[required]")).some(function (i) { return !i.value.trim(); });
+      if (empty) { toast("请填写完整信息"); return; }
+      if (key === "forgot") {
+        toast("重置邮件已发送,请查收");
+        close();
+        return;
+      }
+      try { localStorage.setItem("weavery-auth", "in"); } catch (_) {}
+      document.documentElement.dataset.auth = "in";
+      close();
+      toast(key === "register" ? "注册成功,欢迎加入织云" : "登录成功,欢迎回来");
+    });
+  });
+  document.addEventListener("click", function (e) {
+    var t = e.target;
+    var a = t && t.closest ? t.closest("[data-auth-modal]") : null;
+    if (a) { e.preventDefault(); open(a.getAttribute("data-auth-modal")); }
+  });
 })();
 </script>
 </body>
